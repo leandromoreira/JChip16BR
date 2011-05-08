@@ -8,13 +8,17 @@ import java.util.Properties;
 /**
  * @author leandro-rm
  */
-public class ConfigManager {
+public final class ConfigManager {
     private static final ConfigManager config = new ConfigManager();
     private Properties properties;
     public static ConfigManager getConfig() {
         return config;
     }
     private ConfigManager(){
+        initProperties();
+    }
+
+    private void initProperties() throws IllegalStateException {
         File file = new File("config/config.properties");
         properties = new Properties();
         try {
@@ -24,7 +28,8 @@ public class ConfigManager {
         }
     }
 
-    public String getTitle() {
+    public final String getTitle() {
+        initProperties();
         return properties.getProperty("name") + " - " + properties.getProperty("version");
     }
 }
