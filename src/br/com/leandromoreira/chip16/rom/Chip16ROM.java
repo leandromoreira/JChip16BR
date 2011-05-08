@@ -36,7 +36,7 @@ public class Chip16ROM {
             if (address > ROM_END){
                 throw new IllegalStateException("This ROM exceds the size of Chip16! Max lenght:"+ROM_END+" bytes.");
             }
-            memory.writeAt(address+ROM_START, readUnsignedByte(rom));
+            memory.writeAt(ROM_START+address, readUnsignedByte(rom));
         }
     }
 

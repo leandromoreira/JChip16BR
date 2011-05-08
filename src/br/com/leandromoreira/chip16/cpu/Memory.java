@@ -4,21 +4,22 @@ package br.com.leandromoreira.chip16.cpu;
  * @author leandro-rm
  */
 public class Memory {
-    private short[] memory = new short[65536];
+    private static final int SIZE = 65536;
+    private short[] memory = new short[SIZE];
 
-    public short readFrom(int add) {
-        return memory[add];
+    public short readFrom(final int address) {
+        return memory[address];
     }
 
-    public void writeAt(int add, short value) {
-        memory[add] = value;
+    public void writeAt(final int address,final short value) {
+        memory[address] = value;
     }
 
     public void clear() {
-        memory = new short[65536];
+        memory = new short[SIZE];
     }
 
     public long size() {
-        return memory.length;
+        return SIZE;
     }
 }
