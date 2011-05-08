@@ -1,0 +1,18 @@
+==========================
+ "PaleteTest" for Chip16:
+==========================
+ 
+ Author: Shendo
+ Date: 1/3/2011
+
+========
+ About:
+========
+
+ This rom tests the implementation of the built-in 16 color palete.
+ 
+===========
+ Controls:
+===========
+ 
+ None.

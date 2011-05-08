@@ -1,0 +1,19 @@
+=========================
+ "SoundTest" for Chip16:
+=========================
+ 
+ Author: Shendo
+ Date: 3/10/2011
+
+========
+ About:
+========
+
+ This ROM tests the 500, 1000 and 1500 Hz tone generators.
+ 
+===========
+ Controls:
+===========
+ 
+ D-PAD - Choose a frequency.
+ A - Play selected tone.

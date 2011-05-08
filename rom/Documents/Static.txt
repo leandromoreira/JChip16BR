@@ -1,0 +1,18 @@
+======================
+ "Static" for Chip16:
+======================
+ 
+ Author: Shendo
+ Date: 10/24/2010
+
+========
+ About:
+========
+
+ This demo generates a TV like static effect.
+ 
+===========
+ Controls:
+===========
+ 
+ None.

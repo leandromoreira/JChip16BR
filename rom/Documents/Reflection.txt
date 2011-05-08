@@ -1,0 +1,20 @@
+==========================
+ "Reflection" for Chip16:
+==========================
+ 
+ Author: Shendo
+ Date: 04/30/2011
+
+========
+ About:
+========
+
+ The goal of this game is to lead a beam of light from start (bulb) to finish (crystal).
+ To achieve that goal you must use mirrors scattered across the field.
+ 
+===========
+ Controls:
+===========
+ 
+ D-PAD - Move selector.
+ A - flip mirror.

@@ -1,0 +1,22 @@
+======================
+ "Herdle" for Chip16:
+======================
+ 
+ Author: Kelsall Bros.
+ Date: 04/16/2011
+
+========
+ About:
+========
+
+ The object of this game is to reach the gate at the
+ top of the screen without crashing.
+ 
+ As the game progresses the character moves
+ more quickly thus increasing difficulty.
+ 
+===========
+ Controls:
+===========
+ 
+ D-PAD - Move character accross the screen.

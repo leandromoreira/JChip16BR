@@ -1,0 +1,18 @@
+====================
+ "GB16" for Chip16:
+====================
+ 
+ Author: Shendo
+ Date: 3/27/2011
+
+========
+ About:
+========
+
+ GB16 is a Game Boy boot sequence spoof.
+ 
+===========
+ Controls:
+===========
+ 
+ None.

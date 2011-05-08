@@ -1,0 +1,23 @@
+====================
+ "Pong" for Chip16:
+====================
+ 
+ Author: Shendo
+ Date: 04/18/2011
+
+========
+ About:
+========
+
+ Pong needs no special introduction (or does it?).
+ This is a Chip16 clone of the game. 
+ 
+===========
+ Controls:
+===========
+ 
+ PAD1 UP - Move Player 1 up
+ PAD1 DOWN - Move Player 1 down
+
+ PAD2 UP - Move Player 2 up
+ PAD2 DOWN - Move Player 2 down
