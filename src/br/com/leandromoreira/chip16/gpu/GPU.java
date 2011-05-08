@@ -31,4 +31,7 @@ public class GPU {
 0xE - 0xBCDEE4 (Sky blue)
 0xF - 0xFFFFFF (White)*/
     }
+    
+    public void clear(){
+    }
 }

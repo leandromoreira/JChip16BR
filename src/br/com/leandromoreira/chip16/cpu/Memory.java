@@ -13,4 +13,12 @@ public class Memory {
     public void writeAt(int add, short value) {
         memory[add] = value;
     }
+
+    public void clear() {
+        memory = new short[65536];
+    }
+
+    public long size() {
+        return memory.length;
+    }
 }
