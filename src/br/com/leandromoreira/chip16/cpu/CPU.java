@@ -28,22 +28,17 @@ public class CPU {
     
     private void init(){
         initRegisters();
-        instructions[NOP.ordinal()] = new Instruction() {
+        instructions[NOP.ordinal()] = new DefaultInstruction(NOP,new Executor() {
             @Override
-            public void execute() {
+            public void execute() {                
             }
-            @Override
-            public String getAssembler() {
-                return NOP.name();
-            }
-        };
+        });
     }
     private void initRegisters() {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
         
     public void step(){
-        short opCode = memory.readFrom(programCounter);
+        final short opCode = memory.readFrom(programCounter);
         instructions[opCode].execute();
     }    
 }
