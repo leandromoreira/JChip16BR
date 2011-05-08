@@ -10,6 +10,8 @@
  */
 package br.com.leandromoreira.chip16.ui;
 
+import br.com.leandromoreira.chip16.util.ConfigManager;
+
 /**
  *
  * @author leandro-rm
@@ -31,6 +33,11 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                opening(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -45,6 +52,10 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
+        setTitle(ConfigManager.getConfig().getTitle());
+    }//GEN-LAST:event_opening
 
     /**
      * @param args the command line arguments

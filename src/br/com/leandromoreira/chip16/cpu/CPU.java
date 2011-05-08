@@ -1,5 +1,6 @@
 package br.com.leandromoreira.chip16.cpu;
 
+import static br.com.leandromoreira.chip16.cpu.MemoryMap.*;
 import static br.com.leandromoreira.chip16.cpu.OpCode.*;
 
 /**
@@ -17,6 +18,13 @@ public class CPU {
     private int[] registers = new int[NUMBER_OF_REGISTERS];
     private boolean[] flags = new boolean[8];
     private final Instruction[] instructions = new Instruction[NUMBER_OF_INSTRUCTIONS];
+    private Memory memory;
+    
+    private CPU(Memory memory){
+        this.memory = memory;
+        programCounter = ROM_START;
+        init();
+    }
     
     private void init(){
         initRegisters();
@@ -35,12 +43,7 @@ public class CPU {
     }
         
     public void step(){
-        int opCode = getOpCode();
+        short opCode = memory.readFrom(programCounter);
         instructions[opCode].execute();
-    }
-    
-    private int getOpCode() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
+    }    
 }
