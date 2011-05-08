@@ -24,7 +24,7 @@ public class Chip16ROM {
 
     public Chip16ROM(File file, Memory memory) {
         this.titleName = "NO NAME";
-        this.rom = Loader.load(file);
+        this.rom = Loader.load(file).asReadOnlyBuffer();
         this.memory = memory;
         fillMemory();
     }
@@ -34,7 +34,7 @@ public class Chip16ROM {
         memory.clear();
         for (int address = 0; address < romSize; address++) {
             if (address > ROM_END){
-                throw new IllegalStateException("This ROM exceds the size of Chip16! Max lenght:"+ROM_END+" bytes.");
+                throw new IllegalStateException("This ROM exceds the max size of Chip16! Max lenght: "+ROM_END+" bytes.");
             }
             memory.writeAt(ROM_START+address, readUnsignedByte(rom));
         }
