@@ -4,6 +4,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
 import java.io.File;
 import java.nio.ByteBuffer;
 import static br.com.leandromoreira.chip16.util.JavaEmuUtil.*;
+import static br.com.leandromoreira.chip16.cpu.MemoryMap.*;
 
 /**
  * @author leandro-rm
@@ -15,10 +16,10 @@ public class Chip16ROM {
     private final Memory memory;
 
     public Chip16ROM(String title, File file, Memory memory) {
+        this.titleName = title;
         this.rom = Loader.load(file);
         this.memory = memory;
         fillMemory();
-        this.titleName = title;
     }
 
     public Chip16ROM(File file, Memory memory) {
@@ -32,7 +33,10 @@ public class Chip16ROM {
         int romSize = rom.arrayOffset();
         memory.clear();
         for (int address = 0; address < romSize; address++) {
-            memory.writeAt(address, readUnsignedByte(rom));
+            if (address > ROM_END){
+                throw new IllegalStateException("This ROM exceds the size of Chip16! Max lenght:"+ROM_END+" bytes.");
+            }
+            memory.writeAt(address+ROM_START, readUnsignedByte(rom));
         }
     }
 
