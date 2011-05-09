@@ -33,8 +33,9 @@ public class CPU {
     private final Instruction[] instructions = new Instruction[NUMBER_OF_INSTRUCTIONS];
     private final Memory memory;
     private final GPU gpu;
+    private short firstByte, secondByte, thirdByte;
 
-    private CPU(final Memory memory, final GPU gpu) {
+    public CPU(final Memory memory, final GPU gpu) {
         this.memory = memory;
         this.gpu = gpu;
         programCounter = ROM_START;
@@ -44,17 +45,20 @@ public class CPU {
     private void init() {
         initRegisters();
         instructions[NOP.ordinal()] = new DefaultInstruction(NOP, new Executor() {
+
             @Override
             public void execute() {
             }
         });
         instructions[CLS.ordinal()] = new DefaultInstruction(CLS, new Executor() {
+
             @Override
             public void execute() {
                 gpu.clear();
             }
         });
         instructions[VBLNK.ordinal()] = new DefaultInstruction(VBLNK, new Executor() {
+
             @Override
             public void execute() {
                 flags[FLAG.VBLANK.ordinal()] = false;
@@ -67,6 +71,14 @@ public class CPU {
 
     public void step() {
         final short opCode = memory.readFrom(programCounter);
+        firstByte = memory.readFrom(programCounter + 1);
+        secondByte = memory.readFrom(programCounter + 2);
+        thirdByte = memory.readFrom(programCounter + 3);
+        programCounter += 3;
         instructions[opCode].execute();
+    }
+
+    public int getProgramCounter() {
+        return programCounter;
     }
 }

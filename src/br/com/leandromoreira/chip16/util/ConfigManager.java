@@ -15,10 +15,10 @@ public final class ConfigManager {
         return config;
     }
     private ConfigManager(){
-        initProperties();
+        refreshProperties();
     }
 
-    private void initProperties() throws IllegalStateException {
+    public void refreshProperties() throws IllegalStateException {
         File file = new File("config/config.properties");
         properties = new Properties();
         try {
@@ -29,7 +29,10 @@ public final class ConfigManager {
     }
 
     public final String getTitle() {
-        initProperties();
         return properties.getProperty("name") + " - " + properties.getProperty("version");
+    }
+
+    public String getVMHeader() {
+        return "<html><FONT COLOR=RED><U>VM Version:</U></FONT> "+properties.getProperty("vhardware.version")+" <FONT COLOR=RED><U>Spec. cast:</U></FONT> "+properties.getProperty("cast.specs")+"</html>";
     }
 }

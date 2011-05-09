@@ -32,6 +32,9 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLblInfo = new javax.swing.JLabel();
+        jInternalFramemMemory = new javax.swing.JInternalFrame();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -39,22 +42,53 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jLblInfo.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLblInfo.setForeground(new java.awt.Color(90, 87, 184));
+        jLblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jInternalFramemMemory.setTitle("Memory");
+        jInternalFramemMemory.setVisible(true);
+
+        javax.swing.GroupLayout jInternalFramemMemoryLayout = new javax.swing.GroupLayout(jInternalFramemMemory.getContentPane());
+        jInternalFramemMemory.getContentPane().setLayout(jInternalFramemMemoryLayout);
+        jInternalFramemMemoryLayout.setHorizontalGroup(
+            jInternalFramemMemoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 244, Short.MAX_VALUE)
+        );
+        jInternalFramemMemoryLayout.setVerticalGroup(
+            jInternalFramemMemoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 189, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE))
+                    .addComponent(jInternalFramemMemory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jInternalFramemMemory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(174, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         setTitle(ConfigManager.getConfig().getTitle());
+        jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
     }//GEN-LAST:event_opening
 
     /**
@@ -69,5 +103,7 @@ public class Main extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JInternalFrame jInternalFramemMemory;
+    private javax.swing.JLabel jLblInfo;
     // End of variables declaration//GEN-END:variables
 }
