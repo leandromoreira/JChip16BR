@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
  */
 public class JavaEmuUtil {
 
-    public static short readUnsignedByte(ByteBuffer readbuffer) {
+    public static short readUnsignedByte(final ByteBuffer readbuffer) {
         return (short) (readbuffer.get() & 0xff);
     }
 }

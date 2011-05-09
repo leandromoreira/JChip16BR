@@ -1,5 +1,7 @@
 package br.com.leandromoreira.chip16.cpu;
 
+import java.util.Arrays;
+
 /**
  * @author leandro-rm
  */
@@ -21,5 +23,8 @@ public class Memory {
 
     public long size() {
         return SIZE;
+    }
+    public short[] getMemoryCopy(){
+        return Arrays.copyOf(memory, SIZE);
     }
 }

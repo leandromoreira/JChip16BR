@@ -14,10 +14,12 @@ public class Chip16ROM {
     private final String titleName;
     private final ByteBuffer rom;
     private final Memory memory;
+    private final long length;
 
     public Chip16ROM(String title, File file, Memory memory) {
         this.titleName = title;
         this.rom = Loader.load(file);
+        length = file.length();
         this.memory = memory;
         fillMemory();
     }
@@ -25,14 +27,14 @@ public class Chip16ROM {
     public Chip16ROM(File file, Memory memory) {
         this.titleName = "NO NAME";
         this.rom = Loader.load(file).asReadOnlyBuffer();
+        length = file.length();
         this.memory = memory;
         fillMemory();
     }
 
-    private void fillMemory() {
-        int romSize = rom.arrayOffset();
+    private void fillMemory() {        
         memory.clear();
-        for (int address = 0; address < romSize; address++) {
+        for (int address = 0; address < length ; address++) {
             if (address > ROM_END){
                 throw new IllegalStateException("This ROM exceds the max size of Chip16! Max lenght: "+ROM_END+" bytes.");
             }

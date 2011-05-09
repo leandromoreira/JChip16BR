@@ -10,7 +10,9 @@
  */
 package br.com.leandromoreira.chip16.ui;
 
+import br.com.leandromoreira.chip16.Chip16Machine;
 import br.com.leandromoreira.chip16.util.ConfigManager;
+import java.io.File;
 
 /**
  *
@@ -33,7 +35,8 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jLblInfo = new javax.swing.JLabel();
-        jInternalFramemMemory = new javax.swing.JInternalFrame();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTxtMemory = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -42,34 +45,27 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jLblInfo.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jLblInfo.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jLblInfo.setForeground(new java.awt.Color(90, 87, 184));
         jLblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        jInternalFramemMemory.setTitle("Memory");
-        jInternalFramemMemory.setVisible(true);
+        jScrollPane1.setBackground(new java.awt.Color(22, 18, 14));
 
-        javax.swing.GroupLayout jInternalFramemMemoryLayout = new javax.swing.GroupLayout(jInternalFramemMemory.getContentPane());
-        jInternalFramemMemory.getContentPane().setLayout(jInternalFramemMemoryLayout);
-        jInternalFramemMemoryLayout.setHorizontalGroup(
-            jInternalFramemMemoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 244, Short.MAX_VALUE)
-        );
-        jInternalFramemMemoryLayout.setVerticalGroup(
-            jInternalFramemMemoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
-        );
+        jTxtMemory.setBackground(new java.awt.Color(6, 6, 6));
+        jTxtMemory.setColumns(20);
+        jTxtMemory.setForeground(new java.awt.Color(51, 192, 70));
+        jTxtMemory.setRows(5);
+        jScrollPane1.setViewportView(jTxtMemory);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE))
-                    .addComponent(jInternalFramemMemory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,17 +74,27 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jInternalFramemMemory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(259, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private Chip16Machine machine;
     
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
+        machine = new Chip16Machine(new File("rom/ROMs/Demos/Maze.c16"));
         setTitle(ConfigManager.getConfig().getTitle());
         jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
+        StringBuilder sb = new StringBuilder();
+        long size = machine.getMemory().size();
+        short[] memoryCopy = machine.getMemory().getMemoryCopy();
+        for (int i = 0 ; i < size ;){
+            sb.append(memoryCopy[i]).append(" ").append(memoryCopy[i+1]).append(" ").append(memoryCopy[i+2]).append(" ").append(memoryCopy[i+3]);
+            i += 3;
+        }
+        jTxtMemory.setText(sb.toString());
     }//GEN-LAST:event_opening
 
     /**
@@ -103,7 +109,8 @@ public class Main extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame jInternalFramemMemory;
     private javax.swing.JLabel jLblInfo;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTxtMemory;
     // End of variables declaration//GEN-END:variables
 }
