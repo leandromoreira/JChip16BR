@@ -33,6 +33,6 @@ public final class ConfigManager {
     }
 
     public String getVMHeader() {
-        return "<html><FONT COLOR=RED><U>VM Version:</U></FONT> "+properties.getProperty("vhardware.version")+" <FONT COLOR=RED><U>Spec. cast:</U></FONT> "+properties.getProperty("cast.specs")+"</html>";
+        return "<html><FONT COLOR=RED><U>VM name:</U></FONT> "+properties.getProperty("vm.name")+ " <FONT COLOR=RED><U>VM version:</U></FONT> "+properties.getProperty("vhardware.version")+" <FONT COLOR=RED><U>Spec. cast:</U></FONT> "+properties.getProperty("cast.specs")+"</html>";
     }
 }
