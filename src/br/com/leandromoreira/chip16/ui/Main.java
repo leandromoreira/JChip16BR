@@ -10,9 +10,11 @@
  */
 package br.com.leandromoreira.chip16.ui;
 
+import java.awt.Frame;
 import br.com.leandromoreira.chip16.Chip16Machine;
 import br.com.leandromoreira.chip16.util.ConfigManager;
 import java.io.File;
+import static br.com.leandromoreira.chip16.util.JavaEmuUtil.*;
 
 /**
  *
@@ -37,6 +39,7 @@ public class Main extends javax.swing.JFrame {
         jLblInfo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTxtMemory = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -52,10 +55,12 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1.setBackground(new java.awt.Color(22, 18, 14));
 
         jTxtMemory.setBackground(new java.awt.Color(6, 6, 6));
-        jTxtMemory.setColumns(20);
+        jTxtMemory.setColumns(8);
         jTxtMemory.setForeground(new java.awt.Color(51, 192, 70));
         jTxtMemory.setRows(5);
         jScrollPane1.setViewportView(jTxtMemory);
+
+        jLabel1.setText("Memory Viewer");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,8 +69,9 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE))
+                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -73,9 +79,11 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addGap(5, 5, 5)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         pack();
@@ -85,16 +93,17 @@ public class Main extends javax.swing.JFrame {
     
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         machine = new Chip16Machine(new File("rom/ROMs/Demos/Maze.c16"));
-        setTitle(ConfigManager.getConfig().getTitle());
+        setTitle(ConfigManager.getConfig().getTitle()+" --> "+machine.getRom().getTitleName());
         jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
         StringBuilder sb = new StringBuilder();
-        long size = machine.getMemory().size();
         short[] memoryCopy = machine.getMemory().getMemoryCopy();
-        for (int i = 0 ; i < size ;){
-            sb.append(memoryCopy[i]).append(" ").append(memoryCopy[i+1]).append(" ").append(memoryCopy[i+2]).append(" ").append(memoryCopy[i+3]);
-            i += 3;
+        for (int i = 0 ; i < memoryCopy.length-1 ;){
+            sb.append(getHexadecimal4Formatted(i)).append(": ").append(getHexadecimal2Formatted(memoryCopy[i])).append(" ").append(getHexadecimal2Formatted(memoryCopy[i+1])).append(" ").append(getHexadecimal2Formatted(memoryCopy[i+2])).append(" ").append(getHexadecimal2Formatted(memoryCopy[i+3])).append("\n");
+            i += 4;
         }
         jTxtMemory.setText(sb.toString());
+        jTxtMemory.setCaretPosition(0);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
     }//GEN-LAST:event_opening
 
     /**
@@ -109,6 +118,7 @@ public class Main extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLblInfo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTxtMemory;
