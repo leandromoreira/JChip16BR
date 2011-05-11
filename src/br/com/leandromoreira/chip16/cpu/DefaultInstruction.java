@@ -19,5 +19,10 @@ public class DefaultInstruction implements Instruction{
     public String getAssembler() {
         return opCode.name();
     }
+
+    @Override
+    public int getCycle() {
+        return 1;
+    }
     
 }
