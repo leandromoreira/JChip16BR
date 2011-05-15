@@ -16,15 +16,15 @@ public class Color {
     }
 
     private int getR(String rgb) {
-        return 0;
+        return Integer.valueOf(rgb.substring(rgb.length()-6, rgb.length()-4),16);
     }
 
     private int getG(String rgb) {
-        return 0;
+        return Integer.valueOf(rgb.substring(rgb.length()-4, rgb.length()-2),16);
     }
 
     private int getB(String rgb) {
-        return 0;
+        return Integer.valueOf(rgb.substring(rgb.length()-2, rgb.length()),16);
     }
 
     public int getB() {
