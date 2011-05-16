@@ -64,6 +64,38 @@ public class CPU {
             public void execute(OpCodeParameter parameter) {
             }
         });
+        instructions[CLS] = new DefaultInstruction(new Executor() {
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                gpu.clear();
+            }
+        });
+        instructions[VBLNK] = new DefaultInstruction(new Executor() {
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                flags[FLAG.VBLANK.ordinal()] = false;
+            }
+        });
+        instructions[BGC] = new DefaultInstruction(new Executor() {
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                gpu.setBackgroundColor(parameter.getSecondByte1());
+            }
+        });  
+        instructions[SPR] = new DefaultInstruction(new Executor() {
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                gpu.setSprite(parameter.getSecondByte(),parameter.getThirdByte());
+            }
+        });        
+        instructions[DRW_HHL] = new DefaultInstruction(new Executor() {
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                final int x = registers[parameter.getFirstByte1()];
+                final int y = registers[parameter.getFirstByte0()];
+                gpu.drawSprite((parameter.getSecondByte() << 8) | parameter.getThirdByte(),x,y);
+            }
+        });                
         initRegisters();
     }
 

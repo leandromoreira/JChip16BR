@@ -34,4 +34,13 @@ public class GPU {
     
     public void clear(){
     }
+
+    public void setBackgroundColor(short colorIndex) {
+    }
+
+    public void setSprite(short width, short height) {
+    }
+
+    public void drawSprite(int sprite, int x, int y) {
+    }
 }

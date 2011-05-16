@@ -26,17 +26,4 @@ public class JavaEmuUtil {
         }
         return address + Integer.toHexString(value).toUpperCase();
     }
-    
-    public static void main(String[] args) {
-        int numr = 0x11;
-        int numr1 = 0x13;
-        int numr2 = 0x22;
-        System.out.println(Integer.toHexString(numr >> 4));        
-        System.out.println(Integer.toHexString(numr1 >> 4));
-        System.out.println(Integer.toHexString(numr2 >> 4));
-        System.out.println("=============");
-        System.out.println(Integer.toHexString(numr & 0xF));
-        System.out.println(Integer.toHexString(numr1 & 0xF));
-        System.out.println(Integer.toHexString(numr2 & 0xF));
-    }
 }
