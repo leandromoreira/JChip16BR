@@ -89,19 +89,19 @@ public class OpCode {
             case 0XC:
                 return "SND3 "+hexa(thirdByte)+hexa(secondByte);
             case 0X10:
-                return "JMP "+hexa(thirdByte)+hexa(secondByte)+"h";                
+                return "JMP #"+hexa(thirdByte)+hexa(secondByte);                
             case 0X11:
-                return "JMC "+hexa(thirdByte)+hexa(secondByte)+"h";                                
+                return "JMC #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X12:
-                return "JMZ "+hexa(thirdByte)+hexa(secondByte)+"h";                                
+                return "JMZ #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X13:
-                return "JME R"+hexa(firstByte1)+", R"+hexa(firstByte0) +" , "+hexa(thirdByte)+hexa(secondByte)+"h";                                
+                return "JME R"+hexa(firstByte1)+", R"+hexa(firstByte0) +" , #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X14:
-                return "CALL "+hexa(thirdByte)+hexa(secondByte);                                
+                return "CALL #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X15:
                 return "RET"; 
             case 0X20:
-                return "LDI R"+hexa(firstByte1)+", "+ Integer.valueOf(hexa(thirdByte)+hexa(secondByte),16);
+                return "LDI R"+hexa(firstByte1)+", #"+ (hexa(thirdByte)+hexa(secondByte));
             case 0X21:
                 return "LDI SP, "+hexa(thirdByte)+hexa(secondByte);                
             case 0X22:
@@ -115,43 +115,43 @@ public class OpCode {
             case 0X31:
                 return "STM R"+hexa(firstByte1)+", R"+hexa(firstByte0);                                
             case 0X40:
-                return "ADDI R"+hexa(firstByte1)+", "+Integer.valueOf(hexa(thirdByte)+hexa(secondByte),16);                
+                return "ADDI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X41:
                 return "ADD R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X42:
                 return "ADD R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                                
             case 0X50:
-                return "SUBI R"+hexa(firstByte1);                
+                return "SUBI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X51:
                 return "SUB R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X52:
                 return "SUB R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
             case 0X60:
-                return "ANDI R"+hexa(firstByte1);                
+                return "ANDI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X61:
                 return "AND R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X62:
                 return "AND R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
             case 0X70:
-                return "ORI R"+hexa(firstByte1);                
+                return "ORI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X71:
                 return "OR R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X72:
                 return "OR R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
             case 0X80:
-                return "XORI R"+hexa(firstByte1);                
+                return "XORI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X81:
                 return "XOR R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X82:
                 return "XOR R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
             case 0X90:
-                return "MULI R"+hexa(firstByte1);                
+                return "MULI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X91:
                 return "MUL R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X92:
                 return "MUL R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
             case 0XA0:
-                return "DIVI R"+hexa(firstByte1);                
+                return "DIVI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0XA1:
                 return "DIV R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0XA2:
@@ -165,7 +165,7 @@ public class OpCode {
         }
     }
     private static String hexa(short value) {
-        return Integer.toHexString(value).toLowerCase();
+        return Integer.toHexString(value).toUpperCase();
     }
 
     private static String hexa2(short value) {

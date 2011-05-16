@@ -688,7 +688,7 @@ public class Main extends javax.swing.JFrame {
 
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
-            machine = new Chip16Machine(new File("rom/ROMs/Demos/Maze.c16"));
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/ASCII.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillMemory();

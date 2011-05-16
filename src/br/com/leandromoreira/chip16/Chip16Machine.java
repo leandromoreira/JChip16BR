@@ -184,7 +184,7 @@ public class Chip16Machine {
             short firstByte = getMemory().readFrom(i++);
             short secondByte = getMemory().readFrom(i++);
             short thirdByte = getMemory().readFrom(i++);
-            values.add(new Assembler(OpCode.assembler(opCode,firstByte,secondByte,thirdByte).toLowerCase(), opCodeAddress) );
+            values.add(new Assembler(OpCode.assembler(opCode,firstByte,secondByte,thirdByte), opCodeAddress) );
         }
         return values;
     }
