@@ -695,7 +695,7 @@ public class Main extends javax.swing.JFrame {
             fillStack();
             List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
             for (Chip16Machine.Assembler assembler : machineCode) {
-                System.out.println(assembler.getPc()+":"+assembler.getLine());
+                System.out.println(Integer.toHexString(assembler.getPc())+":"+assembler.getLine());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());

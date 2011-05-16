@@ -93,7 +93,7 @@ public class OpCode {
             case 0X11:
                 return "JMC "+hexa(thirdByte)+hexa(secondByte);                                
             case 0X12:
-                return "JMZ "+hexa(thirdByte)+hexa(secondByte);                                
+                return "JMZ "+hexa(thirdByte)+hexa(secondByte)+"h";                                
             case 0X13:
                 return "JME R"+hexa(firstByte1)+", R"+hexa(firstByte0) +" , "+hexa(thirdByte)+hexa(secondByte);                                
             case 0X14:
@@ -101,7 +101,7 @@ public class OpCode {
             case 0X15:
                 return "RET"; 
             case 0X20:
-                return "LDI R"+hexa(firstByte1)+", "+hexa(thirdByte)+hexa(secondByte);
+                return "LDI R"+hexa(firstByte1)+", "+ Integer.valueOf(hexa(thirdByte)+hexa(secondByte),16);
             case 0X21:
                 return "LDI SP, "+hexa(thirdByte)+hexa(secondByte);                
             case 0X22:
@@ -165,7 +165,7 @@ public class OpCode {
         }
     }
     private static String hexa(short value) {
-        return Integer.toHexString(value).toUpperCase();
+        return Integer.toHexString(value).toLowerCase();
     }
 
     private static String hexa2(short value) {
