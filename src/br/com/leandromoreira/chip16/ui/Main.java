@@ -13,7 +13,7 @@ package br.com.leandromoreira.chip16.ui;
 import br.com.leandromoreira.chip16.Chip16Machine;
 import br.com.leandromoreira.chip16.util.ConfigManager;
 import java.io.File;
-import javax.swing.JDialog;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -693,6 +693,10 @@ public class Main extends javax.swing.JFrame {
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillMemory();
             fillStack();
+            List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
+            for (Chip16Machine.Assembler assembler : machineCode) {
+                System.out.println(assembler.getPc()+":"+assembler.getLine());
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

@@ -71,7 +71,7 @@ public class OpCode {
             case 3:
                 return "BGC "+hexa(secondByte1); 
             case 4:
-                return "SPR "+hexa(thirdByte)+hexa(secondByte);
+                return "SPR #"+hexa2(thirdByte)+hexa2(secondByte);
             case 5:
                 return "DRW R"+hexa(firstByte1)+", R"+hexa(firstByte0)+", "+hexa(thirdByte)+hexa(secondByte);
             case 6:
@@ -166,5 +166,9 @@ public class OpCode {
     }
     private static String hexa(short value) {
         return Integer.toHexString(value).toUpperCase();
+    }
+
+    private static String hexa2(short value) {
+        return hexa(value).length()==1?"0"+hexa(value):hexa(value);
     }
 }
