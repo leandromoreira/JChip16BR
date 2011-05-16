@@ -12,9 +12,16 @@ package br.com.leandromoreira.chip16.ui;
 
 import br.com.leandromoreira.chip16.Chip16Machine;
 import br.com.leandromoreira.chip16.util.ConfigManager;
+import br.com.leandromoreira.chip16.util.JavaEmuUtil;
+import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -25,6 +32,48 @@ public class Main extends javax.swing.JFrame {
     /** Creates new form Main */
     public Main() {
         initComponents();
+    }
+
+    private void fillAssembler() {
+        jTblAssembler.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x7FFF));
+        jTblAssembler.getColumnModel().getColumn(0).setMaxWidth(5);
+        jTblAssembler.getColumnModel().getColumn(0).setResizable(false);
+        jTblAssembler.getColumnModel().getColumn(1).setResizable(false);
+        jTblAssembler.getColumnModel().getColumn(2).setResizable(false);
+        jTblAssembler.getColumnModel().getColumn(1).setMaxWidth(60);
+        jTblAssembler.getColumnModel().getColumn(1).setCellRenderer(
+                new TableCellRenderer() {
+
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0x00, 0x00, 0x66, null)[0], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[1], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[2]));
+                        return renderer;
+                    }
+                });
+        jTblAssembler.getColumnModel().getColumn(0).setCellRenderer(
+                new TableCellRenderer() {
+
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[0], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[1], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[2]));
+                        return renderer;
+                    }
+                });
+
+           /*   int row = 0, addressColunm = 1, codeColunm = 2;
+        for (Iterator<AssemblerLine> it = assembler.iterator(); it.hasNext();) {
+            AssemblerLine assemblerLine = it.next();
+            jTableDebugger.setValueAt(Integer.toHexString(assemblerLine.pc).toUpperCase(), row, addressColunm);
+            jTableDebugger.setValueAt(assemblerLine.asm6502Code.toUpperCase(), row, codeColunm);
+            row++;
+        }*/
+        int row = 0, addressColunm = 1, codeColunm = 2;
+        List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
+        for (Chip16Machine.Assembler assembler : machineCode) {
+            jTblAssembler.setValueAt(JavaEmuUtil.getHexadecimal4Formatted(assembler.getPc()), row, addressColunm);
+            jTblAssembler.setValueAt(assembler.getLine(), row, codeColunm);
+            row++;
+        }
     }
 
     private void fillMemory() {
@@ -110,7 +159,7 @@ public class Main extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTblAssembler = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -366,7 +415,7 @@ public class Main extends javax.swing.JFrame {
 
         jButton2.setText("Debug");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTblAssembler.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -377,7 +426,7 @@ public class Main extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(jTblAssembler);
 
         jButton3.setText("Set breakpoint");
 
@@ -693,10 +742,7 @@ public class Main extends javax.swing.JFrame {
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillMemory();
             fillStack();
-            List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
-            for (Chip16Machine.Assembler assembler : machineCode) {
-                System.out.println(Integer.toHexString(assembler.getPc())+":"+assembler.getLine());
-            }
+            fillAssembler();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -780,7 +826,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTblAssembler;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
