@@ -89,13 +89,13 @@ public class OpCode {
             case 0XC:
                 return "SND3 "+hexa(thirdByte)+hexa(secondByte);
             case 0X10:
-                return "JMP "+hexa(thirdByte)+hexa(secondByte);                
+                return "JMP "+hexa(thirdByte)+hexa(secondByte)+"h";                
             case 0X11:
-                return "JMC "+hexa(thirdByte)+hexa(secondByte);                                
+                return "JMC "+hexa(thirdByte)+hexa(secondByte)+"h";                                
             case 0X12:
                 return "JMZ "+hexa(thirdByte)+hexa(secondByte)+"h";                                
             case 0X13:
-                return "JME R"+hexa(firstByte1)+", R"+hexa(firstByte0) +" , "+hexa(thirdByte)+hexa(secondByte);                                
+                return "JME R"+hexa(firstByte1)+", R"+hexa(firstByte0) +" , "+hexa(thirdByte)+hexa(secondByte)+"h";                                
             case 0X14:
                 return "CALL "+hexa(thirdByte)+hexa(secondByte);                                
             case 0X15:
@@ -115,7 +115,7 @@ public class OpCode {
             case 0X31:
                 return "STM R"+hexa(firstByte1)+", R"+hexa(firstByte0);                                
             case 0X40:
-                return "ADDI R"+hexa(firstByte1);                
+                return "ADDI R"+hexa(firstByte1)+", "+Integer.valueOf(hexa(thirdByte)+hexa(secondByte),16);                
             case 0X41:
                 return "ADD R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
             case 0X42:
