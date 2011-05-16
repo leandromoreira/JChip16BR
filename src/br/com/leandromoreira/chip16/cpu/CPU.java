@@ -47,6 +47,17 @@ public class CPU {
         return stackPointer;
     }
 
+    public void step() {
+        final short opCode = memory.readFrom(programCounter);
+        instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1),memory.readFrom(programCounter + 2),memory.readFrom(programCounter + 3)));
+        programCounter += 3;
+    }
+
+    public int getProgramCounter() {
+        return programCounter;
+    }
+    
+    
     private void init() {
         instructions[NOP] = new DefaultInstruction(new Executor() {
             @Override
@@ -59,13 +70,4 @@ public class CPU {
     private void initRegisters() {
     }
 
-    public void step() {
-        final short opCode = memory.readFrom(programCounter);
-        instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1),memory.readFrom(programCounter + 2),memory.readFrom(programCounter + 3)));
-        programCounter += 3;
-    }
-
-    public int getProgramCounter() {
-        return programCounter;
-    }
 }
