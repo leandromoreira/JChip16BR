@@ -48,6 +48,11 @@ public class CPU {
     }
 
     private void init() {
+        instructions[NOP] = new DefaultInstruction(new Executor() {
+            @Override
+            public void execute(OpCodeParameter parameter) {
+            }
+        });
         initRegisters();
     }
 
