@@ -7,6 +7,8 @@ import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author leandro-rm
@@ -158,5 +160,11 @@ public class Chip16Machine {
             i += 4;
         }
         return sb.toString();
+    }
+    
+    public List<String> getAssembler(){
+        final List<String> value = new LinkedList<String>();
+        
+        return value;
     }
 }
