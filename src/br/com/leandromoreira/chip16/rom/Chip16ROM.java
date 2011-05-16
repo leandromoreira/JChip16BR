@@ -49,5 +49,8 @@ public class Chip16ROM {
     public String getTitleName() {
         return titleName;
     }
-    
+
+    public long getLength() {
+        return length;
+    }
 }

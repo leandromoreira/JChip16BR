@@ -3,6 +3,7 @@ package br.com.leandromoreira.chip16;
 import br.com.leandromoreira.chip16.cpu.CPU;
 import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
+import br.com.leandromoreira.chip16.cpu.OpCode;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
@@ -163,8 +164,14 @@ public class Chip16Machine {
     }
     
     public List<String> getAssembler(){
-        final List<String> value = new LinkedList<String>();
-        
-        return value;
+        final List<String> values = new LinkedList<String>();
+        for (int i = 0; i < rom.getLength();) {
+            short opCode = getMemory().readFrom(i++);
+            short firstByte = getMemory().readFrom(i++);
+            short secondByte = getMemory().readFrom(i++);
+            short thirdByte = getMemory().readFrom(i++);
+            values.add(OpCode.assembler(opCode,firstByte,secondByte,thirdByte));
+        }
+        return values;
     }
 }
