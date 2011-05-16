@@ -15,6 +15,7 @@ import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -35,38 +36,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void fillAssembler() {
-        jTblAssembler.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x7FFF));
-        jTblAssembler.getColumnModel().getColumn(0).setMaxWidth(5);
-        jTblAssembler.getColumnModel().getColumn(0).setResizable(false);
-        jTblAssembler.getColumnModel().getColumn(1).setResizable(false);
-        jTblAssembler.getColumnModel().getColumn(2).setResizable(false);
-        jTblAssembler.getColumnModel().getColumn(1).setMaxWidth(60);
-        jTblAssembler.getColumnModel().getColumn(1).setCellRenderer(
-                new TableCellRenderer() {
-
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0x00, 0x00, 0x66, null)[0], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[1], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[2]));
-                        return renderer;
-                    }
-                });
-        jTblAssembler.getColumnModel().getColumn(0).setCellRenderer(
-                new TableCellRenderer() {
-
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[0], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[1], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[2]));
-                        return renderer;
-                    }
-                });
-
-           /*   int row = 0, addressColunm = 1, codeColunm = 2;
-        for (Iterator<AssemblerLine> it = assembler.iterator(); it.hasNext();) {
-            AssemblerLine assemblerLine = it.next();
-            jTableDebugger.setValueAt(Integer.toHexString(assemblerLine.pc).toUpperCase(), row, addressColunm);
-            jTableDebugger.setValueAt(assemblerLine.asm6502Code.toUpperCase(), row, codeColunm);
-            row++;
-        }*/
+        setupJTable();
         int row = 0, addressColunm = 1, codeColunm = 2;
         List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
         for (Chip16Machine.Assembler assembler : machineCode) {
@@ -172,6 +142,11 @@ public class Main extends javax.swing.JFrame {
                 opening(evt);
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                keyRelesead(evt);
+            }
+        });
 
         jLblInfo.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jLblInfo.setForeground(new java.awt.Color(90, 87, 184));
@@ -181,6 +156,7 @@ public class Main extends javax.swing.JFrame {
 
         jTxtMemory.setBackground(new java.awt.Color(6, 6, 6));
         jTxtMemory.setColumns(8);
+        jTxtMemory.setEditable(false);
         jTxtMemory.setForeground(new java.awt.Color(51, 192, 70));
         jTxtMemory.setRows(5);
         jScrollPane1.setViewportView(jTxtMemory);
@@ -407,6 +383,7 @@ public class Main extends javax.swing.JFrame {
 
         jTxtStackList.setBackground(new java.awt.Color(6, 6, 6));
         jTxtStackList.setColumns(4);
+        jTxtStackList.setEditable(false);
         jTxtStackList.setForeground(new java.awt.Color(51, 192, 70));
         jTxtStackList.setRows(5);
         jScrollPane2.setViewportView(jTxtStackList);
@@ -772,6 +749,11 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
+    private void keyRelesead(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyRelesead
+        // TODO add your handling code here:
+        System.out.println(evt);
+    }//GEN-LAST:event_keyRelesead
+
     /**
      * @param args the command line arguments
      */
@@ -863,5 +845,40 @@ public class Main extends javax.swing.JFrame {
 
     private void fillStack() {
         jTxtStackList.setText(machine.getFormattedStack());
+    }
+
+    private void setupJTable() {
+        jTblAssembler.setModel(new DefaultTableModel(new String[]{"", "Address", "Code"}, 0x7FFF));
+        jTblAssembler.getColumnModel().getColumn(0).setMaxWidth(5);
+        jTblAssembler.getColumnModel().getColumn(0).setResizable(false);
+        jTblAssembler.getColumnModel().getColumn(1).setResizable(false);
+        jTblAssembler.getColumnModel().getColumn(2).setResizable(false);
+        jTblAssembler.getColumnModel().getColumn(1).setMaxWidth(60);
+        jTblAssembler.getColumnModel().getColumn(1).setCellRenderer(
+                new TableCellRenderer() {
+
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0x00, 0x00, 0x66, null)[0], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[1], Color.RGBtoHSB(0x00, 0x00, 0x66, null)[2]));
+                        return renderer;
+                    }
+                });
+        jTblAssembler.getColumnModel().getColumn(0).setCellRenderer(
+                new TableCellRenderer() {
+
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        Component renderer = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        renderer.setForeground(Color.getHSBColor(Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[0], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[1], Color.RGBtoHSB(0xFF, 0x72, 0x46, null)[2]));
+                        return renderer;
+                    }
+                });
+
+        jTblAssembler.setFocusable(false);
+        jTblAssembler.setSelectionBackground(new java.awt.Color(204, 255, 204));
+        jTblAssembler.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTblAssembler.setShowHorizontalLines(false);
+        jTblAssembler.setShowVerticalLines(false);
     }
 }

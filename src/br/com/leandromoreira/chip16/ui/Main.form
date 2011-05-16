@@ -9,6 +9,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="opening"/>
+    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="keyRelesead"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -387,6 +388,7 @@
               <Color blue="6" green="6" red="6" type="rgb"/>
             </Property>
             <Property name="columns" type="int" value="8"/>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="46" green="c0" red="33" type="rgb"/>
             </Property>
@@ -934,6 +936,7 @@
               <Color blue="6" green="6" red="6" type="rgb"/>
             </Property>
             <Property name="columns" type="int" value="4"/>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="46" green="c0" red="33" type="rgb"/>
             </Property>
