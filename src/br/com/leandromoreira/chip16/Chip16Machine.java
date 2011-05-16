@@ -162,15 +162,29 @@ public class Chip16Machine {
         }
         return sb.toString();
     }
-    
-    public List<String> getAssembler(){
-        final List<String> values = new LinkedList<String>();
+    public static class Assembler{
+        private final String line;
+        private final int pc;
+        public Assembler(String line, int pc) {
+            this.line = line;
+            this.pc = pc;
+        }
+        public String getLine() {
+            return line;
+        }
+        public int getPc() {
+            return pc;
+        }
+    }
+    public List<Assembler> getAssembler(){
+        final List<Assembler> values = new LinkedList<Assembler>();
         for (int i = 0; i < rom.getLength();) {
+            short opCodeAddress = (short) i;
             short opCode = getMemory().readFrom(i++);
             short firstByte = getMemory().readFrom(i++);
             short secondByte = getMemory().readFrom(i++);
             short thirdByte = getMemory().readFrom(i++);
-            values.add(OpCode.assembler(opCode,firstByte,secondByte,thirdByte));
+            values.add(new Assembler(OpCode.assembler(opCode,firstByte,secondByte,thirdByte), opCodeAddress) );
         }
         return values;
     }

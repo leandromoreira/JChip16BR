@@ -10,9 +10,10 @@ public class DefaultInstruction implements Instruction{
         this.opCode = opCode;
         this.executor = executor;
     }
+    
     @Override
-    public void execute() {
-        executor.execute();
+    public void execute(OpCodeParameter parameter) {
+        executor.execute(parameter);
     }
 
     @Override
