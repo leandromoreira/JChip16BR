@@ -12,7 +12,6 @@ public class JavaEmuUtil {
         return (short) (readbuffer.get() & 0xff);
     }
     public static String getHexadecimal2Formatted(short value){
-        //return (Integer.toHexString(value).toUpperCase().length()==1)?"0"+Integer.toHexString(value).toUpperCase():Integer.toHexString(value).toUpperCase();
         return formatHexadecimalWith(2,value);
     }
     public static String getHexadecimal4Formatted(int value){

@@ -155,45 +155,45 @@ public class Main extends javax.swing.JFrame {
         jTextField1.setForeground(new java.awt.Color(1, 1, 1));
         jTextField1.setText("0000");
 
-        jLabel4.setText("0");
+        jLabel4.setText("1");
 
         jTextField2.setBackground(new java.awt.Color(10, 6, 2));
         jTextField2.setForeground(new java.awt.Color(1, 1, 1));
         jTextField2.setText("0000");
 
-        jLabel5.setText("0");
+        jLabel5.setText("2");
 
         jTextField3.setBackground(new java.awt.Color(10, 6, 2));
         jTextField3.setForeground(new java.awt.Color(1, 1, 1));
         jTextField3.setText("0000");
 
-        jLabel6.setText("0");
+        jLabel6.setText("3");
 
         jTextField4.setBackground(new java.awt.Color(10, 6, 2));
         jTextField4.setForeground(new java.awt.Color(1, 1, 1));
         jTextField4.setText("0000");
 
-        jLabel7.setText("0");
+        jLabel7.setText("4");
 
         jTextField5.setBackground(new java.awt.Color(10, 6, 2));
         jTextField5.setForeground(new java.awt.Color(1, 1, 1));
         jTextField5.setText("0000");
 
-        jLabel8.setText("0");
+        jLabel8.setText("5");
 
         jTextField6.setBackground(new java.awt.Color(10, 6, 2));
         jTextField6.setForeground(new java.awt.Color(1, 1, 1));
         jTextField6.setText("0000");
 
-        jLabel9.setText("0");
+        jLabel9.setText("B");
 
         jTextField7.setBackground(new java.awt.Color(10, 6, 2));
         jTextField7.setForeground(new java.awt.Color(1, 1, 1));
         jTextField7.setText("0000");
 
-        jLabel10.setText("0");
+        jLabel10.setText("A");
 
-        jLabel11.setText("0");
+        jLabel11.setText("D");
 
         jTextField8.setBackground(new java.awt.Color(10, 6, 2));
         jTextField8.setForeground(new java.awt.Color(1, 1, 1));
@@ -203,33 +203,33 @@ public class Main extends javax.swing.JFrame {
         jTextField9.setForeground(new java.awt.Color(1, 1, 1));
         jTextField9.setText("0000");
 
-        jLabel12.setText("0");
+        jLabel12.setText("9");
 
         jTextField10.setBackground(new java.awt.Color(10, 6, 2));
         jTextField10.setForeground(new java.awt.Color(1, 1, 1));
         jTextField10.setText("0000");
 
-        jLabel13.setText("0");
+        jLabel13.setText("8");
 
         jTextField11.setBackground(new java.awt.Color(10, 6, 2));
         jTextField11.setForeground(new java.awt.Color(1, 1, 1));
         jTextField11.setText("0000");
 
-        jLabel14.setText("0");
+        jLabel14.setText("C");
 
         jTextField12.setBackground(new java.awt.Color(10, 6, 2));
         jTextField12.setForeground(new java.awt.Color(1, 1, 1));
         jTextField12.setText("0000");
 
-        jLabel15.setText("0");
+        jLabel15.setText("E");
 
-        jLabel16.setText("0");
+        jLabel16.setText("6");
 
         jTextField13.setBackground(new java.awt.Color(10, 6, 2));
         jTextField13.setForeground(new java.awt.Color(1, 1, 1));
         jTextField13.setText("0000");
 
-        jLabel17.setText("0");
+        jLabel17.setText("7");
 
         jTextField14.setBackground(new java.awt.Color(10, 6, 2));
         jTextField14.setForeground(new java.awt.Color(1, 1, 1));
@@ -239,7 +239,7 @@ public class Main extends javax.swing.JFrame {
         jTextField15.setForeground(new java.awt.Color(1, 1, 1));
         jTextField15.setText("0000");
 
-        jLabel18.setText("0");
+        jLabel18.setText("F");
 
         jTextField16.setBackground(new java.awt.Color(10, 6, 2));
         jTextField16.setForeground(new java.awt.Color(1, 1, 1));
@@ -312,7 +312,7 @@ public class Main extends javax.swing.JFrame {
         jTextField19.setText("0000");
 
         jTextField20.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField20.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jTextField20.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jTextField20.setForeground(new java.awt.Color(34, 234, 199));
         jTextField20.setText("0000");
 
@@ -321,7 +321,7 @@ public class Main extends javax.swing.JFrame {
         jTextField21.setText("0000");
 
         jTextField22.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField22.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jTextField22.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jTextField22.setForeground(new java.awt.Color(34, 234, 199));
         jTextField22.setText("0000");
 
@@ -330,7 +330,7 @@ public class Main extends javax.swing.JFrame {
         jTextField23.setText("0000");
 
         jTextField24.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField24.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jTextField24.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jTextField24.setForeground(new java.awt.Color(34, 234, 199));
         jTextField24.setText("0000");
 
@@ -339,7 +339,7 @@ public class Main extends javax.swing.JFrame {
         jTextField25.setText("0000");
 
         jTextField26.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField26.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jTextField26.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jTextField26.setForeground(new java.awt.Color(34, 234, 199));
         jTextField26.setText("0000");
 
@@ -348,7 +348,7 @@ public class Main extends javax.swing.JFrame {
         jTextField27.setText("0000");
 
         jTextField28.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField28.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jTextField28.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jTextField28.setForeground(new java.awt.Color(34, 234, 199));
         jTextField28.setText("0000");
 
@@ -357,7 +357,7 @@ public class Main extends javax.swing.JFrame {
         jTextField29.setText("0000");
 
         jTextField30.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField30.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        jTextField30.setFont(new java.awt.Font("Ubuntu", 1, 15));
         jTextField30.setForeground(new java.awt.Color(34, 234, 199));
         jTextField30.setText("0000");
 
@@ -530,32 +530,30 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel22)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE))))
+                                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -664,8 +662,7 @@ public class Main extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButton5)
                                     .addComponent(jButton6)))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel22)
@@ -690,7 +687,7 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -700,7 +697,7 @@ public class Main extends javax.swing.JFrame {
 
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         machine = new Chip16Machine(new File("rom/ROMs/Demos/Maze.c16"));
-        setExtendedState(Frame.MAXIMIZED_BOTH);
+        //setExtendedState(Frame.MAXIMIZED_BOTH);
         setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
         jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
         fillMemory();

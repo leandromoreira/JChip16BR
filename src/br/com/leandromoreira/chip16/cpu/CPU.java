@@ -42,6 +42,14 @@ public class CPU {
         init();
     }
 
+    public int getRegister(int number) {
+        return registers[number];
+    }
+
+    public int getStackPointer() {
+        return stackPointer;
+    }
+
     private void init() {
         initRegisters();
         instructions[NOP.ordinal()] = new DefaultInstruction(NOP, new Executor() {
