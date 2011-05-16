@@ -212,9 +212,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="85" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="103" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -348,11 +348,11 @@
                                   <Component id="jTextField30" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="jScrollPane2" pref="478" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="500" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -928,7 +928,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTxtMemory1">
+        <Component class="javax.swing.JTextArea" name="jTxtStackList">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="6" green="6" red="6" type="rgb"/>

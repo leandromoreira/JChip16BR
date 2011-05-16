@@ -10,14 +10,9 @@
  */
 package br.com.leandromoreira.chip16.ui;
 
-import br.com.leandromoreira.chip16.cpu.OpCode;
-import br.com.leandromoreira.chip16.cpu.OpCode;
-import java.awt.Frame;
 import br.com.leandromoreira.chip16.Chip16Machine;
-import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.util.ConfigManager;
 import java.io.File;
-import static br.com.leandromoreira.chip16.util.JavaEmuUtil.*;
 
 /**
  *
@@ -31,13 +26,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void fillMemory() {
-        StringBuilder sb = new StringBuilder();
-        short[] memoryCopy = machine.getMemory().getMemoryCopy();
-        for (int i = 0; i < memoryCopy.length - 1;) {
-            sb.append(getHexadecimal4Formatted(i)).append(": ").append(getHexadecimal2Formatted(memoryCopy[i])).append(" ").append(getHexadecimal2Formatted(memoryCopy[i + 1])).append(" ").append(getHexadecimal2Formatted(memoryCopy[i + 2])).append(" ").append(getHexadecimal2Formatted(memoryCopy[i + 3])).append("\n");
-            i += 4;
-        }
-        jTxtMemory.setText(sb.toString());
+        jTxtMemory.setText(machine.getFormattedMemory());
         jTxtMemory.setCaretPosition(0);
     }
 
@@ -115,7 +104,7 @@ public class Main extends javax.swing.JFrame {
         jTextField30 = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTxtMemory1 = new javax.swing.JTextArea();
+        jTxtStackList = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -365,11 +354,11 @@ public class Main extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(22, 18, 14));
 
-        jTxtMemory1.setBackground(new java.awt.Color(6, 6, 6));
-        jTxtMemory1.setColumns(4);
-        jTxtMemory1.setForeground(new java.awt.Color(51, 192, 70));
-        jTxtMemory1.setRows(5);
-        jScrollPane2.setViewportView(jTxtMemory1);
+        jTxtStackList.setBackground(new java.awt.Color(6, 6, 6));
+        jTxtStackList.setColumns(4);
+        jTxtStackList.setForeground(new java.awt.Color(51, 192, 70));
+        jTxtStackList.setRows(5);
+        jScrollPane2.setViewportView(jTxtStackList);
 
         jButton1.setText("Run");
 
@@ -574,8 +563,8 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -687,8 +676,8 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -697,10 +686,10 @@ public class Main extends javax.swing.JFrame {
 
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         machine = new Chip16Machine(new File("rom/ROMs/Demos/Maze.c16"));
-        //setExtendedState(Frame.MAXIMIZED_BOTH);
         setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
         jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
         fillMemory();
+        fillStack();
     }//GEN-LAST:event_opening
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
@@ -813,6 +802,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTextArea jTxtMemory;
-    private javax.swing.JTextArea jTxtMemory1;
+    private javax.swing.JTextArea jTxtStackList;
     // End of variables declaration//GEN-END:variables
+
+    private void fillStack() {
+        jTxtStackList.setText(machine.getFormattedStack());
+    }
 }

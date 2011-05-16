@@ -2,6 +2,7 @@ package br.com.leandromoreira.chip16;
 
 import br.com.leandromoreira.chip16.cpu.CPU;
 import br.com.leandromoreira.chip16.cpu.Memory;
+import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
@@ -11,30 +12,100 @@ import java.io.File;
  * @author leandro-rm
  */
 public class Chip16Machine {
-    public static class CPUInfo{
+
+    public static class CPUInfo {
+
         private final CPU cpu;
-        CPUInfo(CPU cpu){
+
+        CPUInfo(CPU cpu) {
             this.cpu = cpu;
         }
-        public String getPC(){return JavaEmuUtil.getHexadecimal4Formatted(cpu.getProgramCounter());}
-        public String getSP(){return JavaEmuUtil.getHexadecimal4Formatted(cpu.getStackPointer());}
-        public String getR0(){return getRegister(0);}
-        public String getR1(){return getRegister(1);}
-        public String getR2(){return getRegister(2);}
-        public String getR3(){return getRegister(3);}
-        public String getR4(){return getRegister(4);}
-        public String getR5(){return getRegister(5);}
-        public String getR6(){return getRegister(6);}
-        public String getR7(){return getRegister(7);}
-        public String getR8(){return getRegister(8);}
-        public String getR9(){return getRegister(9);}
-        public String getRA(){return getRegister(10);}
-        public String getRB(){return getRegister(11);}
-        public String getRC(){return getRegister(12);}
-        public String getRD(){return getRegister(13);}
-        public String getRE(){return getRegister(14);}
-        public String getRF(){return getRegister(15);}
-        private String getRegister(int number){
+
+        public String getPC() {
+            return JavaEmuUtil.getHexadecimal4Formatted(cpu.getProgramCounter());
+        }
+
+        public String getSP() {
+            return JavaEmuUtil.getHexadecimal4Formatted(cpu.getStackPointer());
+        }
+
+        public boolean getFlagV() {
+            return cpu.getFlag(0);
+        }
+
+        public boolean getFlagC() {
+            return cpu.getFlag(1);
+        }
+
+        public boolean getFlagZ() {
+            return cpu.getFlag(2);
+        }
+
+        public String getR0() {
+            return getRegister(0);
+        }
+
+        public String getR1() {
+            return getRegister(1);
+        }
+
+        public String getR2() {
+            return getRegister(2);
+        }
+
+        public String getR3() {
+            return getRegister(3);
+        }
+
+        public String getR4() {
+            return getRegister(4);
+        }
+
+        public String getR5() {
+            return getRegister(5);
+        }
+
+        public String getR6() {
+            return getRegister(6);
+        }
+
+        public String getR7() {
+            return getRegister(7);
+        }
+
+        public String getR8() {
+            return getRegister(8);
+        }
+
+        public String getR9() {
+            return getRegister(9);
+        }
+
+        public String getRA() {
+            return getRegister(10);
+        }
+
+        public String getRB() {
+            return getRegister(11);
+        }
+
+        public String getRC() {
+            return getRegister(12);
+        }
+
+        public String getRD() {
+            return getRegister(13);
+        }
+
+        public String getRE() {
+            return getRegister(14);
+        }
+
+        public String getRF() {
+            return getRegister(15);
+        }
+
+        private String getRegister(int number) {
             return JavaEmuUtil.getHexadecimal4Formatted(cpu.getRegister(number));
         }
     }
@@ -43,18 +114,19 @@ public class Chip16Machine {
     private final Memory memory;
     private final Chip16ROM rom;
     private final CPUInfo CPUInfo;
-    public Chip16Machine(final File romFile){
+
+    public Chip16Machine(final File romFile) {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPU();
-        cpu =  new CPU(memory,gpu);
+        cpu = new CPU(memory, gpu);
         CPUInfo = new CPUInfo(cpu);
     }
 
     public CPUInfo getCPUInfo() {
         return CPUInfo;
     }
-    
+
     public CPU getCpu() {
         return cpu;
     }
@@ -70,5 +142,21 @@ public class Chip16Machine {
     public Chip16ROM getRom() {
         return rom;
     }
+    public String getFormattedStack(){
+        final StringBuilder sb = new StringBuilder();
+        final short[] memoryCopy = getMemory().getMemoryCopy();
+        for (int i = 1; i <= 32; i++) {
+            sb.append((i<=9?"0"+i:i)).append(": ").append(JavaEmuUtil.getHexadecimal4Formatted(memoryCopy[MemoryMap.STACK_START+i-1])).append("\n");
+        }
+        return sb.toString();
+    }
+    public String getFormattedMemory() {
+        final StringBuilder sb = new StringBuilder();
+        final short[] memoryCopy = getMemory().getMemoryCopy();
+        for (int i = 0; i < memoryCopy.length - 1;) {
+            sb.append(JavaEmuUtil.getHexadecimal4Formatted(i)).append(": ").append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[i])).append(" ").append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[i + 1])).append(" ").append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[i + 2])).append(" ").append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[i + 3])).append("\n");
+            i += 4;
+        }
+        return sb.toString();
+    }
 }
-

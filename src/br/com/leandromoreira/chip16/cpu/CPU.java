@@ -46,6 +46,10 @@ public class CPU {
         return registers[number];
     }
 
+    public boolean getFlag(int number) {
+        return flags[number];
+    }
+
     public int getStackPointer() {
         return stackPointer;
     }
