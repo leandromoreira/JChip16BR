@@ -802,8 +802,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_keyRelesead
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
-        moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(),16));
         machine.debugStep();
+        moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(),16));
         fillRegisters();
         fillStack();
     }//GEN-LAST:event_jBtnStepActionPerformed

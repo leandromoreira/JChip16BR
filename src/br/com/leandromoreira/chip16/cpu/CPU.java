@@ -62,8 +62,8 @@ public class CPU {
         instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1), memory.readFrom(programCounter + 2), memory.readFrom(programCounter + 3)));
         programCounter += 4;
     }
-    private short getNumber(final short param1,final short param2){
-        return (short) ((param1 << 8) | param2);
+    private int getNumber(final short param1,final short param2){
+        return ((param2 << 8) | param1 );
     }
     private void initInstructionTable() {
         instructions[NOP] = new DefaultInstruction(new Executor() {
@@ -199,9 +199,10 @@ public class CPU {
             
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(stackPointer, parameter.getSecondByte());
-                memory.writeAt(stackPointer+1, parameter.getThirdByte());
+                memory.writeAt(stackPointer, (short)(programCounter & 0xF));
+                memory.writeAt(stackPointer+1,(short)(programCounter >> 8));
                 stackPointer += 2;
+                programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
             }
         });        
         instructions[RET] = new DefaultInstruction(new Executor() {
