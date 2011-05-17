@@ -147,6 +147,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 keyRelesead(evt);
             }
@@ -425,6 +428,11 @@ public class Main extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTblAssembler.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTblAssemblerKeyReleased(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTblAssembler);
 
         jBtnSetBreakpoint.setText("Set breakpoint");
@@ -438,6 +446,11 @@ public class Main extends javax.swing.JFrame {
         jBtnStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnStepActionPerformed(evt);
+            }
+        });
+        jBtnStep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jBtnStepKeyReleased(evt);
             }
         });
 
@@ -876,12 +889,27 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBtnRemoveBreakActionPerformed
 
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        
+    }//GEN-LAST:event_formKeyPressed
+
+    private void jTblAssemblerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblAssemblerKeyReleased
+        
+    }//GEN-LAST:event_jTblAssemblerKeyReleased
+
+    private void jBtnStepKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnStepKeyReleased
+        if (evt.getKeyCode()==117){
+            jBtnStepActionPerformed(null);
+        }
+    }//GEN-LAST:event_jBtnStepKeyReleased
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new Main().setVisible(true);
             }

@@ -12,14 +12,18 @@ public class GPU {
     }
     
     public void clear(){
+        System.out.println("clear");
     }
 
     public void setBackgroundColor(short colorIndex) {
+        System.out.println("bg");
     }
 
     public void setSprite(short width, short height) {
+        System.out.println("spr");
     }
 
     public void drawSprite(int sprite, int x, int y) {
+        System.out.println("drw");
     }
 }
