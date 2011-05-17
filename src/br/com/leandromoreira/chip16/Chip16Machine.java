@@ -124,22 +124,26 @@ public class Chip16Machine {
     public Chip16Machine(final File romFile) {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
-        gpu = new GPU();
+        gpu = new GPU(memory);
         spu = new SPU() {
             @Override
             public void play500Mhz(int ms) {
+                System.out.println("it was suposse to play 500Mhz for "+ms+"ms");
             }
 
             @Override
             public void play1000Mhz(int ms) {
+                System.out.println("it was suposse to play 1000Mhz for "+ms+"ms");
             }
 
             @Override
             public void play1500Mhz(int ms) {
+                System.out.println("it was suposse to play 1500Mhz for "+ms+"ms");
             }
 
             @Override
             public void stop() {
+                System.out.println("the sound system halts now!");
             }
         };
         cpu = new CPU(memory, gpu,spu);

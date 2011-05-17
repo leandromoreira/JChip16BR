@@ -1,5 +1,7 @@
 package br.com.leandromoreira.chip16.gpu;
 
+import br.com.leandromoreira.chip16.cpu.Memory;
+
 /**
  * @author leandro-rm
  */
@@ -10,6 +12,11 @@ public class GPU {
     private Color[][] screen = new Color[WIDTH][HEIGHT];
     private Color backgroundColor;
     private Sprite currentSprite;
+    private final Memory memory;
+    public GPU(Memory memory){
+        this.memory = memory;
+    }
+    
     public void clear(){
         screen = new Color[WIDTH][HEIGHT];
     }
@@ -22,7 +29,7 @@ public class GPU {
         currentSprite = new Sprite(width, height);
     }
 
-    public void drawSprite(int sprite, int x, int y) {
+    public void drawSprite(int spriteAddress, int x, int y) {
         System.out.println("drw");
     }
 
