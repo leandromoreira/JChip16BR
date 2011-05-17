@@ -30,7 +30,14 @@ public class GPU {
     }
 
     public void drawSprite(int spriteAddress, int x, int y) {
-        System.out.println("drw");
+        currentSprite.setX(x);
+        currentSprite.setY(y);
+        for (int row = 0; row < currentSprite.getWidth() ; row ++){
+            for (int col = 0; col < currentSprite.getHeight() ; col ++){
+                final Color pixColor = Colors.getColor(memory.readFrom(spriteAddress++));
+                currentSprite.setPixel(row, col, pixColor);
+            }
+        }
     }
 
     public Color getBackgroundColor() {
