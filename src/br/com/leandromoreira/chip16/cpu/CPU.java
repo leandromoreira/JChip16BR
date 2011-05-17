@@ -22,6 +22,7 @@ public class CPU {
     };
     private static final int NUMBER_OF_REGISTERS = 16;
     private static final int NUMBER_OF_INSTRUCTIONS = 178;
+    private static final int BOUND = 0xFFFF;
     private int programCounter;
     private int stackPointer;
     private int[] registers = new int[NUMBER_OF_REGISTERS];
@@ -276,11 +277,17 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] += getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final int result = registers[parameter.getFirstByte1()] + getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (result>BOUND){
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
         });
@@ -288,11 +295,17 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] += registers[parameter.getFirstByte0()];
+                final int result = registers[parameter.getFirstByte1()] + registers[parameter.getFirstByte0()];
+                registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (result>BOUND){
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
         });        
@@ -300,11 +313,17 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] + registers[parameter.getFirstByte0()];
+                final int result = registers[parameter.getFirstByte1()] + registers[parameter.getFirstByte0()];
+                registers[parameter.getSecondByte1()] = result & BOUND;
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (result>BOUND){
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
         });
@@ -312,13 +331,14 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] -= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final int result = registers[parameter.getFirstByte1()] - getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
+                if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }else{
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
@@ -330,13 +350,14 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] -= registers[parameter.getFirstByte0()];
+                final int result = registers[parameter.getFirstByte1()] - registers[parameter.getFirstByte0()];
+                registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
+                if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }else{
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
@@ -347,13 +368,14 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] - registers[parameter.getFirstByte0()];
+                final int result = registers[parameter.getFirstByte1()] - registers[parameter.getFirstByte0()];
+                registers[parameter.getSecondByte1()] = result & BOUND;
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getSecondByte1()] < 0) {
+                if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }else{
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
@@ -370,12 +392,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                
-                
             }
         });
         instructions[AND_RY] = new DefaultInstruction(new Executor() {
@@ -388,11 +404,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }  
             }
         });        
         instructions[AND_RZ] = new DefaultInstruction(new Executor() {
@@ -405,11 +416,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getSecondByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                  
             }
         }); 
         instructions[ORI] = new DefaultInstruction(new Executor() {
@@ -422,12 +428,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                
-                
             }
         });
         instructions[OR_RY] = new DefaultInstruction(new Executor() {
@@ -440,11 +440,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }  
             }
         });        
         instructions[OR_RZ] = new DefaultInstruction(new Executor() {
@@ -457,11 +452,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getSecondByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                  
             }
         });
         instructions[XORI] = new DefaultInstruction(new Executor() {
@@ -474,12 +464,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                
-                
             }
         });
         instructions[XOR_RY] = new DefaultInstruction(new Executor() {
@@ -492,11 +476,6 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }  
             }
         });        
         instructions[XOR_RZ] = new DefaultInstruction(new Executor() {
@@ -509,24 +488,20 @@ public class CPU {
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getSecondByte1()] < 0) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
-                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                  
             }
         });
         instructions[MULI] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] *= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final int result = registers[parameter.getFirstByte1()] * getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }else{
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
@@ -538,13 +513,14 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] *= registers[parameter.getFirstByte0()];
+                final int result = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
+                registers[parameter.getFirstByte1()] = result & BOUND ;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getFirstByte1()] < 0) {
+                if (result>BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }else{
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
@@ -555,17 +531,18 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
+                final int result = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
+                registers[parameter.getSecondByte1()] = result & BOUND;
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (registers[parameter.getSecondByte1()] < 0) {
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }else{
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                  
+                }         
             }
         });        
         instructions[DIVI] = new DefaultInstruction(new Executor() {
@@ -627,32 +604,38 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] >>= parameter.getSecondByte1();
+                final int result = registers[parameter.getSecondByte1()] << parameter.getSecondByte1();
+                registers[parameter.getSecondByte1()] = result & BOUND;
                 
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                
-                //    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-              
+                if (result>BOUND){
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }
             }
         });        
         instructions[SHR] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] >>= parameter.getSecondByte1();
+                final int result = registers[parameter.getSecondByte1()] >> parameter.getSecondByte1();
+                registers[parameter.getSecondByte1()] = result & BOUND;
                 
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                
-                //    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-              
+                if (result<0){
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }
             }
         });        
     }
