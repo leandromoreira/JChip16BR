@@ -18,7 +18,6 @@ import java.util.List;
 public class Chip16Machine {
 
 
-
     public static class CPUInfo {
 
         private final CPU cpu;
@@ -146,7 +145,15 @@ public class Chip16Machine {
         cpu = new CPU(memory, gpu,spu);
         CPUInfo = new CPUInfo(cpu);
     }
+    
     public void debugStep() {
+        cpuStep();
+    }
+    public void raiseVBlank() {
+        cpu.setVBlank(true);
+    }
+
+    public void cpuStep() {
         cpu.step();
     }
     

@@ -5,8 +5,8 @@ package br.com.leandromoreira.chip16.gpu;
  */
 public class GPU {
     private final static int NUMBER_OF_COLORS = 16;
-    private final static int WIDTH = 320;
-    private final static int HEIGHT = 240;
+    public final static int WIDTH = 320;
+    public final static int HEIGHT = 240;
     private Color[][] screen = new Color[WIDTH][HEIGHT];
     private Color backgroundColor;
     private Sprite currentSprite;
@@ -28,5 +28,9 @@ public class GPU {
 
     public Color getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public Color[][] getScreen() {
+        return screen;
     }
 }

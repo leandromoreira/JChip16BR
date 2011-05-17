@@ -11,6 +11,8 @@ import static br.com.leandromoreira.chip16.cpu.OpCode.*;
  */
 public class CPU {
 
+
+
     public enum REGISTER {
 
         R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, RA, RB, RC, RD, RE, RF
@@ -45,7 +47,11 @@ public class CPU {
     public int getRegister(int number) {
         return registers[number];
     }
-
+    
+    public void setVBlank(boolean value) {
+        flags[FLAG.VBLANK.ordinal()] = value;
+    }
+    
     public boolean getFlag(int number) {
         return flags[number];
     }
