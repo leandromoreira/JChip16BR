@@ -11,6 +11,8 @@
 package br.com.leandromoreira.chip16.ui;
 
 import br.com.leandromoreira.chip16.Chip16Machine;
+import br.com.leandromoreira.chip16.debug.Breakpoint;
+import br.com.leandromoreira.chip16.debug.Debugger;
 import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
@@ -129,11 +131,12 @@ public class Main extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTblAssembler = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jBtnSetBreakpoint = new javax.swing.JButton();
+        jBtnStep = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jBtnRemoveBreak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -422,9 +425,19 @@ public class Main extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTblAssembler);
 
-        jButton3.setText("Set breakpoint");
+        jBtnSetBreakpoint.setText("Set breakpoint");
+        jBtnSetBreakpoint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSetBreakpointActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Step");
+        jBtnStep.setText("Step");
+        jBtnStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnStepActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(1, 1, 1));
         jPanel1.setPreferredSize(new java.awt.Dimension(320, 240));
@@ -443,6 +456,13 @@ public class Main extends javax.swing.JFrame {
         jButton5.setText("View pallete");
 
         jButton6.setText("Sprite Viewer");
+
+        jBtnRemoveBreak.setText("Remove Break.");
+        jBtnRemoveBreak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnRemoveBreakActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -590,15 +610,18 @@ public class Main extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtnSetBreakpoint)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jBtnRemoveBreak)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jBtnStep))
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -688,8 +711,9 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4))
+                            .addComponent(jBtnSetBreakpoint)
+                            .addComponent(jBtnStep)
+                            .addComponent(jBtnRemoveBreak))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -729,9 +753,11 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private Chip16Machine machine;
+    private Debugger debugger;
 
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
+            debugger = new Debugger();
             machine = new Chip16Machine(new File("rom/ROMs/Demos/ASCII.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
@@ -773,6 +799,35 @@ public class Main extends javax.swing.JFrame {
         System.out.println(evt);
     }//GEN-LAST:event_keyRelesead
 
+    private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
+        machine.debugStep();
+        fillRegisters();
+        fillStack();
+    }//GEN-LAST:event_jBtnStepActionPerformed
+
+    private void jBtnSetBreakpointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSetBreakpointActionPerformed
+        try {
+            int rowIndex = jTblAssembler.getSelectedRow();
+            jTblAssembler.setValueAt(Debugger.DEBUGGER_CHR, rowIndex, 0);
+            int addressInstruction = Integer.valueOf(jTblAssembler.getValueAt(rowIndex, 1).toString().substring(2), 16);
+            debugger.add(new Breakpoint(addressInstruction));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_jBtnSetBreakpointActionPerformed
+
+    private void jBtnRemoveBreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRemoveBreakActionPerformed
+        try {
+            int rowIndex = jTblAssembler.getSelectedRow();
+            jTblAssembler.setValueAt("", rowIndex, 0);
+            int addressInstruction = Integer.valueOf(jTblAssembler.getValueAt(rowIndex, 1).toString().substring(2), 16);
+            debugger.remove(new Breakpoint(addressInstruction));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jBtnRemoveBreakActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -785,10 +840,11 @@ public class Main extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnRemoveBreak;
+    private javax.swing.JButton jBtnSetBreakpoint;
+    private javax.swing.JButton jBtnStep;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
