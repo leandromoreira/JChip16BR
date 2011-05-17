@@ -199,7 +199,7 @@ public class CPU {
             
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(stackPointer, (short)(programCounter & 0xF));
+                memory.writeAt(stackPointer, (short)(programCounter & 0xFF));
                 memory.writeAt(stackPointer+1,(short)(programCounter >> 8));
                 stackPointer += 2;
                 programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());

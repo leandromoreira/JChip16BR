@@ -26,5 +26,5 @@ public class Memory {
     }
     public short[] getMemoryCopy(){
         return Arrays.copyOf(memory, SIZE);
-    }
+    }    
 }
