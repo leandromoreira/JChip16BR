@@ -129,15 +129,15 @@
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jChkV" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Group type="102" attributes="0">
-                                                      <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jChkC" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jChkZ" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
                                                   </Group>
@@ -280,9 +280,9 @@
                                   <Component id="jLabel20" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                                   <Component id="jTxtSP" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel21" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jChkV" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jChkC" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jChkZ" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -725,22 +725,22 @@
         <Property name="text" type="java.lang.String" value="Flag:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+    <Component class="javax.swing.JCheckBox" name="jChkV">
       <Properties>
         <Property name="text" type="java.lang.String" value="V"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+    <Component class="javax.swing.JCheckBox" name="jChkC">
       <Properties>
         <Property name="text" type="java.lang.String" value="C"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+    <Component class="javax.swing.JCheckBox" name="jChkZ">
       <Properties>
         <Property name="text" type="java.lang.String" value="Z"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox3ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChkZActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBox4">

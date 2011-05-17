@@ -105,9 +105,9 @@ public class Main extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jTxtSP = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        jChkV = new javax.swing.JCheckBox();
+        jChkC = new javax.swing.JCheckBox();
+        jChkZ = new javax.swing.JCheckBox();
         jCheckBox4 = new javax.swing.JCheckBox();
         jCheckBox5 = new javax.swing.JCheckBox();
         jCheckBox6 = new javax.swing.JCheckBox();
@@ -300,14 +300,14 @@ public class Main extends javax.swing.JFrame {
 
         jLabel21.setText("Flag:");
 
-        jCheckBox1.setText("V");
+        jChkV.setText("V");
 
-        jCheckBox2.setText("C");
+        jChkC.setText("C");
 
-        jCheckBox3.setText("Z");
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+        jChkZ.setText("Z");
+        jChkZ.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
+                jChkZActionPerformed(evt);
             }
         });
 
@@ -578,13 +578,13 @@ public class Main extends javax.swing.JFrame {
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(jLabel21)
                                                         .addGap(1, 1, 1)
-                                                        .addComponent(jCheckBox1)))
+                                                        .addComponent(jChkV)))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jCheckBox2)
+                                                        .addComponent(jChkC)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jCheckBox3)
+                                                        .addComponent(jChkZ)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(jCheckBox4))
                                                     .addGroup(layout.createSequentialGroup()
@@ -700,9 +700,9 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTxtSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jCheckBox2)
-                                    .addComponent(jCheckBox3)
+                                    .addComponent(jChkV)
+                                    .addComponent(jChkC)
+                                    .addComponent(jChkZ)
                                     .addComponent(jCheckBox4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -777,6 +777,7 @@ public class Main extends javax.swing.JFrame {
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
+            fillFlags();
             fillMemory();
             fillStack();
             fillAssembler();
@@ -785,9 +786,9 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_opening
 
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+    private void jChkZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkZActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }//GEN-LAST:event_jChkZActionPerformed
 
     private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
         // TODO add your handling code here:
@@ -818,6 +819,7 @@ public class Main extends javax.swing.JFrame {
         moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(),16));
         fillRegisters();
         fillStack();
+        fillFlags();
     }//GEN-LAST:event_jBtnStepActionPerformed
 
     private void moveCursor(int row) {
@@ -923,14 +925,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
+    private javax.swing.JCheckBox jChkC;
+    private javax.swing.JCheckBox jChkV;
+    private javax.swing.JCheckBox jChkZ;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1052,5 +1054,11 @@ public class Main extends javax.swing.JFrame {
         jTxtRD.setText(machine.getCPUInfo().getRD());
         jTxtRE.setText(machine.getCPUInfo().getRE());
         jTxtRF.setText(machine.getCPUInfo().getRF());
+    }
+
+    private void fillFlags() {
+        jChkC.setSelected(machine.getCPUInfo().getFlagC());
+        jChkV.setSelected(machine.getCPUInfo().getFlagV());
+        jChkZ.setSelected(machine.getCPUInfo().getFlagZ());
     }
 }
