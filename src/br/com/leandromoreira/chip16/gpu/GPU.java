@@ -7,23 +7,26 @@ public class GPU {
     private final static int NUMBER_OF_COLORS = 16;
     private final static int WIDTH = 320;
     private final static int HEIGHT = 240;
-    
-    public void init(){
-    }
-    
+    private Color[][] screen = new Color[WIDTH][HEIGHT];
+    private Color backgroundColor;
+    private Sprite currentSprite;
     public void clear(){
-        System.out.println("clear");
+        screen = new Color[WIDTH][HEIGHT];
     }
 
     public void setBackgroundColor(short colorIndex) {
-        System.out.println("bg");
+        backgroundColor = Colors.getColor(colorIndex);
     }
 
     public void setSprite(short width, short height) {
-        System.out.println("spr");
+        currentSprite = new Sprite(width, height);
     }
 
     public void drawSprite(int sprite, int x, int y) {
         System.out.println("drw");
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 }
