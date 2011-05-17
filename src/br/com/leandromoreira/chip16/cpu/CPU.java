@@ -38,7 +38,7 @@ public class CPU {
         this.spu = spu;
         programCounter = ROM_START;
         stackPointer = STACK_START;
-        init();
+        initInstructionTable();
     }
 
     public int getRegister(int number) {
@@ -65,7 +65,7 @@ public class CPU {
     private short getNumber(final short param1,final short param2){
         return (short) ((param1 << 8) | param2);
     }
-    private void init() {
+    private void initInstructionTable() {
         instructions[NOP] = new DefaultInstruction(new Executor() {
 
             @Override
@@ -216,20 +216,64 @@ public class CPU {
             
             @Override
             public void execute(OpCodeParameter parameter) {
-                stackPointer -= 2;
-                programCounter = getNumber(memory.readFrom(stackPointer),memory.readFrom(stackPointer+1));
+                registers[parameter.getFirstByte1()] = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+            }
+        });        
+        instructions[LDI_SP] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                stackPointer = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+            }
+        });        
+        instructions[LDM_HHLL] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] = memory.readFrom(getNumber(parameter.getSecondByte(),parameter.getThirdByte()));
+            }
+        });                
+        instructions[LDM_RY] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] = memory.readFrom(registers[parameter.getFirstByte0()]);
+            }
+        });        
+        instructions[MOV] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] = registers[parameter.getFirstByte0()];
+            }
+        });        
+        instructions[STM_HHLL] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                memory.writeAt(getNumber(parameter.getSecondByte(),parameter.getThirdByte()),(short)(registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(getNumber(parameter.getSecondByte(),parameter.getThirdByte())+1, (short)(registers[parameter.getFirstByte1()] >> 8));
+            }
+        });        
+        instructions[STM_RY] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                memory.writeAt(registers[parameter.getFirstByte0()],(short)(registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(registers[parameter.getFirstByte0()]+1, (short)(registers[parameter.getFirstByte1()] >> 8));
+            }
+        });        
+        instructions[ADDI] = new DefaultInstruction(new Executor() {
+            
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()]==0){
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }
             }
         });        
         /*
-20 0X LL HH	LDI RX, HHLL		Load immediate value to register X.
-21 00 LL HH	LDI SP, HHLL		Point SP to the specified address. Does not move existing values in memory to new location.
-22 0X LL HH	LDM RX, HHLL		Load register X with the 16bit value at the specified address.
-23 YX 00 00	LDM RX, RY		Load register X with the 16bit value at the specified address pointed by register Y.
-24 YX 00 00	MOV RX, RY		Copy data from register Y to register X.
-
-30 0X LL HH	STM RX, HHLL		Store value of register X at the specified address.
-31 YX 00 00	STM RX, RY		Store value of register X at the specified address pointed by register Y.
-
 40 0X LL HH	ADDI RX			Add immediate value to register X. Affects carry flag and zero flag.
 41 YX 00 00	ADD RX, RY		Add value of register Y to register X. Result is stored in register X. Affects carry flag and zero flag.
 42 YX 0Z 00	ADD RX, RY, RZ		Add value of register Y to register X. Result is stored in register Z. Affects carry flag and zero flag.
@@ -260,14 +304,6 @@ A2 YX 0Z 00	DIV RX, RY, RZ		Divide value of register Y with value of register X.
 
 B0 0X 0N 00	SHL RX, N		Shift value in register X left N times. Affects borrow flag and zero flag.
 B1 0X 0N 00	SHR RX, N		Shift value in register X right N times. Affects carry flag and zero flag.
-         * 
-         * 
          */
-        initRegisters();
-    }
-
-    private void initRegisters() {
-        registers = new int[NUMBER_OF_REGISTERS];
-        flags = new boolean[8];
     }
 }
