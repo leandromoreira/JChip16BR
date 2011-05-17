@@ -1,8 +1,5 @@
 package br.com.leandromoreira.chip16;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * @author leandro-rm
  */
@@ -47,7 +44,7 @@ public class Emulator implements Runnable {
             if (sleepTime >= 0) {
                 sleep(sleepTime);
             } else {
-                excessTime -= sleepTime; // Sleep time is negative
+                excessTime -= sleepTime;
                 overSleepTime = 0L;
                 Thread.yield();
             }

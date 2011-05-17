@@ -6,7 +6,6 @@ import br.com.leandromoreira.chip16.cpu.Memory;
  * @author leandro-rm
  */
 public class GPU {
-    private final static int NUMBER_OF_COLORS = 16;
     public final static int WIDTH = 320;
     public final static int HEIGHT = 240;
     private Color[][] screen = new Color[WIDTH][HEIGHT];
