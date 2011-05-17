@@ -797,8 +797,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
     private void keyRelesead(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyRelesead
-        // TODO add your handling code here:
-        System.out.println(evt);
+        
     }//GEN-LAST:event_keyRelesead
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
@@ -823,14 +822,12 @@ public class Main extends javax.swing.JFrame {
                 jTblAssembler.setRowSelectionInterval(row, row);
                 scrollToCenter(jTblAssembler, row, 2);
             } else {
-                JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. ["
-                        + JavaEmuUtil.getHexadecimal4Formatted(row) + "]\n "
-                        + "Then the debug system will be the Console output.");
+                JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. ["
+                        + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
             }
         } catch (java.lang.NullPointerException ex) {
-            JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. ["
-                    + JavaEmuUtil.getHexadecimal4Formatted(row) + "]\n "
-                    + "Then the debug system will be the Console output.");
+            JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. ["
+                    + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
         }
     }
 

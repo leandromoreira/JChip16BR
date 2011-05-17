@@ -13,4 +13,9 @@ public class DefaultInstruction implements Instruction{
     public void execute(OpCodeParameter parameter) {
         executor.execute(parameter);
     }
+
+    @Override
+    public int addToPC() {
+        return 4;
+    }
 }

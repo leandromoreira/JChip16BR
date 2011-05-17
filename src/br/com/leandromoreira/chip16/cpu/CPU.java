@@ -32,7 +32,7 @@ public class CPU {
     private final SPU spu;
     private final Random rnd = new Random();
 
-    public CPU(final Memory memory, final GPU gpu,final SPU spu) {
+    public CPU(final Memory memory, final GPU gpu, final SPU spu) {
         this.memory = memory;
         this.gpu = gpu;
         this.spu = spu;
@@ -60,11 +60,13 @@ public class CPU {
     public void step() {
         final short opCode = memory.readFrom(programCounter);
         instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1), memory.readFrom(programCounter + 2), memory.readFrom(programCounter + 3)));
-        programCounter += 4;
+        programCounter += instructions[opCode].addToPC();
     }
-    private int getNumber(final short param1,final short param2){
-        return ((param2 << 8) | param1 );
+
+    private int getNumber(final short param1, final short param2) {
+        return ((param2 << 8) | param1);
     }
+
     private void initInstructionTable() {
         instructions[NOP] = new DefaultInstruction(new Executor() {
 
@@ -106,7 +108,7 @@ public class CPU {
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.getFirstByte1()];
                 final int y = registers[parameter.getFirstByte0()];
-                gpu.drawSprite(getNumber(parameter.getSecondByte(),parameter.getThirdByte()), x, y);
+                gpu.drawSprite(getNumber(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
             }
         });
         instructions[DRW_RZ] = new DefaultInstruction(new Executor() {
@@ -119,192 +121,539 @@ public class CPU {
                 gpu.drawSprite(memory.readFrom(address), x, y);
             }
         });
-        
+
         instructions[RND] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = rnd.nextInt(getNumber(parameter.getSecondByte(),parameter.getThirdByte()));
+                registers[parameter.getFirstByte1()] = rnd.nextInt(getNumber(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        }); 
+        });
         instructions[NOP_FUTURE] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
             }
-        });        
+        });
         instructions[SND0] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.stop();
             }
-        });                
+        });
         instructions[SND1] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play500Mhz(getNumber(parameter.getSecondByte(),parameter.getThirdByte()));
+                spu.play500Mhz(getNumber(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });        
+        });
         instructions[SND2] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play1000Mhz(getNumber(parameter.getSecondByte(),parameter.getThirdByte()));
+                spu.play1000Mhz(getNumber(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });        
+        });
         instructions[SND3] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play1500Mhz(getNumber(parameter.getSecondByte(),parameter.getThirdByte()));
+                spu.play1500Mhz(getNumber(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });        
+        });
         instructions[JMP] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+                programCounter = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });    
+        });
         instructions[JMC] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                if (flags[FLAG.CARRY_BORROW.ordinal()]){
-                    programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
-                }                
-            }
-        });            
-        instructions[JMZ] = new DefaultInstruction(new Executor() {
-            
-            @Override
-            public void execute(OpCodeParameter parameter) {
-                if (flags[FLAG.ZERO.ordinal()]){
-                    programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
-                }                
-            }
-        });                    
-        instructions[JME] = new DefaultInstruction(new Executor() {
-            
-            @Override
-            public void execute(OpCodeParameter parameter) {
-                if (registers[parameter.getFirstByte1()]==registers[parameter.getFirstByte0()]){
-                    programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+                if (flags[FLAG.CARRY_BORROW.ordinal()]) {
+                    programCounter = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
-        });                            
-        instructions[CALL] = new DefaultInstruction(new Executor() {
-            
+        });
+        instructions[JMZ] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(stackPointer, (short)(programCounter & 0xFF));
-                memory.writeAt(stackPointer+1,(short)(programCounter >> 8));
-                stackPointer += 2;
-                programCounter = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+                if (flags[FLAG.ZERO.ordinal()]) {
+                    programCounter = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                }
             }
-        });        
-        instructions[RET] = new DefaultInstruction(new Executor() {
+        });
+        instructions[JME] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                if (registers[parameter.getFirstByte1()] == registers[parameter.getFirstByte0()]) {
+                    programCounter = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                }
+            }
+        });
+        instructions[CALL] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                memory.writeAt(stackPointer, (short) (programCounter & 0xFF));
+                memory.writeAt(stackPointer + 1, (short) (programCounter >> 8));
+                stackPointer += 2;
+                programCounter = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+            }
+        }){
             
+            @Override
+            public int addToPC() {
+                return 0;
+            }
+        };
+        instructions[RET] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer -= 2;
-                programCounter = getNumber(memory.readFrom(stackPointer),memory.readFrom(stackPointer+1));
+                programCounter = getNumber(memory.readFrom(stackPointer), memory.readFrom(stackPointer + 1));
             }
-        });     
+        });
         instructions[LDI_RX] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });        
+        });
         instructions[LDI_SP] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                stackPointer = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
+                stackPointer = getNumber(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });        
+        });
         instructions[LDM_HHLL] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = memory.readFrom(getNumber(parameter.getSecondByte(),parameter.getThirdByte()));
+                registers[parameter.getFirstByte1()] = memory.readFrom(getNumber(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });                
+        });
         instructions[LDM_RY] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = memory.readFrom(registers[parameter.getFirstByte0()]);
             }
-        });        
+        });
         instructions[MOV] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = registers[parameter.getFirstByte0()];
             }
-        });        
+        });
         instructions[STM_HHLL] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(getNumber(parameter.getSecondByte(),parameter.getThirdByte()),(short)(registers[parameter.getFirstByte1()] & 0xF));
-                memory.writeAt(getNumber(parameter.getSecondByte(),parameter.getThirdByte())+1, (short)(registers[parameter.getFirstByte1()] >> 8));
+                memory.writeAt(getNumber(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(getNumber(parameter.getSecondByte(), parameter.getThirdByte()) + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
-        });        
+        });
         instructions[STM_RY] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(registers[parameter.getFirstByte0()],(short)(registers[parameter.getFirstByte1()] & 0xF));
-                memory.writeAt(registers[parameter.getFirstByte0()]+1, (short)(registers[parameter.getFirstByte1()] >> 8));
+                memory.writeAt(registers[parameter.getFirstByte0()], (short) (registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(registers[parameter.getFirstByte0()] + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
-        });        
+        });
         instructions[ADDI] = new DefaultInstruction(new Executor() {
-            
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = getNumber(parameter.getSecondByte(),parameter.getThirdByte());
-                if (registers[parameter.getFirstByte1()]==0){
+                registers[parameter.getFirstByte1()] += getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+            }
+        });
+        instructions[ADD_RY] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] += registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
         });        
-        /*
-40 0X LL HH	ADDI RX			Add immediate value to register X. Affects carry flag and zero flag.
-41 YX 00 00	ADD RX, RY		Add value of register Y to register X. Result is stored in register X. Affects carry flag and zero flag.
-42 YX 0Z 00	ADD RX, RY, RZ		Add value of register Y to register X. Result is stored in register Z. Affects carry flag and zero flag.
+        instructions[ADD_RZ] = new DefaultInstruction(new Executor() {
 
-50 0X LL HH	SUBI RX			Subtract immediate value from register X. Result is stored in register X. Affects borrow flag and zero flag.
-51 YX 00 00	SUB RX, RY		Substract value of register Y from register X. Result is stored in register X. Affects borrow flag and zero flag.
-52 YX 0Z 00	SUB RX, RY, RZ		Substract value of register Y from register X. Result is stored in register Z. Affects borrow flag and zero flag.
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] + registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+            }
+        });
+        instructions[SUBI] = new DefaultInstruction(new Executor() {
 
-60 0X LL HH	ANDI RX			AND immediate value with register X. Result is stored in register X. Affects zero flag.
-61 YX 00 00	AND RX, RY		AND value of register Y with value of register X. Result is stored in register X. Affects zero flag.
-62 YX 0Z 00	AND RX, RY, RZ		AND value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] -= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                
+                
+            }
+        });
+        instructions[SUB_RY] = new DefaultInstruction(new Executor() {
 
-70 0X LL HH	ORI RX			OR immediate value with register X. Result is stored in register X. Affects zero flag.
-71 YX 00 00	OR RX, RY		OR value of register Y with value of register X. Result is stored in register X. Affects zero flag.
-72 YX 0Z 00	OR RX, RY, RZ		OR value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] -= registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }  
+            }
+        });        
+        instructions[SUB_RZ] = new DefaultInstruction(new Executor() {
 
-80 0X LL HH	XORI RX			XOR immediate value with register X. Result is stored in register X. Affects zero flag.
-81 YX 00 00	XOR RX, RY		XOR value of register Y with value of register X. Result is stored in register X. Affects zero flag.
-82 YX 0Z 00	XOR RX, RY, RZ		XOR value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] - registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getSecondByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                  
+            }
+        });
+        instructions[ANDI] = new DefaultInstruction(new Executor() {
 
-90 0X LL HH	MULI RX			Multiply immediate value with register X. Result is stored in register X. Affects carry flag and zero flag.
-91 YX 00 00	MUL RX, RY		Multiply value of register Y with value of register X. Result is stored in register X. Affects carry flag and zero flag.
-92 YX 0Z 00	MUL RX, RY, RZ		Multiply value of register Y with value of register X. Result is stored in register Z. Affects carry flag and zero flag.
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] &= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                
+                
+            }
+        });
+        instructions[AND_RY] = new DefaultInstruction(new Executor() {
 
-A0 0X LL HH	DIVI RX			Divide immediate value with register X. Result is stored in register X. Affects borrow flag and zero flag.
-A1 YX 00 00	DIV RX, RY		Divide value of register Y with value of register X. Result is stored in register X. Affects borrow flag and zero flag.
-A2 YX 0Z 00	DIV RX, RY, RZ		Divide value of register Y with value of register X. Result is stored in register Z. Affects borrow flag and zero flag.
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] &= registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }  
+            }
+        });        
+        instructions[AND_RZ] = new DefaultInstruction(new Executor() {
 
-B0 0X 0N 00	SHL RX, N		Shift value in register X left N times. Affects borrow flag and zero flag.
-B1 0X 0N 00	SHR RX, N		Shift value in register X right N times. Affects carry flag and zero flag.
-         */
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] & registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getSecondByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                  
+            }
+        }); 
+        instructions[ORI] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] |= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                
+                
+            }
+        });
+        instructions[OR_RY] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] |= registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }  
+            }
+        });        
+        instructions[OR_RZ] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] | registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getSecondByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                  
+            }
+        });
+        instructions[XORI] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] ^= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                
+                
+            }
+        });
+        instructions[XOR_RY] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] ^= registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }  
+            }
+        });        
+        instructions[XOR_RZ] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] ^ registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getSecondByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                  
+            }
+        });
+        instructions[MULI] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] *= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                
+                
+            }
+        });
+        instructions[MUL_RY] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getFirstByte1()] *= registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getFirstByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }  
+            }
+        });        
+        instructions[MUL_RZ] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (registers[parameter.getSecondByte1()] < 0) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                  
+            }
+        });        
+        instructions[DIVI] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                final boolean thereIsMod = registers[parameter.getFirstByte1()] % getNumber(parameter.getSecondByte(), parameter.getThirdByte()) > 1;
+                registers[parameter.getFirstByte1()] /= getNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (thereIsMod) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                
+                
+            }
+        });
+        instructions[DIV_RY] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                final boolean thereIsMod = registers[parameter.getFirstByte1()] % registers[parameter.getFirstByte0()] > 1;
+                registers[parameter.getFirstByte1()] /= registers[parameter.getFirstByte0()];
+                if (registers[parameter.getFirstByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (thereIsMod) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }  
+            }
+        });        
+        instructions[DIV_RZ] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                final boolean thereIsMod = registers[parameter.getFirstByte1()] % registers[parameter.getFirstByte0()] > 1;
+                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] / registers[parameter.getFirstByte0()];
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                if (thereIsMod) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }else{
+                    flags[FLAG.CARRY_BORROW.ordinal()] = false;
+                }                  
+            }
+        });        
+        instructions[SHL] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] >>= parameter.getSecondByte1();
+                
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                
+                //    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+              
+            }
+        });        
+        instructions[SHR] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                registers[parameter.getSecondByte1()] >>= parameter.getSecondByte1();
+                
+                if (registers[parameter.getSecondByte1()] == 0) {
+                    flags[FLAG.ZERO.ordinal()] = true;
+                }else{
+                    flags[FLAG.ZERO.ordinal()] = false;
+                }
+                
+                //    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+              
+            }
+        });        
     }
 }
