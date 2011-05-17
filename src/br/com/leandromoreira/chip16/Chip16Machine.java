@@ -27,7 +27,7 @@ public class Chip16Machine {
         }
 
         public String getPC() {
-            return JavaEmuUtil.getHexadecimal4Formatted(cpu.getProgramCounter());
+            return JavaEmuUtil.getHexadecimal4Formatted(cpu.getProgramCounter()).substring(2);
         }
 
         public String getSP() {

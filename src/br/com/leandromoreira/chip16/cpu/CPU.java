@@ -50,55 +50,72 @@ public class CPU {
     public int getProgramCounter() {
         return programCounter;
     }
-    
+
     public void step() {
         final short opCode = memory.readFrom(programCounter);
-        instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1),memory.readFrom(programCounter + 2),memory.readFrom(programCounter + 3)));
-        programCounter += 3;
+        instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1), memory.readFrom(programCounter + 2), memory.readFrom(programCounter + 3)));
+        programCounter += 4;
     }
-    
+
     private void init() {
         instructions[NOP] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
             }
         });
         instructions[CLS] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.clear();
             }
         });
         instructions[VBLNK] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 flags[FLAG.VBLANK.ordinal()] = false;
             }
         });
         instructions[BGC] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setBackgroundColor(parameter.getSecondByte1());
             }
-        });  
+        });
         instructions[SPR] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                gpu.setSprite(parameter.getSecondByte(),parameter.getThirdByte());
+                gpu.setSprite(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });        
+        });
         instructions[DRW_HHL] = new DefaultInstruction(new Executor() {
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.getFirstByte1()];
                 final int y = registers[parameter.getFirstByte0()];
-                gpu.drawSprite((parameter.getSecondByte() << 8) | parameter.getThirdByte(),x,y);
+                gpu.drawSprite((parameter.getSecondByte() << 8) | parameter.getThirdByte(), x, y);
             }
-        });                
+        });
+        instructions[DRW_RZ] = new DefaultInstruction(new Executor() {
+
+            @Override
+            public void execute(OpCodeParameter parameter) {
+                final int x = registers[parameter.getFirstByte1()];
+                final int y = registers[parameter.getFirstByte0()];
+                final int address = registers[parameter.getSecondByte1()];
+                gpu.drawSprite(memory.readFrom(address), x, y);
+            }
+        });
         initRegisters();
     }
 
     private void initRegisters() {
+        registers = new int[NUMBER_OF_REGISTERS];
+        flags = new boolean[8];
     }
-
 }

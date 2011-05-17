@@ -17,10 +17,12 @@ import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -41,7 +43,7 @@ public class Main extends javax.swing.JFrame {
         int row = 0, addressColunm = 1, codeColunm = 2;
         List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
         for (Chip16Machine.Assembler assembler : machineCode) {
-            jTblAssembler.setValueAt(JavaEmuUtil.getHexadecimal4Formatted(assembler.getPc()), row, addressColunm);
+            jTblAssembler.setValueAt(JavaEmuUtil.getHexadecimal4Formatted(assembler.getPc()).substring(2), row, addressColunm);
             jTblAssembler.setValueAt(assembler.getLine(), row, codeColunm);
             row++;
         }
@@ -800,10 +802,59 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_keyRelesead
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
+        moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(),16));
         machine.debugStep();
         fillRegisters();
         fillStack();
     }//GEN-LAST:event_jBtnStepActionPerformed
+
+    private void moveCursor(int row) {
+        try {
+            boolean findRowCursor = false;
+            int rowNumber = jTblAssembler.getRowCount();
+            for (int i = 0; i < rowNumber; i++) {
+                if (Integer.valueOf(jTblAssembler.getValueAt(i, 1).toString(),16)==(row)) {
+                    row = i;
+                    findRowCursor = true;
+                    break;
+                }
+            }
+            if (findRowCursor) {
+                jTblAssembler.setRowSelectionInterval(row, row);
+                scrollToCenter(jTblAssembler, row, 2);
+            } else {
+                JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. ["
+                        + JavaEmuUtil.getHexadecimal4Formatted(row) + "]\n "
+                        + "Then the debug system will be the Console output.");
+            }
+        } catch (java.lang.NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "Debugger system wasn't uncapable to find the actual line. ["
+                    + JavaEmuUtil.getHexadecimal4Formatted(row) + "]\n "
+                    + "Then the debug system will be the Console output.");
+        }
+    }
+
+    public static void scrollToCenter(JTable table, int rowIndex, int vColIndex) {
+        if (!(table.getParent() instanceof JViewport)) {
+            return;
+        }
+        JViewport viewport = (JViewport) table.getParent();
+        Rectangle rect = table.getCellRect(rowIndex, vColIndex, true);
+        Rectangle viewRect = viewport.getViewRect();
+        rect.setLocation(rect.x - viewRect.x, rect.y - viewRect.y);
+
+        int centerX = (viewRect.width - rect.width) / 2;
+        int centerY = (viewRect.height - rect.height) / 2;
+
+        if (rect.x < centerX) {
+            centerX = -centerX;
+        }
+        if (rect.y < centerY) {
+            centerY = -centerY;
+        }
+        rect.translate(centerX, centerY);
+        viewport.scrollRectToVisible(rect);
+    }
 
     private void jBtnSetBreakpointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSetBreakpointActionPerformed
         try {
