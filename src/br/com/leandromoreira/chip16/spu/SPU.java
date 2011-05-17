@@ -7,4 +7,5 @@ public interface SPU {
     void play500Mhz(int ms);
     void play1000Mhz(int ms);
     void play1500Mhz(int ms);
+    void stop();
 }

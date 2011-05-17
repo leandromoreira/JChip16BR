@@ -6,6 +6,7 @@ import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
+import br.com.leandromoreira.chip16.spu.SPU;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.io.File;
 import java.util.LinkedList;
@@ -116,6 +117,7 @@ public class Chip16Machine {
     }
     private final CPU cpu;
     private final GPU gpu;
+    private final SPU spu;
     private final Memory memory;
     private final Chip16ROM rom;
     private final CPUInfo CPUInfo;
@@ -124,7 +126,24 @@ public class Chip16Machine {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPU();
-        cpu = new CPU(memory, gpu);
+        spu = new SPU() {
+            @Override
+            public void play500Mhz(int ms) {
+            }
+
+            @Override
+            public void play1000Mhz(int ms) {
+            }
+
+            @Override
+            public void play1500Mhz(int ms) {
+            }
+
+            @Override
+            public void stop() {
+            }
+        };
+        cpu = new CPU(memory, gpu,spu);
         CPUInfo = new CPUInfo(cpu);
     }
     public void debugStep() {
