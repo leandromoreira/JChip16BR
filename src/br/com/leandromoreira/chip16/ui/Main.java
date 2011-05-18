@@ -17,6 +17,7 @@ import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -142,7 +143,7 @@ public class Main extends javax.swing.JFrame {
         jTblAssembler = new javax.swing.JTable();
         jBtnSetBreakpoint = new javax.swing.JButton();
         jBtnStep = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jPnScreen = new javax.swing.JPanel();
         jBtnRemoveBreak = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTxtGPU = new javax.swing.JTextArea();
@@ -429,6 +430,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButton2.setText("Debug");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTblAssembler.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -467,17 +473,17 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(1, 1, 1));
-        jPanel1.setPreferredSize(new java.awt.Dimension(320, 240));
+        jPnScreen.setBackground(new java.awt.Color(1, 1, 1));
+        jPnScreen.setPreferredSize(new java.awt.Dimension(320, 240));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPnScreenLayout = new javax.swing.GroupLayout(jPnScreen);
+        jPnScreen.setLayout(jPnScreenLayout);
+        jPnScreenLayout.setHorizontalGroup(
+            jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 320, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPnScreenLayout.setVerticalGroup(
+            jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 240, Short.MAX_VALUE)
         );
 
@@ -655,7 +661,7 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel23)
@@ -743,7 +749,7 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jBtnRemoveBreak))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -782,7 +788,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Demos/Intro.c16"));
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/Intro.c16"),jPnScreen.getGraphics());            
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -824,7 +830,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_keyRelesead
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
-        machine.debugStep();
+        machine.debugStep(jPnScreen.getGraphics().create());
         moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(),16));
         fillRegisters();
         fillStack();
@@ -917,6 +923,11 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -967,7 +978,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLblInfo;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPnScreen;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

@@ -4,10 +4,12 @@ import br.com.leandromoreira.chip16.cpu.CPU;
 import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
+import br.com.leandromoreira.chip16.gpu.Color;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
+import java.awt.Graphics;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -137,7 +139,7 @@ public class Chip16Machine {
     private final CPUInfo CPUInfo;
     private final GPUInfo GPUInfo;
 
-    public Chip16Machine(final File romFile) {
+    public Chip16Machine(final File romFile,final Graphics graphics) {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPU(memory);
@@ -167,10 +169,34 @@ public class Chip16Machine {
         GPUInfo = new GPUInfo(gpu);
     }
     
-    public void debugStep() {
+    public void debugStep(final Graphics graphics) {
         cpuStep();
+        drawFrame(graphics);
         raiseVBlank();
     }
+    
+    
+    private void drawFrame(final Graphics graphics) {
+        Color[][] screen = gpu.getScreen();
+        for (int x = 0 ; x < GPU.WIDTH ; x++){
+            for (int y = 0; y < GPU.HEIGHT ; y++){
+                if (screen[x][y]!=null){
+                    graphics.setColor(wrapColor(screen[x][y]));
+                    graphics.drawLine(x, y, x, y);
+                }else{
+                    graphics.setColor(wrapColor(gpu.getBackgroundColor()));
+                    graphics.drawLine(x, y, x, y);                
+                }
+            }
+        }
+    }
+
+    private java.awt.Color wrapColor(final Color color) {
+        if (color==null) return java.awt.Color.BLACK;
+        return new  java.awt.Color(color.getR(), color.getG(), color.getB());
+    }
+
+    
     public void raiseVBlank() {
         cpu.setVBlank(true);
     }
