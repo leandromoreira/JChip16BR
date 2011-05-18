@@ -169,6 +169,7 @@ public class Chip16Machine {
     
     public void debugStep() {
         cpuStep();
+        raiseVBlank();
     }
     public void raiseVBlank() {
         cpu.setVBlank(true);

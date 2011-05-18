@@ -173,7 +173,14 @@ public class CPU {
             public void execute(OpCodeParameter parameter) {
                 programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });
+        }){
+            
+            @Override
+            public int addToPC() {
+                return 0;
+            }
+        };
+        
         instructions[JMC] = new DefaultInstruction(new Executor() {
 
             @Override
@@ -182,7 +189,13 @@ public class CPU {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
-        });
+        }){
+            
+            @Override
+            public int addToPC() {
+                return 0;
+            }
+        };
         instructions[JMZ] = new DefaultInstruction(new Executor() {
 
             @Override
@@ -191,7 +204,13 @@ public class CPU {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
-        });
+        }){
+            
+            @Override
+            public int addToPC() {
+                return 0;
+            }
+        };
         instructions[JME] = new DefaultInstruction(new Executor() {
 
             @Override
@@ -200,7 +219,13 @@ public class CPU {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
-        });
+        }){
+            
+            @Override
+            public int addToPC() {
+                return 0;
+            }
+        };
         instructions[CALL] = new DefaultInstruction(new Executor() {
 
             @Override
