@@ -139,6 +139,8 @@ public class Main extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jBtnRemoveBreak = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTxtGPU = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -484,6 +486,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jTxtGPU.setBackground(java.awt.Color.black);
+        jTxtGPU.setColumns(20);
+        jTxtGPU.setEditable(false);
+        jTxtGPU.setForeground(new java.awt.Color(31, 243, 74));
+        jTxtGPU.setRows(5);
+        jScrollPane4.setViewportView(jTxtGPU);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -641,7 +650,8 @@ public class Main extends javax.swing.JFrame {
                                         .addComponent(jBtnRemoveBreak)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jBtnStep))
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -742,7 +752,9 @@ public class Main extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButton5)
                                     .addComponent(jButton6)))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -766,7 +778,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -825,6 +837,7 @@ public class Main extends javax.swing.JFrame {
         fillRegisters();
         fillStack();
         fillFlags();
+        fillGPU();
     }//GEN-LAST:event_jBtnStepActionPerformed
 
     private void moveCursor(int row) {
@@ -970,6 +983,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTblAssembler;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField20;
@@ -983,6 +997,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField30;
+    private javax.swing.JTextArea jTxtGPU;
     private javax.swing.JTextArea jTxtMemory;
     private javax.swing.JTextField jTxtPC;
     private javax.swing.JTextField jTxtR0;
@@ -1069,5 +1084,9 @@ public class Main extends javax.swing.JFrame {
         jChkC.setSelected(machine.getCPUInfo().getFlagC());
         jChkV.setSelected(machine.getCPUInfo().getFlagV());
         jChkZ.setSelected(machine.getCPUInfo().getFlagZ());
+    }
+
+    private void fillGPU() {
+        jTxtGPU.setText("GPU --\nBG Color: "+machine.getGPUInfo().getBGColor()+"\nCurrent Sprite: "+machine.getGPUInfo().getCurrentSprite());
     }
 }

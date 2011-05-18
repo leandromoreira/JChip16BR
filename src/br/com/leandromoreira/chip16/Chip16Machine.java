@@ -114,12 +114,25 @@ public class Chip16Machine {
             return JavaEmuUtil.getHexadecimal4Formatted(cpu.getRegister(number));
         }
     }
+    public static class GPUInfo{
+        private final GPU gpu;
+        public GPUInfo(GPU gpu) {
+            this.gpu = gpu;
+        }
+        public String getBGColor(){
+            return (gpu.getBackgroundColor()==null)?"":gpu.getBackgroundColor().getDescription();
+        }
+        public String getCurrentSprite(){
+            return (gpu.getCurrentSprite()==null)?"":gpu.getCurrentSprite().toString();
+        }
+    }
     private final CPU cpu;
     private final GPU gpu;
     private final SPU spu;
     private final Memory memory;
     private final Chip16ROM rom;
     private final CPUInfo CPUInfo;
+    private final GPUInfo GPUInfo;
 
     public Chip16Machine(final File romFile) {
         memory = new Memory();
@@ -148,6 +161,7 @@ public class Chip16Machine {
         };
         cpu = new CPU(memory, gpu,spu);
         CPUInfo = new CPUInfo(cpu);
+        GPUInfo = new GPUInfo(gpu);
     }
     
     public void debugStep() {
@@ -163,6 +177,10 @@ public class Chip16Machine {
     
     public CPUInfo getCPUInfo() {
         return CPUInfo;
+    }
+
+    public GPUInfo getGPUInfo() {
+        return GPUInfo;
     }
 
     public CPU getCpu() {

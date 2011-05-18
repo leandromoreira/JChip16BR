@@ -46,4 +46,8 @@ public class GPU {
     public Color[][] getScreen() {
         return screen;
     }
+
+    public Sprite getCurrentSprite() {
+        return currentSprite;
+    }
 }

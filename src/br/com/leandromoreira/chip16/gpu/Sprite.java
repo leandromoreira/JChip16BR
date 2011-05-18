@@ -48,4 +48,10 @@ public class Sprite {
     public Color[][] getPixels(){
         return sprite;
     }
+
+    @Override
+    public String toString() {
+        return "Sprite{" + "width=" + width + ", height=" + height + ", x=" + x + ", y=" + y + '}';
+    }
+    
 }
