@@ -126,7 +126,7 @@ public class Chip16Machine {
             return (gpu.getCurrentSprite()==null)?"":gpu.getCurrentSprite().toString();
         }
         public String getSpriteAddress(){
-            return (gpu.getSpriteAddress()==0)?" at ":JavaEmuUtil.getHexadecimal4Formatted(gpu.getSpriteAddress());
+            return (gpu.getSpriteAddress()==0)?"":" at "+JavaEmuUtil.getHexadecimal4Formatted(gpu.getSpriteAddress());
         }
     }
     private final CPU cpu;
