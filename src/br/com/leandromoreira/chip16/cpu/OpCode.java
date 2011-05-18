@@ -70,7 +70,7 @@ public class OpCode {
             case 4:
                 return "SPR #"+hexa2(thirdByte)+hexa2(secondByte);
             case 5:
-                return "DRW R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0())+", "+hexa(thirdByte)+hexa(secondByte);
+                return "DRW R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0())+", #"+hexa(thirdByte)+hexa(secondByte);
             case 6:
                 return "DRW R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0())+", R"+hexa(parameter.getSecondByte1());
             case 7:

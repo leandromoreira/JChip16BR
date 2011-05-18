@@ -41,7 +41,7 @@ public class GPU {
                 currentSprite.setPixel(row, col, pixColor);
                 screen[col][row] = pixColor;
                 if (!flipFlop){
-                    spriteAddress++;
+                    spriteAddress++;    
                 }
                 flipFlop = !flipFlop;
             }
