@@ -133,7 +133,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = rnd.nextInt(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()));
+                registers[parameter.getFirstByte1()] = rnd.nextInt(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte())+1);
             }
         });
         instructions[NOP_FUTURE] = new DefaultInstruction(new Executor() {
