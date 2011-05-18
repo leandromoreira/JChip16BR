@@ -927,6 +927,11 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        Graphics g = jPnScreen.getGraphics().create();
+        g.setColor(Color.red);
+        g.drawOval(0, 0, 5, 5);
+        g.drawOval(319, 0, 5, 5);
+        g.drawOval(0, 239, 5, 5);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

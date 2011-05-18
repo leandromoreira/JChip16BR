@@ -8,7 +8,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
 public class GPU {
     public final static int WIDTH = 320;
     public final static int HEIGHT = 240;
-    private Color[][] screen = new Color[WIDTH][HEIGHT];
+    private Color[][] screen = new Color[HEIGHT][WIDTH];
     private Color backgroundColor;
     private Sprite currentSprite;
     private final Memory memory;
@@ -18,7 +18,7 @@ public class GPU {
     }
     
     public void clear(){
-        screen = new Color[WIDTH][HEIGHT];
+        screen = new Color[HEIGHT][WIDTH];
     }
 
     public void setBackgroundColor(short colorIndex) {
@@ -29,17 +29,16 @@ public class GPU {
         currentSprite = new Sprite((short)(width*2), height);
     }
 
-    public void drawSprite(int spriteAddress, int x, int y) {
+    public void drawSprite(int spriteAddress, int xPosition, int yPosition) {
         initAddressSprite = spriteAddress;
-        currentSprite.setX(x);
-        currentSprite.setY(y);
+        currentSprite.setX(xPosition);
+        currentSprite.setY(yPosition);
         boolean flipFlop = true;
-        for (int row = 0; row < currentSprite.getWidth() ; row ++){
-            for (int col = 0; col < currentSprite.getHeight() ; col ++){
+        for (int x = 0; x < currentSprite.getWidth() ; x ++){
+            for (int y = 0; y < currentSprite.getHeight() ; y ++){
                 int colorIndex = (flipFlop)?(memory.readFrom(spriteAddress)>>4):(memory.readFrom(spriteAddress)&0xF);
                 final Color pixColor = (colorIndex==0)?backgroundColor:Colors.getColor(colorIndex);
-                currentSprite.setPixel(row, col, pixColor);
-                screen[col][row] = pixColor;
+                screen[y][x] = pixColor;
                 if (!flipFlop){
                     spriteAddress++;    
                 }

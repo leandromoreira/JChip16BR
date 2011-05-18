@@ -178,8 +178,8 @@ public class Chip16Machine {
     
     private void drawFrame(final Graphics graphics) {
         Color[][] screen = gpu.getScreen();
-        for (int x = 0 ; x < GPU.WIDTH ; x++){
-            for (int y = 0; y < GPU.HEIGHT ; y++){
+        for (int x = 0 ; x < GPU.HEIGHT ; x++){
+            for (int y = 0; y < GPU.WIDTH ; y++){
                 if (screen[x][y]!=null){
                     graphics.setColor(wrapColor(screen[x][y]));
                     graphics.drawLine(x, y, x, y);

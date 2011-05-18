@@ -7,15 +7,10 @@ public class Sprite {
     private final short width;
     private final short height;
     private int x,y;
-    private Color[][] sprite;
 
     public Sprite(short width, short height) {
         this.width = width;
         this.height = height;
-        this.sprite = new Color[width][height];
-    }
-    public void setPixel(int row, int col, Color color){
-        sprite[row][col] = color;
     }
     public short getHeight() {
         return height;
@@ -43,10 +38,6 @@ public class Sprite {
 
     public int size() {
         return getWidth() * getHeight();
-    }
-    
-    public Color[][] getPixels(){
-        return sprite;
     }
 
     @Override
