@@ -1,6 +1,7 @@
 package br.com.leandromoreira.chip16.gpu;
 
 import br.com.leandromoreira.chip16.cpu.Memory;
+import java.util.Arrays;
 
 /**
  * @author leandro-rm
@@ -33,10 +34,15 @@ public class GPU {
         initAddressSprite = spriteAddress;
         currentSprite.setX(x);
         currentSprite.setY(y);
+        boolean flipFlop = true;
         for (int row = 0; row < currentSprite.getWidth() ; row ++){
             for (int col = 0; col < currentSprite.getHeight() ; col ++){
-                final Color pixColor = Colors.getColor(memory.readFrom(spriteAddress++));
+                final Color pixColor = Colors.getColor((flipFlop)?(memory.readFrom(spriteAddress)>>4):(memory.readFrom(spriteAddress)&0xF));
                 currentSprite.setPixel(row, col, pixColor);
+                if (!flipFlop){
+                    spriteAddress++;
+                }
+                flipFlop = !flipFlop;
             }
         }
     }
