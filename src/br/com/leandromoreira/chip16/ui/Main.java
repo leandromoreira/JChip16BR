@@ -57,7 +57,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void handleShortCuts(KeyEvent evt) {
-        if (evt.getKeyCode()==117){
+        if (evt.getKeyCode() == 117) {
             jBtnStepActionPerformed(null);
         }
     }
@@ -788,7 +788,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Demos/Intro.c16"),jPnScreen.getGraphics());            
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/Intro.c16"), jPnScreen.getGraphics());
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -830,12 +830,16 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_keyRelesead
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
-        machine.debugStep(jPnScreen.getGraphics().create());
-        moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(),16));
-        fillRegisters();
-        fillStack();
-        fillFlags();
-        fillGPU();
+        try {
+            machine.debugStep(jPnScreen.getGraphics().create());
+            moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(), 16));
+            fillRegisters();
+            fillStack();
+            fillFlags();
+            fillGPU();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_jBtnStepActionPerformed
 
     private void moveCursor(int row) {
@@ -843,7 +847,7 @@ public class Main extends javax.swing.JFrame {
             boolean findRowCursor = false;
             int rowNumber = jTblAssembler.getRowCount();
             for (int i = 0; i < rowNumber; i++) {
-                if (Integer.valueOf(jTblAssembler.getValueAt(i, 1).toString(),16)==(row)) {
+                if (Integer.valueOf(jTblAssembler.getValueAt(i, 1).toString(), 16) == (row)) {
                     row = i;
                     findRowCursor = true;
                     break;
@@ -908,11 +912,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnRemoveBreakActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        
     }//GEN-LAST:event_formKeyPressed
 
     private void jTblAssemblerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblAssemblerKeyReleased
-        
     }//GEN-LAST:event_jTblAssemblerKeyReleased
 
     private void jBtnStepKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnStepKeyReleased
@@ -920,12 +922,10 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnStepKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -1086,6 +1086,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void fillGPU() {
-        jTxtGPU.setText("GPU --\nBG Color: "+machine.getGPUInfo().getBGColor()+"\nCurrent Sprite: "+machine.getGPUInfo().getCurrentSprite()+machine.getGPUInfo().getSpriteAddress());
+        jTxtGPU.setText("GPU --\nBG Color: " + machine.getGPUInfo().getBGColor() + "\nCurrent Sprite: " + machine.getGPUInfo().getCurrentSprite() + machine.getGPUInfo().getSpriteAddress());
     }
 }

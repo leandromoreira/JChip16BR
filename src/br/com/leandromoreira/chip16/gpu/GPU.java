@@ -26,7 +26,7 @@ public class GPU {
     }
 
     public void setSprite(short width, short height) {
-        currentSprite = new Sprite(width, height);
+        currentSprite = new Sprite((short)(width*2), height);
     }
 
     public void drawSprite(int spriteAddress, int x, int y) {
