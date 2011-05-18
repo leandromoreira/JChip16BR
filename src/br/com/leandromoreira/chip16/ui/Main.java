@@ -838,7 +838,8 @@ public class Main extends javax.swing.JFrame {
             fillFlags();
             fillGPU();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro while debugging --> "+e.toString());
         }
     }//GEN-LAST:event_jBtnStepActionPerformed
 
