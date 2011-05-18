@@ -2,6 +2,7 @@ package br.com.leandromoreira.chip16.cpu;
 
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.spu.SPU;
+import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.util.Random;
 import static br.com.leandromoreira.chip16.cpu.MemoryMap.*;
 import static br.com.leandromoreira.chip16.cpu.OpCode.*;
@@ -71,7 +72,7 @@ public class CPU {
     }
 
     private int getImmediateNumber(final short param1, final short param2) {
-        return ((param2 << 8) | param1);
+        return JavaEmuUtil.getLittleEndian(param1,param2);
     }
 
     private void initInstructionTable() {

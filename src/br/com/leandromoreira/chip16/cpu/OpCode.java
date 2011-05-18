@@ -1,5 +1,7 @@
 package br.com.leandromoreira.chip16.cpu;
 
+import br.com.leandromoreira.chip16.util.JavaEmuUtil;
+
 /**
  * @author leandro-rm
  */
@@ -69,7 +71,7 @@ public class OpCode {
             case 2:
                 return "VBLNK";
             case 3:
-                return "BGC "+hexa(secondByte1); 
+                return "BGC "+(secondByte1); 
             case 4:
                 return "SPR #"+hexa2(thirdByte)+hexa2(secondByte);
             case 5:
@@ -83,11 +85,11 @@ public class OpCode {
             case 9:
                 return "SND0";              
             case 0XA:
-                return "SND1 "+hexa(thirdByte)+hexa(secondByte);                
+                return "SND1 "+JavaEmuUtil.getLittleEndian(secondByte, thirdByte);                
             case 0XB:
-                return "SND2 "+hexa(thirdByte)+hexa(secondByte);                
+                return "SND2 "+JavaEmuUtil.getLittleEndian(secondByte, thirdByte);                
             case 0XC:
-                return "SND3 "+hexa(thirdByte)+hexa(secondByte);
+                return "SND3 "+JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
             case 0X10:
                 return "JMP #"+hexa(thirdByte)+hexa(secondByte);                
             case 0X11:
