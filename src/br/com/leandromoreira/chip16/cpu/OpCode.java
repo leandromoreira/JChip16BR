@@ -57,12 +57,7 @@ public class OpCode {
     public static final int SHR = 0xB1;
 
     public static String assembler(int opCode,short firstByte, short secondByte, short thirdByte) {
-        final short firstByte0 = (short) (firstByte >> 4);
-        final short firstByte1 = (short) (firstByte & 0xF);
-        final short secondByte0 = (short) (secondByte >> 4);
-        final short secondByte1 = (short) (secondByte & 0xF);
-        final short thirdByte0 = (short) (thirdByte >> 4);
-        final short thirdByte1 = (short) (thirdByte & 0xF);
+        final OpCodeParameter parameter = new OpCodeParameter(firstByte, secondByte, thirdByte);
         switch(opCode){
             case 0:
                 return "NOP";
@@ -71,15 +66,15 @@ public class OpCode {
             case 2:
                 return "VBLNK";
             case 3:
-                return "BGC "+(secondByte1); 
+                return "BGC "+(parameter.getSecondByte1()); 
             case 4:
                 return "SPR #"+hexa2(thirdByte)+hexa2(secondByte);
             case 5:
-                return "DRW R"+hexa(firstByte1)+", R"+hexa(firstByte0)+", "+hexa(thirdByte)+hexa(secondByte);
+                return "DRW R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0())+", "+hexa(thirdByte)+hexa(secondByte);
             case 6:
-                return "DRW R"+hexa(firstByte1)+", R"+hexa(firstByte0)+", R"+hexa(secondByte1);
+                return "DRW R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0())+", R"+hexa(parameter.getSecondByte1());
             case 7:
-                return "RND R"+hexa(firstByte1)+", "+hexa(thirdByte)+hexa(secondByte);
+                return "RND R"+hexa(parameter.getFirstByte1())+", "+hexa(thirdByte)+hexa(secondByte);
             case 8:
                 return "NOP";
             case 9:
@@ -97,71 +92,71 @@ public class OpCode {
             case 0X12:
                 return "JMZ #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X13:
-                return "JME R"+hexa(firstByte1)+", R"+hexa(firstByte0) +" , #"+hexa(thirdByte)+hexa(secondByte);                                
+                return "JME R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) +" , #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X14:
                 return "CALL #"+hexa(thirdByte)+hexa(secondByte);                                
             case 0X15:
                 return "RET"; 
             case 0X20:
-                return "LDI R"+hexa(firstByte1)+", #"+ (hexa(thirdByte)+hexa(secondByte));
+                return "LDI R"+hexa(parameter.getFirstByte1())+", #"+ (hexa(thirdByte)+hexa(secondByte));
             case 0X21:
                 return "LDI SP, "+hexa(thirdByte)+hexa(secondByte);                
             case 0X22:
-                return "LDM R"+hexa(firstByte1)+", "+hexa(thirdByte)+hexa(secondByte);                
+                return "LDM R"+hexa(parameter.getFirstByte1())+", "+hexa(thirdByte)+hexa(secondByte);                
             case 0X23:
-                return "LDM R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "LDM R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X24:
-                return "MOV R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "MOV R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X30:
-                return "STM R"+hexa(firstByte1)+", "+hexa(thirdByte)+hexa(secondByte);                
+                return "STM R"+hexa(parameter.getFirstByte1())+", "+hexa(thirdByte)+hexa(secondByte);                
             case 0X31:
-                return "STM R"+hexa(firstByte1)+", R"+hexa(firstByte0);                                
+                return "STM R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                                
             case 0X40:
-                return "ADDI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "ADDI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X41:
-                return "ADD R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "ADD R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X42:
-                return "ADD R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                                
+                return "ADD R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                                
             case 0X50:
-                return "SUBI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "SUBI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X51:
-                return "SUB R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "SUB R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X52:
-                return "SUB R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
+                return "SUB R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                
             case 0X60:
-                return "ANDI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "ANDI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X61:
-                return "AND R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "AND R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X62:
-                return "AND R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
+                return "AND R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                
             case 0X70:
-                return "ORI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "ORI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X71:
-                return "OR R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "OR R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X72:
-                return "OR R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
+                return "OR R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                
             case 0X80:
-                return "XORI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "XORI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X81:
-                return "XOR R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "XOR R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X82:
-                return "XOR R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
+                return "XOR R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                
             case 0X90:
-                return "MULI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "MULI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0X91:
-                return "MUL R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "MUL R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0X92:
-                return "MUL R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
+                return "MUL R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                
             case 0XA0:
-                return "DIVI R"+hexa(firstByte1)+", #"+(hexa(thirdByte)+hexa(secondByte));                
+                return "DIVI R"+hexa(parameter.getFirstByte1())+", #"+(hexa(thirdByte)+hexa(secondByte));                
             case 0XA1:
-                return "DIV R"+hexa(firstByte1)+", R"+hexa(firstByte0);                
+                return "DIV R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0());                
             case 0XA2:
-                return "DIV R"+hexa(firstByte1)+", R"+hexa(firstByte0) + ", R"+hexa(secondByte1);                
+                return "DIV R"+hexa(parameter.getFirstByte1())+", R"+hexa(parameter.getFirstByte0()) + ", R"+hexa(parameter.getSecondByte1());                
             case 0XB0:
-                return "SHL R"+hexa(firstByte1)+", "+hexa(secondByte1);                
+                return "SHL R"+hexa(parameter.getFirstByte1())+", "+hexa(parameter.getSecondByte1());                
             case 0XB1:
-                return "SHR R"+hexa(firstByte1)+", "+hexa(secondByte1);                                
+                return "SHR R"+hexa(parameter.getFirstByte1())+", "+hexa(parameter.getSecondByte1());                                
             default:
                 return "ILLEGAL";
         }

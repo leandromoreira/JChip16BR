@@ -205,7 +205,10 @@ public class Chip16Machine {
         final StringBuilder sb = new StringBuilder();
         final short[] memoryCopy = getMemory().getMemoryCopy();
         for (int i = 1; i <= 32; i++) {
-            sb.append((i<=9?"0"+i:i)).append(": ").append(JavaEmuUtil.getHexadecimal4Formatted(memoryCopy[MemoryMap.STACK_START+i-1])).append("\n");
+            sb.append((i<=9?"0"+i:i))
+                    .append(": ")
+                    .append(JavaEmuUtil.getHexadecimal4Formatted(memoryCopy[MemoryMap.STACK_START+i-1]))
+                    .append("\n");
         }
         return sb.toString();
     }
