@@ -71,10 +71,6 @@ public class CPU {
         programCounter += instructions[opCode].addToPC();
     }
 
-    private int getImmediateNumber(final short param1, final short param2) {
-        return JavaEmuUtil.getLittleEndian(param1,param2);
-    }
-
     private void initInstructionTable() {
         instructions[NOP] = new DefaultInstruction(new Executor() {
 
@@ -116,7 +112,7 @@ public class CPU {
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.getFirstByte1()];
                 final int y = registers[parameter.getFirstByte0()];
-                gpu.drawSprite(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
+                gpu.drawSprite(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
             }
         });
         instructions[DRW_RZ] = new DefaultInstruction(new Executor() {
@@ -134,7 +130,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = rnd.nextInt(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte())+1);
+                registers[parameter.getFirstByte1()] = rnd.nextInt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte())+1);
             }
         });
         instructions[NOP_FUTURE] = new DefaultInstruction(new Executor() {
@@ -154,28 +150,28 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play500Mhz(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()));
+                spu.play500Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
         });
         instructions[SND2] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play1000Mhz(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()));
+                spu.play1000Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
         });
         instructions[SND3] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play1500Mhz(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()));
+                spu.play1500Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
         });
         instructions[JMP] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                programCounter = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
         });
         instructions[JMC] = new DefaultInstruction(new Executor() {
@@ -183,7 +179,7 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.CARRY_BORROW.ordinal()]) {
-                    programCounter = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                    programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
         });
@@ -192,7 +188,7 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.ZERO.ordinal()]) {
-                    programCounter = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                    programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
         });
@@ -201,7 +197,7 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (registers[parameter.getFirstByte1()] == registers[parameter.getFirstByte0()]) {
-                    programCounter = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                    programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 }
             }
         });
@@ -212,7 +208,7 @@ public class CPU {
                 memory.writeAt(stackPointer, (short) (programCounter & 0xFF));
                 memory.writeAt(stackPointer + 1, (short) (programCounter >> 8));
                 stackPointer += 2;
-                programCounter = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
         }){
             
@@ -226,28 +222,28 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer -= 2;
-                programCounter = getImmediateNumber(memory.readFrom(stackPointer), memory.readFrom(stackPointer + 1));
+                programCounter = JavaEmuUtil.getLittleEndian(memory.readFrom(stackPointer), memory.readFrom(stackPointer + 1));
             }
         });
         instructions[LDI_RX] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
         });
         instructions[LDI_SP] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                stackPointer = getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                stackPointer = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
         });
         instructions[LDM_HHLL] = new DefaultInstruction(new Executor() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = memory.readFrom(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()));
+                registers[parameter.getFirstByte1()] = memory.readFrom(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
         });
         instructions[LDM_RY] = new DefaultInstruction(new Executor() {
@@ -268,8 +264,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xF));
-                memory.writeAt(getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()) + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
+                memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
         });
         instructions[STM_RY] = new DefaultInstruction(new Executor() {
@@ -284,7 +280,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] + getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final int result = registers[parameter.getFirstByte1()] + JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
@@ -338,7 +334,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] - getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final int result = registers[parameter.getFirstByte1()] - JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
@@ -393,7 +389,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] &= getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] &= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
@@ -429,7 +425,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] |= getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] |= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
@@ -465,7 +461,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] ^= getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.getFirstByte1()] ^= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
@@ -501,7 +497,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] * getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final int result = registers[parameter.getFirstByte1()] * JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
@@ -556,8 +552,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final boolean thereIsMod = registers[parameter.getFirstByte1()] % getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte()) > 1;
-                registers[parameter.getFirstByte1()] /= getImmediateNumber(parameter.getSecondByte(), parameter.getThirdByte());
+                final boolean thereIsMod = registers[parameter.getFirstByte1()] % JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) > 1;
+                registers[parameter.getFirstByte1()] /= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 }else{
