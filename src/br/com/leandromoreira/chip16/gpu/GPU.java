@@ -12,6 +12,7 @@ public class GPU {
     private Color backgroundColor;
     private Sprite currentSprite;
     private final Memory memory;
+    private int initAddressSprite;
     public GPU(Memory memory){
         this.memory = memory;
     }
@@ -29,6 +30,7 @@ public class GPU {
     }
 
     public void drawSprite(int spriteAddress, int x, int y) {
+        initAddressSprite = spriteAddress;
         currentSprite.setX(x);
         currentSprite.setY(y);
         for (int row = 0; row < currentSprite.getWidth() ; row ++){
@@ -50,4 +52,9 @@ public class GPU {
     public Sprite getCurrentSprite() {
         return currentSprite;
     }
+
+    public int getSpriteAddress() {
+        return initAddressSprite;
+    }
+    
 }

@@ -1087,6 +1087,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void fillGPU() {
-        jTxtGPU.setText("GPU --\nBG Color: "+machine.getGPUInfo().getBGColor()+"\nCurrent Sprite: "+machine.getGPUInfo().getCurrentSprite());
+        jTxtGPU.setText("GPU --\nBG Color: "+machine.getGPUInfo().getBGColor()+"\nCurrent Sprite: "+machine.getGPUInfo().getCurrentSprite()+machine.getGPUInfo().getSpriteAddress());
     }
 }
