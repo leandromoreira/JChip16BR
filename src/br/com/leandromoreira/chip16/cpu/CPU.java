@@ -72,41 +72,41 @@ public class CPU {
     }
 
     private void initInstructionTable() {
-        instructions[NOP] = new DefaultInstruction(new Executor() {
+        instructions[NOP] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
             }
-        });
-        instructions[CLS] = new DefaultInstruction(new Executor() {
+        };
+        instructions[CLS] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.clear();
             }
-        });
-        instructions[VBLNK] = new DefaultInstruction(new Executor() {
+        };
+        instructions[VBLNK] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 flags[FLAG.VBLANK.ordinal()] = false;
             }
-        });
-        instructions[BGC] = new DefaultInstruction(new Executor() {
+        };
+        instructions[BGC] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setBackgroundColor(parameter.getSecondByte1());
             }
-        });
-        instructions[SPR] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SPR] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setSprite(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });
-        instructions[DRW_HHL] = new DefaultInstruction(new Executor() {
+        };
+        instructions[DRW_HHL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -114,8 +114,8 @@ public class CPU {
                 final int y = registers[parameter.getFirstByte0()];
                 gpu.drawSprite(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
             }
-        });
-        instructions[DRW_RZ] = new DefaultInstruction(new Executor() {
+        };
+        instructions[DRW_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -124,109 +124,95 @@ public class CPU {
                 final int address = registers[parameter.getSecondByte1()];
                 gpu.drawSprite(address, x, y);
             }
-        });
+        };
 
-        instructions[RND] = new DefaultInstruction(new Executor() {
+        instructions[RND] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = rnd.nextInt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte())+1);
             }
-        });
-        instructions[NOP_FUTURE] = new DefaultInstruction(new Executor() {
+        };
+        instructions[NOP_FUTURE] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
             }
-        });
-        instructions[SND0] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SND0] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.stop();
             }
-        });
-        instructions[SND1] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SND1] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play500Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });
-        instructions[SND2] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SND2] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play1000Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });
-        instructions[SND3] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SND3] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play1500Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });
-        instructions[JMP] = new DefaultInstruction(new Executor() {
+        };
+        instructions[JMP] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-            }
-        }){
-            
-            @Override
-            public int addToPC() {
-                return 0;
+                setSumToPC(0);
             }
         };
         
-        instructions[JMC] = new DefaultInstruction(new Executor() {
+        instructions[JMC] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.CARRY_BORROW.ordinal()]) {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                    setSumToPC(0);
+                }else{
+                    setSumToPC(4);
                 }
             }
-        }){
-            
-            @Override
-            public int addToPC() {
-                return 0;
-            }
         };
-        instructions[JMZ] = new DefaultInstruction(new Executor() {
+        instructions[JMZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.ZERO.ordinal()]) {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                    setSumToPC(0);
+                }else{
+                    setSumToPC(4);
                 }
             }
-        }){
-            
-            @Override
-            public int addToPC() {
-                return 0;
-            }
         };
-        instructions[JME] = new DefaultInstruction(new Executor() {
+        instructions[JME] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (registers[parameter.getFirstByte1()] == registers[parameter.getFirstByte0()]) {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                    setSumToPC(0);
+                }else{
+                    setSumToPC(4);
                 }
             }
-        }){
-            
-            @Override
-            public int addToPC() {
-                return 0;
-            }
         };
-        instructions[CALL] = new DefaultInstruction(new Executor() {
+        instructions[CALL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -234,74 +220,69 @@ public class CPU {
                 memory.writeAt(stackPointer + 1, (short) (programCounter >> 8));
                 stackPointer += 2;
                 programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-            }
-        }){
-            
-            @Override
-            public int addToPC() {
-                return 0;
+                setSumToPC(0);
             }
         };
-        instructions[RET] = new DefaultInstruction(new Executor() {
+        instructions[RET] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer -= 2;
                 programCounter = JavaEmuUtil.getLittleEndian(memory.readFrom(stackPointer), memory.readFrom(stackPointer + 1));
             }
-        });
-        instructions[LDI_RX] = new DefaultInstruction(new Executor() {
+        };
+        instructions[LDI_RX] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });
-        instructions[LDI_SP] = new DefaultInstruction(new Executor() {
+        };
+        instructions[LDI_SP] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
             }
-        });
-        instructions[LDM_HHLL] = new DefaultInstruction(new Executor() {
+        };
+        instructions[LDM_HHLL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = memory.readFrom(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
             }
-        });
-        instructions[LDM_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[LDM_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = memory.readFrom(registers[parameter.getFirstByte0()]);
             }
-        });
-        instructions[MOV] = new DefaultInstruction(new Executor() {
+        };
+        instructions[MOV] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.getFirstByte1()] = registers[parameter.getFirstByte0()];
             }
-        });
-        instructions[STM_HHLL] = new DefaultInstruction(new Executor() {
+        };
+        instructions[STM_HHLL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xF));
                 memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
-        });
-        instructions[STM_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[STM_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 memory.writeAt(registers[parameter.getFirstByte0()], (short) (registers[parameter.getFirstByte1()] & 0xF));
                 memory.writeAt(registers[parameter.getFirstByte0()] + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
-        });
-        instructions[ADDI] = new DefaultInstruction(new Executor() {
+        };
+        instructions[ADDI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -318,8 +299,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        });
-        instructions[ADD_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[ADD_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -336,8 +317,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        });        
-        instructions[ADD_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[ADD_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -354,8 +335,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        });
-        instructions[SUBI] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SUBI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -373,8 +354,8 @@ public class CPU {
                 }                
                 
             }
-        });
-        instructions[SUB_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[SUB_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -391,8 +372,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }  
             }
-        });        
-        instructions[SUB_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[SUB_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -409,8 +390,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }                  
             }
-        });
-        instructions[ANDI] = new DefaultInstruction(new Executor() {
+        };
+        instructions[ANDI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -421,8 +402,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });
-        instructions[AND_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[AND_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -433,8 +414,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });        
-        instructions[AND_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[AND_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -445,8 +426,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        }); 
-        instructions[ORI] = new DefaultInstruction(new Executor() {
+        }; 
+        instructions[ORI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -457,8 +438,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });
-        instructions[OR_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[OR_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -469,8 +450,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });        
-        instructions[OR_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[OR_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -481,8 +462,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });
-        instructions[XORI] = new DefaultInstruction(new Executor() {
+        };
+        instructions[XORI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -493,8 +474,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });
-        instructions[XOR_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[XOR_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -505,8 +486,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });        
-        instructions[XOR_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[XOR_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -517,8 +498,8 @@ public class CPU {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        });
-        instructions[MULI] = new DefaultInstruction(new Executor() {
+        };
+        instructions[MULI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -536,8 +517,8 @@ public class CPU {
                 }                
                 
             }
-        });
-        instructions[MUL_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[MUL_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -554,8 +535,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }  
             }
-        });        
-        instructions[MUL_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[MUL_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -572,8 +553,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }         
             }
-        });        
-        instructions[DIVI] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[DIVI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -591,8 +572,8 @@ public class CPU {
                 }                
                 
             }
-        });
-        instructions[DIV_RY] = new DefaultInstruction(new Executor() {
+        };
+        instructions[DIV_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -609,8 +590,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }  
             }
-        });        
-        instructions[DIV_RZ] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[DIV_RZ] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -627,8 +608,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }                  
             }
-        });        
-        instructions[SHL] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[SHL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -646,8 +627,8 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        });        
-        instructions[SHR] = new DefaultInstruction(new Executor() {
+        };        
+        instructions[SHR] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
@@ -665,6 +646,6 @@ public class CPU {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        });        
+        };        
     }
 }
