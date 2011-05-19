@@ -34,10 +34,10 @@ public class GPU {
         initAddressSprite = spriteAddress;
         currentSprite.setX(xPosition);
         currentSprite.setY(yPosition);
-        boolean flipFlop = false;
+        boolean flipFlop = true;
         for (int x = 0; x < currentSprite.getWidth() ; x ++){
             for (int y = 0; y < currentSprite.getHeight() ; y ++){
-                int colorIndex = (flipFlop)?(memory.readFrom(spriteAddress)&0xF):(memory.readFrom(spriteAddress)>>4);
+                int colorIndex = (flipFlop)?(memory.readFrom(spriteAddress)>>4):(memory.readFrom(spriteAddress)&0xF);
                 final Color pixColor = (colorIndex==0)?backgroundColor:Colors.getColor(colorIndex);
                 if (screen[y+currentSprite.getY()][x+currentSprite.getX()] != null){
                     if (screen[y+currentSprite.getY()][x+currentSprite.getX()].getIndex()!=0){
