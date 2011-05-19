@@ -163,31 +163,31 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jTextField19" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW00" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField20" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW0" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField25" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW03" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField26" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jTextField21" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW01" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField22" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField27" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW04" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField28" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW4" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jTextField23" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW02" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField24" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField29" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW05" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextField30" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTxtMW5" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -324,24 +324,24 @@
                       <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField19" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField20" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField25" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField26" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW00" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW0" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW03" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField21" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField22" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField27" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField28" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW01" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW04" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField23" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField24" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField29" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField30" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW02" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW05" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTxtMW5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -778,7 +778,7 @@
         <Property name="text" type="java.lang.String" value="Memory Watcher"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField19">
+    <Component class="javax.swing.JTextField" name="jTxtMW00">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -789,7 +789,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField20">
+    <Component class="javax.swing.JTextField" name="jTxtMW0">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -801,7 +801,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField21">
+    <Component class="javax.swing.JTextField" name="jTxtMW01">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -812,7 +812,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField22">
+    <Component class="javax.swing.JTextField" name="jTxtMW1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -824,7 +824,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField23">
+    <Component class="javax.swing.JTextField" name="jTxtMW02">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -835,7 +835,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField24">
+    <Component class="javax.swing.JTextField" name="jTxtMW2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -847,7 +847,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField25">
+    <Component class="javax.swing.JTextField" name="jTxtMW03">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -858,7 +858,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField26">
+    <Component class="javax.swing.JTextField" name="jTxtMW3">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -870,7 +870,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField27">
+    <Component class="javax.swing.JTextField" name="jTxtMW04">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -881,7 +881,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField28">
+    <Component class="javax.swing.JTextField" name="jTxtMW4">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -893,7 +893,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField29">
+    <Component class="javax.swing.JTextField" name="jTxtMW05">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>
@@ -904,7 +904,7 @@
         <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField30">
+    <Component class="javax.swing.JTextField" name="jTxtMW5">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="2" green="6" red="a" type="rgb"/>

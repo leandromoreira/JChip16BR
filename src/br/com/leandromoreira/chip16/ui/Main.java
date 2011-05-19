@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -122,18 +123,18 @@ public class Main extends javax.swing.JFrame {
         jCheckBox7 = new javax.swing.JCheckBox();
         jCheckBox8 = new javax.swing.JCheckBox();
         jLabel22 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
-        jTextField21 = new javax.swing.JTextField();
-        jTextField22 = new javax.swing.JTextField();
-        jTextField23 = new javax.swing.JTextField();
-        jTextField24 = new javax.swing.JTextField();
-        jTextField25 = new javax.swing.JTextField();
-        jTextField26 = new javax.swing.JTextField();
-        jTextField27 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
-        jTextField29 = new javax.swing.JTextField();
-        jTextField30 = new javax.swing.JTextField();
+        jTxtMW00 = new javax.swing.JTextField();
+        jTxtMW0 = new javax.swing.JTextField();
+        jTxtMW01 = new javax.swing.JTextField();
+        jTxtMW1 = new javax.swing.JTextField();
+        jTxtMW02 = new javax.swing.JTextField();
+        jTxtMW2 = new javax.swing.JTextField();
+        jTxtMW03 = new javax.swing.JTextField();
+        jTxtMW3 = new javax.swing.JTextField();
+        jTxtMW04 = new javax.swing.JTextField();
+        jTxtMW4 = new javax.swing.JTextField();
+        jTxtMW05 = new javax.swing.JTextField();
+        jTxtMW5 = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTxtStackList = new javax.swing.JTextArea();
@@ -357,59 +358,59 @@ public class Main extends javax.swing.JFrame {
 
         jLabel22.setText("Memory Watcher");
 
-        jTextField19.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField19.setForeground(new java.awt.Color(32, 243, 46));
-        jTextField19.setText("0000");
+        jTxtMW00.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW00.setForeground(new java.awt.Color(32, 243, 46));
+        jTxtMW00.setText("0000");
 
-        jTextField20.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField20.setEditable(false);
-        jTextField20.setForeground(new java.awt.Color(23, 243, 29));
-        jTextField20.setText("0000");
+        jTxtMW0.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW0.setEditable(false);
+        jTxtMW0.setForeground(new java.awt.Color(23, 243, 29));
+        jTxtMW0.setText("0000");
 
-        jTextField21.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField21.setForeground(new java.awt.Color(32, 243, 46));
-        jTextField21.setText("0000");
+        jTxtMW01.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW01.setForeground(new java.awt.Color(32, 243, 46));
+        jTxtMW01.setText("0000");
 
-        jTextField22.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField22.setEditable(false);
-        jTextField22.setForeground(new java.awt.Color(23, 243, 29));
-        jTextField22.setText("0000");
+        jTxtMW1.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW1.setEditable(false);
+        jTxtMW1.setForeground(new java.awt.Color(23, 243, 29));
+        jTxtMW1.setText("0000");
 
-        jTextField23.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField23.setForeground(new java.awt.Color(32, 243, 46));
-        jTextField23.setText("0000");
+        jTxtMW02.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW02.setForeground(new java.awt.Color(32, 243, 46));
+        jTxtMW02.setText("0000");
 
-        jTextField24.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField24.setEditable(false);
-        jTextField24.setForeground(new java.awt.Color(23, 243, 29));
-        jTextField24.setText("0000");
+        jTxtMW2.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW2.setEditable(false);
+        jTxtMW2.setForeground(new java.awt.Color(23, 243, 29));
+        jTxtMW2.setText("0000");
 
-        jTextField25.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField25.setForeground(new java.awt.Color(32, 243, 46));
-        jTextField25.setText("0000");
+        jTxtMW03.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW03.setForeground(new java.awt.Color(32, 243, 46));
+        jTxtMW03.setText("0000");
 
-        jTextField26.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField26.setEditable(false);
-        jTextField26.setForeground(new java.awt.Color(23, 243, 29));
-        jTextField26.setText("0000");
+        jTxtMW3.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW3.setEditable(false);
+        jTxtMW3.setForeground(new java.awt.Color(23, 243, 29));
+        jTxtMW3.setText("0000");
 
-        jTextField27.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField27.setForeground(new java.awt.Color(32, 243, 46));
-        jTextField27.setText("0000");
+        jTxtMW04.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW04.setForeground(new java.awt.Color(32, 243, 46));
+        jTxtMW04.setText("0000");
 
-        jTextField28.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField28.setEditable(false);
-        jTextField28.setForeground(new java.awt.Color(23, 243, 29));
-        jTextField28.setText("0000");
+        jTxtMW4.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW4.setEditable(false);
+        jTxtMW4.setForeground(new java.awt.Color(23, 243, 29));
+        jTxtMW4.setText("0000");
 
-        jTextField29.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField29.setForeground(new java.awt.Color(32, 243, 46));
-        jTextField29.setText("0000");
+        jTxtMW05.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW05.setForeground(new java.awt.Color(32, 243, 46));
+        jTxtMW05.setText("0000");
 
-        jTextField30.setBackground(new java.awt.Color(10, 6, 2));
-        jTextField30.setEditable(false);
-        jTextField30.setForeground(new java.awt.Color(23, 243, 29));
-        jTextField30.setText("0000");
+        jTxtMW5.setBackground(new java.awt.Color(10, 6, 2));
+        jTxtMW5.setEditable(false);
+        jTxtMW5.setForeground(new java.awt.Color(23, 243, 29));
+        jTxtMW5.setText("0000");
 
         jLabel23.setText("Stack List");
 
@@ -623,29 +624,29 @@ public class Main extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel22)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW00, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW03, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jTxtMW3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW01, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jTxtMW4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTxtMW05, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jTxtMW5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -757,22 +758,22 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtMW00, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW03, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtMW01, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTxtMW02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW05, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtMW5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -796,6 +797,7 @@ public class Main extends javax.swing.JFrame {
             fillMemory();
             fillStack();
             fillAssembler();
+            fillMemoryWatch();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -837,6 +839,7 @@ public class Main extends javax.swing.JFrame {
             fillStack();
             fillFlags();
             fillGPU();
+            fillMemoryWatch();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro while debugging --> "+e.toString());
@@ -990,19 +993,19 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTblAssembler;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
-    private javax.swing.JTextField jTextField30;
     private javax.swing.JTextArea jTxtGPU;
+    private javax.swing.JTextField jTxtMW0;
+    private javax.swing.JTextField jTxtMW00;
+    private javax.swing.JTextField jTxtMW01;
+    private javax.swing.JTextField jTxtMW02;
+    private javax.swing.JTextField jTxtMW03;
+    private javax.swing.JTextField jTxtMW04;
+    private javax.swing.JTextField jTxtMW05;
+    private javax.swing.JTextField jTxtMW1;
+    private javax.swing.JTextField jTxtMW2;
+    private javax.swing.JTextField jTxtMW3;
+    private javax.swing.JTextField jTxtMW4;
+    private javax.swing.JTextField jTxtMW5;
     private javax.swing.JTextArea jTxtMemory;
     private javax.swing.JTextField jTxtPC;
     private javax.swing.JTextField jTxtR0;
@@ -1093,5 +1096,24 @@ public class Main extends javax.swing.JFrame {
 
     private void fillGPU() {
         jTxtGPU.setText("GPU --\nBG Color: " + machine.getGPUInfo().getBGColor() + "\nCurrent Sprite: " + machine.getGPUInfo().getCurrentSprite() + machine.getGPUInfo().getSpriteAddress());
+    }
+
+    private void fillMemoryWatch() {
+        showMemoryExpression(jTxtMW00,jTxtMW0);
+        showMemoryExpression(jTxtMW01,jTxtMW1);
+        showMemoryExpression(jTxtMW02,jTxtMW2);
+        showMemoryExpression(jTxtMW03,jTxtMW3);
+        showMemoryExpression(jTxtMW04,jTxtMW4);
+        showMemoryExpression(jTxtMW05,jTxtMW5);
+    }
+
+    private void showMemoryExpression(JTextField address, JTextField value) {
+        try{
+            short memoryValue = machine.getMemory().readFrom(Integer.valueOf(address.getText(), 16));
+            value.setText(JavaEmuUtil.getHexadecimal2Formatted(memoryValue));
+        }catch(Exception e){
+            address.setText("0000");
+            value.setText("∞");
+        }
     }
 }
