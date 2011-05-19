@@ -1013,6 +1013,7 @@
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[320, 240]"/>
         </Property>
+        <Property name="requestFocusEnabled" type="boolean" value="false"/>
       </Properties>
 
       <Layout>

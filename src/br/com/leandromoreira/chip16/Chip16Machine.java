@@ -169,7 +169,7 @@ public class Chip16Machine {
         GPUInfo = new GPUInfo(gpu);
     }
     
-    public void debugStep(final Graphics graphics) {
+    public void debugStep(Graphics graphics) {
         resetVBlank();
         cpuStep();
         drawFrame(graphics);
@@ -177,7 +177,8 @@ public class Chip16Machine {
     }
     
     
-    private void drawFrame(final Graphics graphics) {
+    private void drawFrame(Graphics graphics) {
+        graphics = graphics.create();
         Color[][] screen = gpu.getScreen();
         for (int x = 0 ; x < GPU.WIDTH ; x++){
             for (int y = 0; y < GPU.HEIGHT ; y++){
@@ -186,7 +187,7 @@ public class Chip16Machine {
                     graphics.drawLine(x, y, x, y);
                 }else{
                     graphics.setColor(wrapColor(gpu.getBackgroundColor()));
-                    graphics.drawLine(x, y, x, y);                
+                    graphics.drawLine(x, y, x, y);
                 }
             }
         }

@@ -478,6 +478,7 @@ public class Main extends javax.swing.JFrame {
 
         jPnScreen.setBackground(new java.awt.Color(1, 1, 1));
         jPnScreen.setPreferredSize(new java.awt.Dimension(320, 240));
+        jPnScreen.setRequestFocusEnabled(false);
 
         javax.swing.GroupLayout jPnScreenLayout = new javax.swing.GroupLayout(jPnScreen);
         jPnScreen.setLayout(jPnScreenLayout);
@@ -930,8 +931,16 @@ public class Main extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private int x = 0, y = 0;
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
+        Graphics g = jPnScreen.getGraphics().create();
+        g.setColor(Color.red);
+        g.drawLine(x, y, x, y);
+        x++;
+        y++;
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
