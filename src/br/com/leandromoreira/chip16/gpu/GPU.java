@@ -39,7 +39,7 @@ public class GPU {
             for (int y = 0; y < currentSprite.getHeight() ; y ++){
                 int colorIndex = (flipFlop)?(memory.readFrom(spriteAddress)&0xF):(memory.readFrom(spriteAddress)>>4);
                 final Color pixColor = (colorIndex==0)?backgroundColor:Colors.getColor(colorIndex);
-                if (screen[y][x].getIndex()!=0){
+                if (screen[y][x] != null & screen[y][x].getIndex()!=0){
                     spriteOverlapsOther = true;
                 }
                 screen[y][x] = pixColor;

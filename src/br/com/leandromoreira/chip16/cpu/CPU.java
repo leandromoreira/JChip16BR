@@ -220,6 +220,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
+                programCounter += 4;
                 memory.writeAt(stackPointer, (short) (programCounter & 0xFF));
                 memory.writeAt(stackPointer + 1, (short) (programCounter >> 8));
                 stackPointer += 2;

@@ -170,6 +170,7 @@ public class Chip16Machine {
     }
     
     public void debugStep(final Graphics graphics) {
+        resetVBlank();
         cpuStep();
         drawFrame(graphics);
         raiseVBlank();
@@ -199,6 +200,9 @@ public class Chip16Machine {
     
     public void raiseVBlank() {
         cpu.setVBlank(true);
+    }
+    private void resetVBlank() {
+        cpu.setVBlank(false);
     }
 
     public void cpuStep() {
