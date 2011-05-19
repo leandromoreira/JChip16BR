@@ -9,7 +9,7 @@ public class Sprite {
     private int x,y;
 
     public Sprite(short width, short height) {
-        this.width = width;
+        this.width = (short) (width * 2);
         this.height = height;
     }
     public short getHeight() {
