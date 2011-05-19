@@ -845,7 +845,7 @@ public class Main extends javax.swing.JFrame {
             fillMemoryWatch();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro while debugging --> "+e.toString());
+            JOptionPane.showMessageDialog(this, "Erro while debugging --> " + e.toString());
         }
     }//GEN-LAST:event_jBtnStepActionPerformed
 
@@ -930,17 +930,32 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     }//GEN-LAST:event_jButton1ActionPerformed
-
     private int x = 0, y = 0;
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:        
         Graphics g = jPnScreen.getGraphics().create();
-        g.setColor(Color.red);
-        g.drawLine(x, y, x, y);
-        x++;
-        y++;
-        
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                int desiredFPS = 1000 / 60;
+                while (true) {
+                    machine.cpuStep();
+                    machine.drawFrame(jPnScreen.getGraphics());
+                    sleep(desiredFPS);
+                }
+            }
+
+            private void sleep(long sleepFor) {
+                try {
+                    Thread.sleep(sleepFor);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -1105,19 +1120,19 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void fillMemoryWatch() {
-        showMemoryExpression(jTxtMW00,jTxtMW0);
-        showMemoryExpression(jTxtMW01,jTxtMW1);
-        showMemoryExpression(jTxtMW02,jTxtMW2);
-        showMemoryExpression(jTxtMW03,jTxtMW3);
-        showMemoryExpression(jTxtMW04,jTxtMW4);
-        showMemoryExpression(jTxtMW05,jTxtMW5);
+        showMemoryExpression(jTxtMW00, jTxtMW0);
+        showMemoryExpression(jTxtMW01, jTxtMW1);
+        showMemoryExpression(jTxtMW02, jTxtMW2);
+        showMemoryExpression(jTxtMW03, jTxtMW3);
+        showMemoryExpression(jTxtMW04, jTxtMW4);
+        showMemoryExpression(jTxtMW05, jTxtMW5);
     }
 
     private void showMemoryExpression(JTextField address, JTextField value) {
-        try{
+        try {
             short memoryValue = machine.getMemory().readFrom(Integer.valueOf(address.getText(), 16));
             value.setText(JavaEmuUtil.getHexadecimal2Formatted(memoryValue));
-        }catch(Exception e){
+        } catch (Exception e) {
             address.setText("0000");
             value.setText("∞");
         }

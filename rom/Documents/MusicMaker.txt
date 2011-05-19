@@ -1,0 +1,22 @@
+=========================
+ "MusicMaker" for Chip16:
+=========================
+ 
+ Author: Shendo
+ Date: 05/15/2011
+
+========
+ About:
+========
+
+ A program which allows you to create
+ simple music with Chip16's SPU.
+ 
+===========
+ Controls:
+===========
+ 
+ D-PAD - Move selector.
+ START - Play/Stop. 
+ A - Activate block.
+ B - Erase column.

@@ -1,5 +1,5 @@
 ;Reflection for Chip16
-;2011 Shendo
+;Shendo, May 2011
 ;
 ;r0 - Selector X coordinate
 ;r1 - Selector Y coordinate
@@ -18,6 +18,22 @@
 ;re - Scratchpad
 ;rf - Scratchpad
 ;
+;ASCII Index (0xFF is the string terminator):
+;00 01 02 03 04 05 06 07 08 09 		HEX
+;00 01 02 03 04 05 06 07 08 09		DEC
+; 0  1  2  3  4  5  6  7  8  9		SPR
+;
+;0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23		HEX
+;10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35		DEC
+; A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z		SPR
+;
+;24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D		HEX
+;36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61		DEC
+; a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z		SPR
+;
+;3E 3F 40 41 42 43 44 45 46 47		HEX
+;62 63 64 65 66 67 68 69 70 71		DEC
+;    !  -  /  ,  .  :  (  )  &		SPR
 ;
 ;Board coding:
 ;
@@ -38,6 +54,7 @@
 
 ;GRAPHIC DATA
 
+importbin logo.bin 0 2190 logo			;Graphic data for the "REFLECTION" logo
 importbin divider.bin 0 32 stage_divider	;Graphic data for the stage divider "+" sprite
 importbin selector.bin 0 722 selector		;Graphic data for the selector
 importbin bulb.bin 0 128 bulb			;Graphic data for the light bulb
@@ -46,8 +63,10 @@ importbin crate.bin 0 128 crate			;Graphic data for the crate
 importbin mirror_0.bin 0 128 mirror_0		;Graphic data for the right mirror
 importbin mirror_1.bin 0 128 mirror_1		;Graphic data for the left mirror
 importbin light.bin 0 72 light_beam		;Graphic data for light "beam"
-importbin level.bin 0 290 level			;Graphic data for "LEVEL" string
-importbin numbers.bin 0 590 numbers		;Graphic data for number sprites
+importbin numbers_font.bin 0 320 numbers_font	;Font data (numbers)
+importbin capitals_font.bin 0 832 capitals_font	;Font data (capital letters)
+importbin lowcase_font.bin 0 832 lowcase_font	;Font data (lowcase letters)
+importbin special_font.bin 0 320 special_font	;Font data (special characters)
 
 ;GAME DATA
 
@@ -56,16 +75,40 @@ importbin stage2.bin 0 112 stage_2		;Data for the stage 2
 importbin stage3.bin 0 112 stage_3		;Data for the stage 3
 importbin stage4.bin 0 112 stage_4		;Data for the stage 4
 importbin stage5.bin 0 112 stage_5		;Data for the stage 5
+importbin stage6.bin 0 112 stage_6		;Data for the stage 6
+importbin stage7.bin 0 112 stage_7		;Data for the stage 7
+importbin stage8.bin 0 112 stage_8		;Data for the stage 8
+importbin stage9.bin 0 112 stage_9		;Data for the stage 9
+importbin stage10.bin 0 112 stage_10		;Data for the stage 10
 importbin current_board.bin 0 112 current_board	;Data for the currently loaded board
 
 :start						;Start of the program
 	cls					;Clear screen for fresh start
 
-:intro						;Game intro scene
-	nop					;Placeholder for now
-
 :menu						;Game menu scene
-	nop					;Placeholder for now
+	vblnk					;Wait for Vblank
+	cls					;Clear screen
+	
+	spr #1E49				;Set 146x30 px sprites
+	ldi ra, 87				;Load sprite X coordinate
+	ldi rb, 50				;Load sprite Y coordinate
+	drw ra, rb, logo			;Draw sprite on screen
+
+	ldi re, 80				;Load string X coordinate
+	ldi rf, 160				;Load string Y coordinate
+	ldi rd, ascii_start			;Load string memory location
+	call draw_string			;Draw string on screen
+
+	ldi re, 30				;Load string X coordinate
+	ldi rf, 225				;Load string Y coordinate
+	ldi rd, ascii_credits			;Load string memory location
+	call draw_string			;Draw string on screen
+
+:menu_start_loop				;Pause untill START button has been pressed
+	vblnk					;Wait for VBlank
+	ldm ra, #FFF0				;Load PAD1 status to scratchpad
+	andi ra, 32				;Isolate START button
+	jmz menu_start_loop			;Draw another frame if start hasn't been pressed
 
 :game_pre_init
 	ldi r4, 0				;Load default level
@@ -80,7 +123,15 @@ importbin current_board.bin 0 112 current_board	;Data for the currently loaded b
 	ldi r1, 0				;Load default selector Y coordinate
 	ldi r9, 0				;Stage is running
 
-	call draw_level_string			;Draw current level information
+	mov ra, r4				;Copy current level to scratchpad
+	addi ra, 1				;Convert to "normal folks readable"
+	ldi rd, ascii_level_bcd			;Load current level BCD string address	
+	call bcd_to_mem				;Store current level BCD data to memory
+
+	ldi re, 118				;Load X coordinate
+	ldi rf, 110				;Load Y coordinate
+	ldi rd, ascii_level			;Load string memory location
+	call draw_string			;Draw string on screen
 
 	ldi ra, 120				;Load 120 frames pause
 	call wait_frames			;Call wait subroutine
@@ -103,22 +154,111 @@ importbin current_board.bin 0 112 current_board	;Data for the currently loaded b
 	addi r4, 1				;Increase level number
 
 	mov ra, r4				;Copy current stage
-	subi ra, 5				;Check if max stage has been reached
-	jmz game_pre_init			;Restart the game
+	subi ra, 10				;Check if max stage has been reached
+	jmz start				;Restart the game
 
 	jmp game_init				;Stage beaten, start new match
 
-;AUTHOR INFO
+;STRING DATA
 
-db #53						;"Shendo"
-db #68
-db #65
-db #6E
-db #64
-db #6F
-db #00
+:ascii_author					;Author's name in standard ASCII
+	db #53			;S
+	db #68			;h
+	db #65			;e
+	db #6E			;n
+	db #64			;d
+	db #6F			;o
+	db #00			;/0
+
+:ascii_start					;Message which instruct player to press start button
+	db 25			;P
+	db 53			;r
+	db 40			;e
+	db 54			;s
+	db 54			;s
+	db 62			; 
+	db 28			;S
+	db 29			;T
+	db 10			;A
+	db 27			;R
+	db 29			;T
+	db 62			; 
+	db 37			;b
+	db 56			;u
+	db 55			;t
+	db 55			;t
+	db 50			;o
+	db 49			;n
+	db 255			;/0
+
+
+:ascii_credits					;Credits
+	db 12			;C
+	db 50			;o
+	db 39			;d
+	db 40			;e
+	db 68			;:
+	db 28			;S
+	db 43			;h
+	db 40			;e
+	db 49			;n
+	db 39			;d
+	db 50			;o
+	db 66			;,
+	db 62			; 
+	db 21			;L
+	db 40			;e
+	db 57			;v
+	db 40			;e
+	db 47			;l
+	db 54			;s
+	db 68			;:
+	db 10			;A
+	db 59			;x
+	db 44			;i
+	db 54			;s
+	db 35			;Z
+	db 08			;8
+	db 00			;0
+	db 00			;0
+	db 08			;8
+	db 255			;/0
+
+:ascii_level					;Current level string
+	db 21			;L
+	db 40			;e
+	db 57			;v
+	db 40			;e
+	db 47			;l
+	db 68			;:
+
+:ascii_level_bcd				;Current level BCDs
+	db 00			;0
+	db 00			;0
+	db 255			;/0
+
 
 ;SUBROUTINES
+
+:draw_string					;Draw string on screen
+	spr #0804				;Set 8x8 pixel sprites
+	ldm ra, rd				;Load characted from memory
+	andi ra, #FF				;Only the lo byte is needed
+
+	mov rb, ra				;Copy data to scratchpad
+	subi rb, 255				;Remove terminator
+	jmz fret				;Terminator reached, break subroutine
+
+	mov rb, ra				;Copy data to scratchpad
+	muli rb, 32				;Each character is 32 bytes long
+	addi rb, numbers_font			;Apply offset to font address
+
+	drw re, rf, rb				;Draw 8x8 character on the set coordinates
+
+	addi rd, 1				;Increase memory offset
+	addi re, 9				;Increase X coordinate
+
+	jmp draw_string
 
 :copy_board_to_current				;Copy active board to current stage
 	ldi ra, stage_1				;Get board starting address
@@ -149,46 +289,20 @@ db #00
 	jmz fret				;Break the loop
 	jmp wait_frames				;Wait for another frame
 
-:draw_level_string				;Display current level on screen
-	spr #0A1D				;Set 58x10 px sprites
+:bcd_to_mem					;Convert number to BCD and store it in memory
+	mov rb, ra				;Copy numeric value
+	divi rb, 10				;Isolate tens
 
-	ldi ra, 110				;Load X coordinate
-	ldi rb, 110				;Load Y coordinate
+	mov rc, rb				;Copy tens to scratchpad
+	muli rc, 10				;Convert to tens
+	sub ra, rc				;Get ones
+	
+	shl ra, 8				;Move ones to hi byte
+	or rb, ra				;Add tens to value
 
-	drw ra, rb, level			;Draw "LEVEL" string on screen
+	stm rb, rd				;Store string data to memory
 
-:level_numbers					;Draw sprites
-	spr #0A05				;Set 10x10 px sprites
-
-	ldi ra, 180				;Load X coordinate
-	ldi rb, 110				;Load Y coordinate
-
-	mov rc, r4				;Copy current level
-	mov re, r4				;Copy current level
-	addi rc, 1				;Convert to regular numbers (normal folks readable :p)
-	addi re, 1				;Convert to regular numbers
-
-	divi rc, 10				;Get tens
-	mov rf, rc				;Copy tens
-	muli rf, 10				;Get tens without ones
-	muli rc, 60				;Get the byte offset
-
-	ldi rd, numbers				;Load number sprite location
-	add rd, rc				;Get number offset
-
-	drw ra, rb, rd				;Draw number on screen (tens)
-
-	addi ra, 12				;Increase X coordinate
-
-	sub re, rf				;Remove tens from result
-	muli re, 60				;Get the byte offset
-
-	ldi rd, numbers				;Load number sprite location
-	add rd, re				;Get the byte offset
-
-	drw ra, rb, rd				;Draw number on screen (ones)
-
-	ret
+	ret					;Return from subroutine
 
 :process_input					;React to gamepad commands
 	ldm ra, #FFF0				;Load Pad 1 status

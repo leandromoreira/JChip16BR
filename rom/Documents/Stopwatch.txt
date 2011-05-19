@@ -1,0 +1,20 @@
+========================
+ "Stopwatch" for Chip16:
+========================
+ 
+ Author: Shendo
+ Date: 05/10/2011
+
+========
+ About:
+========
+
+ This demo is a simple stopwatch.
+ Usable as a vblank timing test.
+ 
+===========
+ Controls:
+===========
+ 
+ A - Start/Stop.
+ B - Reset counter.

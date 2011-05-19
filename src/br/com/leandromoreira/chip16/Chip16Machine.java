@@ -177,7 +177,7 @@ public class Chip16Machine {
     }
     
     
-    private void drawFrame(Graphics graphics) {
+    public void drawFrame(Graphics graphics) {
         graphics = graphics.create();
         Color[][] screen = gpu.getScreen();
         for (int x = 0 ; x < GPU.WIDTH ; x++){
