@@ -275,7 +275,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xFF));
                 memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
         };
@@ -283,7 +283,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(registers[parameter.getFirstByte0()], (short) (registers[parameter.getFirstByte1()] & 0xF));
+                memory.writeAt(registers[parameter.getFirstByte0()], (short) (registers[parameter.getFirstByte1()] & 0xFF));
                 memory.writeAt(registers[parameter.getFirstByte0()] + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
             }
         };
