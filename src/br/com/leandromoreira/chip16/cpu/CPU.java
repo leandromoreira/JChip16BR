@@ -12,8 +12,6 @@ import static br.com.leandromoreira.chip16.cpu.OpCode.*;
  */
 public class CPU {
 
-
-
     public enum REGISTER {
 
         R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, RA, RB, RC, RD, RE, RF
@@ -48,11 +46,11 @@ public class CPU {
     public int getRegister(int number) {
         return registers[number];
     }
-    
+
     public void setVBlank(boolean value) {
         flags[FLAG.VBLANK.ordinal()] = value;
     }
-    
+
     public boolean getFlag(int number) {
         return flags[number];
     }
@@ -112,7 +110,10 @@ public class CPU {
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.getFirstByte1()];
                 final int y = registers[parameter.getFirstByte0()];
-                gpu.drawSprite(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
+                boolean spriteOverlap = gpu.drawSprite(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
+                if (spriteOverlap) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }
             }
         };
         instructions[DRW_RZ] = new DefaultInstruction() {
@@ -122,7 +123,10 @@ public class CPU {
                 final int x = registers[parameter.getFirstByte1()];
                 final int y = registers[parameter.getFirstByte0()];
                 final int address = registers[parameter.getSecondByte1()];
-                gpu.drawSprite(address, x, y);
+                boolean spriteOverlap = gpu.drawSprite(address, x, y);
+                if (spriteOverlap) {
+                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
+                }
             }
         };
 
@@ -130,7 +134,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = rnd.nextInt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte())+1);
+                registers[parameter.getFirstByte1()] = rnd.nextInt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) + 1);
             }
         };
         instructions[NOP_FUTURE] = new DefaultInstruction() {
@@ -175,7 +179,7 @@ public class CPU {
                 setSumToPC(0);
             }
         };
-        
+
         instructions[JMC] = new DefaultInstruction() {
 
             @Override
@@ -183,7 +187,7 @@ public class CPU {
                 if (flags[FLAG.CARRY_BORROW.ordinal()]) {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                     setSumToPC(0);
-                }else{
+                } else {
                     setSumToPC(4);
                 }
             }
@@ -195,7 +199,7 @@ public class CPU {
                 if (flags[FLAG.ZERO.ordinal()]) {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                     setSumToPC(0);
-                }else{
+                } else {
                     setSumToPC(4);
                 }
             }
@@ -207,7 +211,7 @@ public class CPU {
                 if (registers[parameter.getFirstByte1()] == registers[parameter.getFirstByte0()]) {
                     programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                     setSumToPC(0);
-                }else{
+                } else {
                     setSumToPC(4);
                 }
             }
@@ -290,12 +294,12 @@ public class CPU {
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (result>BOUND){
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
@@ -308,16 +312,16 @@ public class CPU {
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (result>BOUND){
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        };        
+        };
         instructions[ADD_RZ] = new DefaultInstruction() {
 
             @Override
@@ -326,12 +330,12 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = result & BOUND;
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (result>BOUND){
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
@@ -344,15 +348,15 @@ public class CPU {
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                
-                
+                }
+
             }
         };
         instructions[SUB_RY] = new DefaultInstruction() {
@@ -363,16 +367,16 @@ public class CPU {
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }  
+                }
             }
-        };        
+        };
         instructions[SUB_RZ] = new DefaultInstruction() {
 
             @Override
@@ -381,14 +385,14 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = result & BOUND;
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                  
+                }
             }
         };
         instructions[ANDI] = new DefaultInstruction() {
@@ -398,7 +402,7 @@ public class CPU {
                 registers[parameter.getFirstByte1()] &= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
@@ -410,11 +414,11 @@ public class CPU {
                 registers[parameter.getFirstByte1()] &= registers[parameter.getFirstByte0()];
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        };        
+        };
         instructions[AND_RZ] = new DefaultInstruction() {
 
             @Override
@@ -422,11 +426,11 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] & registers[parameter.getFirstByte0()];
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        }; 
+        };
         instructions[ORI] = new DefaultInstruction() {
 
             @Override
@@ -434,7 +438,7 @@ public class CPU {
                 registers[parameter.getFirstByte1()] |= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
@@ -446,11 +450,11 @@ public class CPU {
                 registers[parameter.getFirstByte1()] |= registers[parameter.getFirstByte0()];
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        };        
+        };
         instructions[OR_RZ] = new DefaultInstruction() {
 
             @Override
@@ -458,7 +462,7 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] | registers[parameter.getFirstByte0()];
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
@@ -470,7 +474,7 @@ public class CPU {
                 registers[parameter.getFirstByte1()] ^= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
@@ -482,11 +486,11 @@ public class CPU {
                 registers[parameter.getFirstByte1()] ^= registers[parameter.getFirstByte0()];
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
-        };        
+        };
         instructions[XOR_RZ] = new DefaultInstruction() {
 
             @Override
@@ -494,7 +498,7 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] ^ registers[parameter.getFirstByte0()];
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
             }
@@ -507,15 +511,15 @@ public class CPU {
                 registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                
-                
+                }
+
             }
         };
         instructions[MUL_RY] = new DefaultInstruction() {
@@ -523,19 +527,19 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
-                registers[parameter.getFirstByte1()] = result & BOUND ;
+                registers[parameter.getFirstByte1()] = result & BOUND;
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (result>BOUND) {
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }  
+                }
             }
-        };        
+        };
         instructions[MUL_RZ] = new DefaultInstruction() {
 
             @Override
@@ -544,16 +548,16 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = result & BOUND;
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }         
+                }
             }
-        };        
+        };
         instructions[DIVI] = new DefaultInstruction() {
 
             @Override
@@ -562,15 +566,15 @@ public class CPU {
                 registers[parameter.getFirstByte1()] /= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (thereIsMod) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                
-                
+                }
+
             }
         };
         instructions[DIV_RY] = new DefaultInstruction() {
@@ -581,16 +585,16 @@ public class CPU {
                 registers[parameter.getFirstByte1()] /= registers[parameter.getFirstByte0()];
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (thereIsMod) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }  
+                }
             }
-        };        
+        };
         instructions[DIV_RZ] = new DefaultInstruction() {
 
             @Override
@@ -599,53 +603,53 @@ public class CPU {
                 registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] / registers[parameter.getFirstByte0()];
                 if (registers[parameter.getSecondByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
                 if (thereIsMod) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
-                }                  
+                }
             }
-        };        
+        };
         instructions[SHL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.getFirstByte1()] << parameter.getSecondByte1();
                 registers[parameter.getFirstByte1()] = result & BOUND;
-                
+
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (result>BOUND){
+                if (result > BOUND) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        };        
+        };
         instructions[SHR] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.getFirstByte1()] >> parameter.getSecondByte1();
                 registers[parameter.getFirstByte1()] = result & BOUND;
-                
+
                 if (registers[parameter.getFirstByte1()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.ZERO.ordinal()] = false;
                 }
-                if (result<0){
+                if (result < 0) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }else{
+                } else {
                     flags[FLAG.CARRY_BORROW.ordinal()] = false;
                 }
             }
-        };        
+        };
     }
 }

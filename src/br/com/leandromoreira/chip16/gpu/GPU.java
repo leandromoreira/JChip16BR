@@ -29,15 +29,19 @@ public class GPU {
         currentSprite = new Sprite((short)(width*2), height);
     }
 
-    public void drawSprite(int spriteAddress, int xPosition, int yPosition) {
+    public boolean drawSprite(int spriteAddress, int xPosition, int yPosition) {
+        boolean spriteOverlapsOther = false;
         initAddressSprite = spriteAddress;
         currentSprite.setX(xPosition);
         currentSprite.setY(yPosition);
         boolean flipFlop = true;
         for (int x = 0; x < currentSprite.getWidth() ; x ++){
             for (int y = 0; y < currentSprite.getHeight() ; y ++){
-                int colorIndex = (flipFlop)?(memory.readFrom(spriteAddress)>>4):(memory.readFrom(spriteAddress)&0xF);
+                int colorIndex = (flipFlop)?(memory.readFrom(spriteAddress)&0xF):(memory.readFrom(spriteAddress)>>4);
                 final Color pixColor = (colorIndex==0)?backgroundColor:Colors.getColor(colorIndex);
+                if (screen[y][x].getIndex()!=0){
+                    spriteOverlapsOther = true;
+                }
                 screen[y][x] = pixColor;
                 if (!flipFlop){
                     spriteAddress++;    
@@ -45,6 +49,7 @@ public class GPU {
                 flipFlop = !flipFlop;
             }
         }
+        return spriteOverlapsOther;
     }
 
     public Color getBackgroundColor() {

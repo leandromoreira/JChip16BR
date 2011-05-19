@@ -7,12 +7,14 @@ public class Color {
 
     private final int r, g, b;
     private final String description;
+    private final int index;
 
-    Color(String colorDescription, String colorRGB) {
+    Color(String colorDescription, String colorRGB,int index) {
         this.description = colorDescription;
         this.r = getR(colorRGB);
         this.g = getG(colorRGB);
         this.b = getB(colorRGB);
+        this.index = index;
     }
 
     private int getR(String rgb) {
@@ -47,5 +49,8 @@ public class Color {
     public String toString() {
         return description;
     }
-    
+
+    public int getIndex() {
+        return index;
+    }
 }

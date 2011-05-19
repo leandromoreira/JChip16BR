@@ -23,7 +23,7 @@ public final class Colors {
                 final String colorRGB = palette.getProperty(key).split(" ")[0];
                 final String colorDescription = palette.getProperty(key).split(" ")[1];
                 Integer index = Integer.valueOf(key.substring(key.length()-1,key.length()), 16);
-                colors.put(index, new Color(colorDescription, colorRGB));
+                colors.put(index, new Color(colorDescription, colorRGB,index));
             }
         } catch (Exception e) {
         }
