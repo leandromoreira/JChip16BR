@@ -233,6 +233,7 @@ public class CPU {
             public void execute(OpCodeParameter parameter) {
                 stackPointer -= 2;
                 programCounter = JavaEmuUtil.getLittleEndian(memory.readFrom(stackPointer), memory.readFrom(stackPointer + 1));
+                setSumToPC(0);
             }
         };
         instructions[LDI_RX] = new DefaultInstruction() {

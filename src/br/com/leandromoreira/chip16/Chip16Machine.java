@@ -234,7 +234,7 @@ public class Chip16Machine {
         for (int i = 1; i <= 32; i++) {
             sb.append((i<=9?"0"+i:i))
                     .append(": ")
-                    .append(JavaEmuUtil.getHexadecimal4Formatted(memoryCopy[MemoryMap.STACK_START+i-1]))
+                    .append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[MemoryMap.STACK_START+i-1]))
                     .append("\n");
         }
         return sb.toString();
