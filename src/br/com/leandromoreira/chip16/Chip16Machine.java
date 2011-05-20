@@ -5,7 +5,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
 import br.com.leandromoreira.chip16.gpu.Color;
-import br.com.leandromoreira.chip16.gpu.GPU;
+import br.com.leandromoreira.chip16.gpu.GPUFrameBuffer;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
 import br.com.leandromoreira.chip16.spu.SPUJavaSound;
@@ -118,8 +118,8 @@ public class Chip16Machine {
         }
     }
     public static class GPUInfo{
-        private final GPU gpu;
-        public GPUInfo(GPU gpu) {
+        private final GPUFrameBuffer gpu;
+        public GPUInfo(GPUFrameBuffer gpu) {
             this.gpu = gpu;
         }
         public String getBGColor(){
@@ -133,7 +133,7 @@ public class Chip16Machine {
         }
     }
     private final CPU cpu;
-    private final GPU gpu;
+    private final GPUFrameBuffer gpu;
     private final SPU spu;
     private final Memory memory;
     private final Chip16ROM rom;
@@ -143,7 +143,7 @@ public class Chip16Machine {
     public Chip16Machine(final File romFile,final Graphics graphics) {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
-        gpu = new GPU(memory);
+        gpu = new GPUFrameBuffer(memory);
         spu = new SPUJavaSound();
         cpu = new CPU(memory, gpu,spu);
         CPUInfo = new CPUInfo(cpu);
@@ -161,8 +161,8 @@ public class Chip16Machine {
     public void drawFrame(Graphics graphics) {
         graphics = graphics.create();
         Color[][] screen = gpu.getScreen();
-        for (int x = 0 ; x < GPU.WIDTH ; x++){
-            for (int y = 0; y < GPU.HEIGHT ; y++){
+        for (int x = 0 ; x < GPUFrameBuffer.WIDTH ; x++){
+            for (int y = 0; y < GPUFrameBuffer.HEIGHT ; y++){
                 if (screen[y][x]!=null){
                     graphics.setColor(wrapColor(screen[y][x]));
                     graphics.drawLine(x, y, x, y);
@@ -203,7 +203,7 @@ public class Chip16Machine {
         return cpu;
     }
 
-    public GPU getGpu() {
+    public GPUFrameBuffer getGpu() {
         return gpu;
     }
 

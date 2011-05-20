@@ -71,13 +71,13 @@ public class CPU {
 
     private void initInstructionTable() {
         instructions[NOP] = new DefaultInstruction() {
-
+            //NOP			Not operation. Wastes a cycle.
             @Override
             public void execute(OpCodeParameter parameter) {
             }
         };
         instructions[CLS] = new DefaultInstruction() {
-
+            //CLS			Clear screen (Foreground layer is erased, background is set to index 0).
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.clear();
