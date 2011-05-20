@@ -8,6 +8,7 @@ import br.com.leandromoreira.chip16.gpu.Color;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
+import br.com.leandromoreira.chip16.spu.SPUJavaSound;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Graphics;
 import java.io.File;
@@ -143,27 +144,7 @@ public class Chip16Machine {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPU(memory);
-        spu = new SPU() {
-            @Override
-            public void play500Mhz(int ms) {
-                System.out.println("it was suposse to play 500Mhz for "+ms+"ms");
-            }
-
-            @Override
-            public void play1000Mhz(int ms) {
-                System.out.println("it was suposse to play 1000Mhz for "+ms+"ms");
-            }
-
-            @Override
-            public void play1500Mhz(int ms) {
-                System.out.println("it was suposse to play 1500Mhz for "+ms+"ms");
-            }
-
-            @Override
-            public void stop() {
-                System.out.println("the sound system halts now!");
-            }
-        };
+        spu = new SPUJavaSound();
         cpu = new CPU(memory, gpu,spu);
         CPUInfo = new CPUInfo(cpu);
         GPUInfo = new GPUInfo(gpu);
