@@ -84,28 +84,28 @@ public class CPU {
             }
         };
         instructions[VBLNK] = new DefaultInstruction() {
-
+            //VBLNK			Wait VBlank. Set VBlank flag to 0 and wait untill it becomes 1.
             @Override
             public void execute(OpCodeParameter parameter) {
                 flags[FLAG.VBLANK.ordinal()] = false;
             }
         };
         instructions[BGC] = new DefaultInstruction() {
-
+            //BGC N			Set background color to index N. If the index was set to 0 the color is black.
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setBackgroundColor(parameter.N_Z());
             }
         };
         instructions[SPR] = new DefaultInstruction() {
-
+            //SPR HHLL		Set sprite width (LL) and height (HH).
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setSprite(parameter.LL(), parameter.HH());
             }
         };
         instructions[DRW_HHL] = new DefaultInstruction() {
-
+            //DRW RX, RY, HHLL	Draw sprite from address HHLL at coordinates stored in register X and Y. Affects carry flag (explained in GPU info).
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.X()];
@@ -117,7 +117,7 @@ public class CPU {
             }
         };
         instructions[DRW_RZ] = new DefaultInstruction() {
-
+            //DRW RX, RY, RZ		Draw sprite from address pointed by register Z at coordinates stored in register X and Y.  Affects carry flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.X()];
@@ -131,48 +131,48 @@ public class CPU {
         };
 
         instructions[RND] = new DefaultInstruction() {
-
+            //RND RX, HHLL		Generate a random number and store it in register X. Maximum value is HHLL.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = rnd.nextInt(parameter.HHLL() + 1);
             }
         };
         instructions[NOP_FUTURE] = new DefaultInstruction() {
-
+            //NOP			Reserved for future updates.
             @Override
             public void execute(OpCodeParameter parameter) {
             }
         };
         instructions[SND0] = new DefaultInstruction() {
-
+            //SND0			Stop playing sounds.
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.stop();
             }
         };
         instructions[SND1] = new DefaultInstruction() {
-
+            //SND1 HHLL		Play 500Hz tone for HHLL miliseconds.
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play500Mhz(parameter.HHLL());
             }
         };
         instructions[SND2] = new DefaultInstruction() {
-
+            //SND2 HHLL		Play 1000Hz tone for HHLL miliseconds.
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play1000Mhz(parameter.HHLL());
             }
         };
         instructions[SND3] = new DefaultInstruction() {
-
+            //SND3 HHLL		Play 1500Hz tone for HHLL miliseconds.
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play1500Mhz(parameter.HHLL());
             }
         };
         instructions[JMP] = new DefaultInstruction() {
-
+            //JMP HHLL		Jump to the specified address.
             @Override
             public void execute(OpCodeParameter parameter) {
                 programCounter = parameter.HHLL();
@@ -181,7 +181,7 @@ public class CPU {
         };
 
         instructions[JMC] = new DefaultInstruction() {
-
+            //JMC HHLL		Jump to the specified address if carry flag is raised.
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.CARRY_BORROW.ordinal()]) {
@@ -193,7 +193,7 @@ public class CPU {
             }
         };
         instructions[JMZ] = new DefaultInstruction() {
-
+            //JMZ HHLL		Jump to the specified address if zero flag is raised.
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.ZERO.ordinal()]) {
