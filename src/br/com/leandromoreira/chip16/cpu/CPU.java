@@ -94,23 +94,23 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                gpu.setBackgroundColor(parameter.getSecondByte1());
+                gpu.setBackgroundColor(parameter.N_Z());
             }
         };
         instructions[SPR] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                gpu.setSprite(parameter.getSecondByte(), parameter.getThirdByte());
+                gpu.setSprite(parameter.LL(), parameter.HH());
             }
         };
         instructions[DRW_HHL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int x = registers[parameter.getFirstByte1()];
-                final int y = registers[parameter.getFirstByte0()];
-                boolean spriteOverlap = gpu.drawSprite(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), x, y);
+                final int x = registers[parameter.X()];
+                final int y = registers[parameter.Y()];
+                boolean spriteOverlap = gpu.drawSprite(parameter.HHLL(), x, y);
                 if (spriteOverlap) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
                 }
@@ -120,9 +120,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int x = registers[parameter.getFirstByte1()];
-                final int y = registers[parameter.getFirstByte0()];
-                final int address = registers[parameter.getSecondByte1()];
+                final int x = registers[parameter.X()];
+                final int y = registers[parameter.Y()];
+                final int address = registers[parameter.N_Z()];
                 boolean spriteOverlap = gpu.drawSprite(address, x, y);
                 if (spriteOverlap) {
                     flags[FLAG.CARRY_BORROW.ordinal()] = true;
@@ -134,7 +134,7 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = rnd.nextInt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) + 1);
+                registers[parameter.X()] = rnd.nextInt(parameter.HHLL() + 1);
             }
         };
         instructions[NOP_FUTURE] = new DefaultInstruction() {
@@ -154,28 +154,28 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play500Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
+                spu.play500Mhz(parameter.HHLL());
             }
         };
         instructions[SND2] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play1000Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
+                spu.play1000Mhz(parameter.HHLL());
             }
         };
         instructions[SND3] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                spu.play1500Mhz(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
+                spu.play1500Mhz(parameter.HHLL());
             }
         };
         instructions[JMP] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                programCounter = parameter.HHLL();
                 setSumToPC(0);
             }
         };
@@ -185,7 +185,7 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.CARRY_BORROW.ordinal()]) {
-                    programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                    programCounter = parameter.HHLL();
                     setSumToPC(0);
                 } else {
                     setSumToPC(4);
@@ -197,7 +197,7 @@ public class CPU {
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.ZERO.ordinal()]) {
-                    programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                    programCounter = parameter.HHLL();
                     setSumToPC(0);
                 } else {
                     setSumToPC(4);
@@ -208,8 +208,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                if (registers[parameter.getFirstByte1()] == registers[parameter.getFirstByte0()]) {
-                    programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                if (registers[parameter.X()] == registers[parameter.Y()]) {
+                    programCounter = parameter.HHLL();
                     setSumToPC(0);
                 } else {
                     setSumToPC(4);
@@ -224,7 +224,7 @@ public class CPU {
                 memory.writeAt(stackPointer, (short) (programCounter & 0xFF));
                 memory.writeAt(stackPointer + 1, (short) (programCounter >> 8));
                 stackPointer += 2;
-                programCounter = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                programCounter = parameter.HHLL();
                 setSumToPC(0);
             }
         };
@@ -241,60 +241,60 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                registers[parameter.X()] = parameter.HHLL();
             }
         };
         instructions[LDI_SP] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                stackPointer = JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
+                stackPointer = parameter.HHLL();
             }
         };
         instructions[LDM_HHLL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = memory.readFrom(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()));
+                registers[parameter.X()] = memory.readFrom(parameter.HHLL());
             }
         };
         instructions[LDM_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = memory.readFrom(registers[parameter.getFirstByte0()]);
+                registers[parameter.X()] = memory.readFrom(registers[parameter.Y()]);
             }
         };
         instructions[MOV] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] = registers[parameter.getFirstByte0()];
+                registers[parameter.X()] = registers[parameter.Y()];
             }
         };
         instructions[STM_HHLL] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()), (short) (registers[parameter.getFirstByte1()] & 0xFF));
-                memory.writeAt(JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
+                memory.writeAt(parameter.HHLL(), (short) (registers[parameter.X()] & 0xFF));
+                memory.writeAt(parameter.HHLL() + 1, (short) (registers[parameter.X()] >> 8));
             }
         };
         instructions[STM_RY] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                memory.writeAt(registers[parameter.getFirstByte0()], (short) (registers[parameter.getFirstByte1()] & 0xFF));
-                memory.writeAt(registers[parameter.getFirstByte0()] + 1, (short) (registers[parameter.getFirstByte1()] >> 8));
+                memory.writeAt(registers[parameter.Y()], (short) (registers[parameter.X()] & 0xFF));
+                memory.writeAt(registers[parameter.Y()] + 1, (short) (registers[parameter.X()] >> 8));
             }
         };
         instructions[ADDI] = new DefaultInstruction() {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] + JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                registers[parameter.getFirstByte1()] = result & BOUND;
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final int result = registers[parameter.X()] + parameter.HHLL();
+                registers[parameter.X()] = result & BOUND;
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -310,9 +310,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] + registers[parameter.getFirstByte0()];
-                registers[parameter.getFirstByte1()] = result & BOUND;
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final int result = registers[parameter.X()] + registers[parameter.Y()];
+                registers[parameter.X()] = result & BOUND;
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -328,9 +328,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] + registers[parameter.getFirstByte0()];
-                registers[parameter.getSecondByte1()] = result & BOUND;
-                if (registers[parameter.getSecondByte1()] == 0) {
+                final int result = registers[parameter.X()] + registers[parameter.Y()];
+                registers[parameter.N_Z()] = result & BOUND;
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -346,9 +346,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] - JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                registers[parameter.getFirstByte1()] = result & BOUND;
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final int result = registers[parameter.X()] - parameter.HHLL();
+                registers[parameter.X()] = result & BOUND;
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -365,9 +365,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] - registers[parameter.getFirstByte0()];
-                registers[parameter.getFirstByte1()] = result & BOUND;
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final int result = registers[parameter.X()] - registers[parameter.Y()];
+                registers[parameter.X()] = result & BOUND;
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -383,9 +383,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] - registers[parameter.getFirstByte0()];
-                registers[parameter.getSecondByte1()] = result & BOUND;
-                if (registers[parameter.getSecondByte1()] == 0) {
+                final int result = registers[parameter.X()] - registers[parameter.Y()];
+                registers[parameter.N_Z()] = result & BOUND;
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -401,8 +401,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] &= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                if (registers[parameter.getFirstByte1()] == 0) {
+                registers[parameter.X()] &= parameter.HHLL();
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -413,8 +413,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] &= registers[parameter.getFirstByte0()];
-                if (registers[parameter.getFirstByte1()] == 0) {
+                registers[parameter.X()] &= registers[parameter.Y()];
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -425,8 +425,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] & registers[parameter.getFirstByte0()];
-                if (registers[parameter.getSecondByte1()] == 0) {
+                registers[parameter.N_Z()] = registers[parameter.X()] & registers[parameter.Y()];
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -437,8 +437,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] |= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                if (registers[parameter.getFirstByte1()] == 0) {
+                registers[parameter.X()] |= parameter.HHLL();
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -449,8 +449,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] |= registers[parameter.getFirstByte0()];
-                if (registers[parameter.getFirstByte1()] == 0) {
+                registers[parameter.X()] |= registers[parameter.Y()];
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -461,8 +461,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] | registers[parameter.getFirstByte0()];
-                if (registers[parameter.getSecondByte1()] == 0) {
+                registers[parameter.N_Z()] = registers[parameter.X()] | registers[parameter.Y()];
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -473,8 +473,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] ^= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                if (registers[parameter.getFirstByte1()] == 0) {
+                registers[parameter.X()] ^= parameter.HHLL();
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -485,8 +485,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getFirstByte1()] ^= registers[parameter.getFirstByte0()];
-                if (registers[parameter.getFirstByte1()] == 0) {
+                registers[parameter.X()] ^= registers[parameter.Y()];
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -497,8 +497,8 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] ^ registers[parameter.getFirstByte0()];
-                if (registers[parameter.getSecondByte1()] == 0) {
+                registers[parameter.N_Z()] = registers[parameter.X()] ^ registers[parameter.Y()];
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -509,9 +509,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] * JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                registers[parameter.getFirstByte1()] = result & BOUND;
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final int result = registers[parameter.X()] * parameter.HHLL();
+                registers[parameter.X()] = result & BOUND;
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -528,9 +528,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
-                registers[parameter.getFirstByte1()] = result & BOUND;
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final int result = registers[parameter.X()] * registers[parameter.Y()];
+                registers[parameter.X()] = result & BOUND;
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -546,9 +546,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] * registers[parameter.getFirstByte0()];
-                registers[parameter.getSecondByte1()] = result & BOUND;
-                if (registers[parameter.getSecondByte1()] == 0) {
+                final int result = registers[parameter.X()] * registers[parameter.Y()];
+                registers[parameter.N_Z()] = result & BOUND;
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -564,9 +564,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final boolean thereIsMod = registers[parameter.getFirstByte1()] % JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte()) > 1;
-                registers[parameter.getFirstByte1()] /= JavaEmuUtil.getLittleEndian(parameter.getSecondByte(), parameter.getThirdByte());
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final boolean thereIsMod = registers[parameter.X()] % parameter.HHLL() > 1;
+                registers[parameter.X()] /= parameter.HHLL();
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -583,9 +583,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final boolean thereIsMod = registers[parameter.getFirstByte1()] % registers[parameter.getFirstByte0()] > 1;
-                registers[parameter.getFirstByte1()] /= registers[parameter.getFirstByte0()];
-                if (registers[parameter.getFirstByte1()] == 0) {
+                final boolean thereIsMod = registers[parameter.X()] % registers[parameter.Y()] > 1;
+                registers[parameter.X()] /= registers[parameter.Y()];
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -601,9 +601,9 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final boolean thereIsMod = registers[parameter.getFirstByte1()] % registers[parameter.getFirstByte0()] > 1;
-                registers[parameter.getSecondByte1()] = registers[parameter.getFirstByte1()] / registers[parameter.getFirstByte0()];
-                if (registers[parameter.getSecondByte1()] == 0) {
+                final boolean thereIsMod = registers[parameter.X()] % registers[parameter.Y()] > 1;
+                registers[parameter.N_Z()] = registers[parameter.X()] / registers[parameter.Y()];
+                if (registers[parameter.N_Z()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -619,10 +619,10 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] << parameter.getSecondByte1();
-                registers[parameter.getFirstByte1()] = result & BOUND;
+                final int result = registers[parameter.X()] << parameter.N_Z();
+                registers[parameter.X()] = result & BOUND;
 
-                if (registers[parameter.getFirstByte1()] == 0) {
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;
@@ -638,10 +638,10 @@ public class CPU {
 
             @Override
             public void execute(OpCodeParameter parameter) {
-                final int result = registers[parameter.getFirstByte1()] >> parameter.getSecondByte1();
-                registers[parameter.getFirstByte1()] = result & BOUND;
+                final int result = registers[parameter.X()] >> parameter.N_Z();
+                registers[parameter.X()] = result & BOUND;
 
-                if (registers[parameter.getFirstByte1()] == 0) {
+                if (registers[parameter.X()] == 0) {
                     flags[FLAG.ZERO.ordinal()] = true;
                 } else {
                     flags[FLAG.ZERO.ordinal()] = false;

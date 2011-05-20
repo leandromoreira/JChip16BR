@@ -1,62 +1,45 @@
 package br.com.leandromoreira.chip16.cpu;
 
+import br.com.leandromoreira.chip16.util.JavaEmuUtil;
+
 /**
  * @author leandro-rm
  */
 public class OpCodeParameter {
-    private final short firstByte,secondByte,thirdByte;
+    private final short secondByte,thirdByte;
     private final short firstByte0;
     private final short firstByte1;
-    private final short secondByte0;
     private final short secondByte1;
-    private final short thirdByte0;
-    private final short thirdByte1;
 
     public OpCodeParameter(short firstByte, short secondByte, short thirdByte) {
-        this.firstByte = firstByte;
         this.secondByte = secondByte;
         this.thirdByte = thirdByte;
         firstByte0 = (short) (firstByte >> 4);
         firstByte1 = (short) (firstByte & 0xF);
-        secondByte0 = (short) (secondByte >> 4);
         secondByte1 = (short) (secondByte & 0xF);
-        thirdByte0 = (short) (thirdByte >> 4);
-        thirdByte1 = (short) (thirdByte & 0xF);
     }
 
-    public short getFirstByte() {
-        return firstByte;
-    }
-
-    public short getFirstByte0() {
+    public short Y() {
         return firstByte0;
     }
 
-    public short getFirstByte1() {
+    public short X() {
         return firstByte1;
     }
 
-    public short getSecondByte() {
+    public short LL() {
         return secondByte;
     }
 
-    public short getSecondByte0() {
-        return secondByte0;
-    }
-
-    public short getSecondByte1() {
+    public short N_Z() {
         return secondByte1;
     }
 
-    public short getThirdByte() {
+    public short HH() {
         return thirdByte;
     }
-
-    public short getThirdByte0() {
-        return thirdByte0;
-    }
-
-    public short getThirdByte1() {
-        return thirdByte1;
+    
+    public int HHLL(){
+        return JavaEmuUtil.getLittleEndian(LL(), HH());
     }
 }
