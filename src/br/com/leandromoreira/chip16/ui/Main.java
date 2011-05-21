@@ -781,7 +781,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Games/Reflection.c16"), jPnScreen.getGraphics());
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/Anim.c16"), jPnScreen.getGraphics());
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
