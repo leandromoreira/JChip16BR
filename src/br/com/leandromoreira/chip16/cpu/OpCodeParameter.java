@@ -6,37 +6,37 @@ import br.com.leandromoreira.chip16.util.JavaEmuUtil;
  * @author leandro-rm
  */
 public class OpCodeParameter {
-    private final short secondByte,thirdByte;
-    private final short firstByte0;
-    private final short firstByte1;
-    private final short secondByte1;
+    private final short ll,hh;
+    private final short y;
+    private final short x;
+    private final short nOrZ;
 
     public OpCodeParameter(short firstByte, short secondByte, short thirdByte) {
-        this.secondByte = secondByte;
-        this.thirdByte = thirdByte;
-        firstByte0 = (short) (firstByte >> 4);
-        firstByte1 = (short) (firstByte & 0xF);
-        secondByte1 = (short) (secondByte & 0xF);
+        this.ll = secondByte;
+        this.hh = thirdByte;
+        y = (short) (firstByte >> 4);
+        x = (short) (firstByte & 0xF);
+        nOrZ = (short) (secondByte & 0xF);
     }
 
     public short Y() {
-        return firstByte0;
+        return y;
     }
 
     public short X() {
-        return firstByte1;
+        return x;
     }
 
     public short LL() {
-        return secondByte;
+        return ll;
     }
 
     public short N_Z() {
-        return secondByte1;
+        return nOrZ;
     }
 
     public short HH() {
-        return thirdByte;
+        return hh;
     }
     
     public int HHLL(){

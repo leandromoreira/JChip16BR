@@ -205,7 +205,7 @@ public class CPU {
             }
         };
         instructions[JME] = new DefaultInstruction() {
-
+            //JME RX, RY, HHLL	Jump to the specified address if value in register X is equal to value in register Y.
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (registers[parameter.X()] == registers[parameter.Y()]) {
@@ -217,7 +217,7 @@ public class CPU {
             }
         };
         instructions[CALL] = new DefaultInstruction() {
-
+            //CALL HHLL		Call subroutine at the specified address. Store PC to stack beforehand. Increase SP by 2.
             @Override
             public void execute(OpCodeParameter parameter) {
                 programCounter += 4;
@@ -229,7 +229,7 @@ public class CPU {
             }
         };
         instructions[RET] = new DefaultInstruction() {
-
+            //RET			Return from a subroutine. Get PC from stack. Decrease SP by 2.
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer -= 2;
@@ -238,42 +238,42 @@ public class CPU {
             }
         };
         instructions[LDI_RX] = new DefaultInstruction() {
-
+            //LDI RX, HHLL		Load immediate value to register X.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = parameter.HHLL();
             }
         };
         instructions[LDI_SP] = new DefaultInstruction() {
-
+            //LDI SP, HHLL		Point SP to the specified address. Does not move existing values in memory to new location.
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer = parameter.HHLL();
             }
         };
         instructions[LDM_HHLL] = new DefaultInstruction() {
-
+            //LDM RX, HHLL		Load register X with the 16bit value at the specified address.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = memory.readFrom(parameter.HHLL());
             }
         };
         instructions[LDM_RY] = new DefaultInstruction() {
-
+            //LDM RX, RY		Load register X with the 16bit value at the specified address pointed by register Y.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = memory.readFrom(registers[parameter.Y()]);
             }
         };
         instructions[MOV] = new DefaultInstruction() {
-
+            //MOV RX, RY		Copy data from register Y to register X.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = registers[parameter.Y()];
             }
         };
         instructions[STM_HHLL] = new DefaultInstruction() {
-
+            //STM RX, HHLL		Store value of register X at the specified address.
             @Override
             public void execute(OpCodeParameter parameter) {
                 memory.writeAt(parameter.HHLL(), (short) (registers[parameter.X()] & 0xFF));
@@ -281,7 +281,7 @@ public class CPU {
             }
         };
         instructions[STM_RY] = new DefaultInstruction() {
-
+            //STM RX, RY		Store value of register X at the specified address pointed by register Y.
             @Override
             public void execute(OpCodeParameter parameter) {
                 memory.writeAt(registers[parameter.Y()], (short) (registers[parameter.X()] & 0xFF));
@@ -289,7 +289,7 @@ public class CPU {
             }
         };
         instructions[ADDI] = new DefaultInstruction() {
-
+            //ADDI RX			Add immediate value to register X. Affects carry flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] + parameter.HHLL();
@@ -307,7 +307,7 @@ public class CPU {
             }
         };
         instructions[ADD_RY] = new DefaultInstruction() {
-
+            //ADD RX, RY		Add value of register Y to register X. Result is stored in register X. Affects carry flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] + registers[parameter.Y()];
@@ -325,7 +325,7 @@ public class CPU {
             }
         };
         instructions[ADD_RZ] = new DefaultInstruction() {
-
+            //ADD RX, RY, RZ		Add value of register Y to register X. Result is stored in register Z. Affects carry flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] + registers[parameter.Y()];
@@ -343,7 +343,7 @@ public class CPU {
             }
         };
         instructions[SUBI] = new DefaultInstruction() {
-
+            //SUBI RX			Subtract immediate value from register X. Result is stored in register X. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] - parameter.HHLL();
@@ -362,7 +362,7 @@ public class CPU {
             }
         };
         instructions[SUB_RY] = new DefaultInstruction() {
-
+            //SUB RX, RY		Substract value of register Y from register X. Result is stored in register X. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] - registers[parameter.Y()];
@@ -380,7 +380,7 @@ public class CPU {
             }
         };
         instructions[SUB_RZ] = new DefaultInstruction() {
-
+            //SUB RX, RY, RZ		Substract value of register Y from register X. Result is stored in register Z. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] - registers[parameter.Y()];
@@ -398,7 +398,7 @@ public class CPU {
             }
         };
         instructions[ANDI] = new DefaultInstruction() {
-
+            //ANDI RX			AND immediate value with register X. Result is stored in register X. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] &= parameter.HHLL();
@@ -410,7 +410,7 @@ public class CPU {
             }
         };
         instructions[AND_RY] = new DefaultInstruction() {
-
+            //AND RX, RY		AND value of register Y with value of register X. Result is stored in register X. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] &= registers[parameter.Y()];
@@ -422,7 +422,7 @@ public class CPU {
             }
         };
         instructions[AND_RZ] = new DefaultInstruction() {
-
+            //AND RX, RY, RZ		AND value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.N_Z()] = registers[parameter.X()] & registers[parameter.Y()];
@@ -434,7 +434,7 @@ public class CPU {
             }
         };
         instructions[ORI] = new DefaultInstruction() {
-
+            //ORI RX			OR immediate value with register X. Result is stored in register X. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] |= parameter.HHLL();
@@ -446,7 +446,7 @@ public class CPU {
             }
         };
         instructions[OR_RY] = new DefaultInstruction() {
-
+            //OR RX, RY		OR value of register Y with value of register X. Result is stored in register X. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] |= registers[parameter.Y()];
@@ -458,7 +458,7 @@ public class CPU {
             }
         };
         instructions[OR_RZ] = new DefaultInstruction() {
-
+            //OR RX, RY, RZ		OR value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.N_Z()] = registers[parameter.X()] | registers[parameter.Y()];
@@ -470,7 +470,7 @@ public class CPU {
             }
         };
         instructions[XORI] = new DefaultInstruction() {
-
+            //XORI RX			XOR immediate value with register X. Result is stored in register X. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] ^= parameter.HHLL();
@@ -482,7 +482,7 @@ public class CPU {
             }
         };
         instructions[XOR_RY] = new DefaultInstruction() {
-
+            //XOR RX, RY		XOR value of register Y with value of register X. Result is stored in register X. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] ^= registers[parameter.Y()];
@@ -494,7 +494,7 @@ public class CPU {
             }
         };
         instructions[XOR_RZ] = new DefaultInstruction() {
-
+            //XOR RX, RY, RZ		XOR value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.N_Z()] = registers[parameter.X()] ^ registers[parameter.Y()];
@@ -506,7 +506,7 @@ public class CPU {
             }
         };
         instructions[MULI] = new DefaultInstruction() {
-
+            //MULI RX			Multiply immediate value with register X. Result is stored in register X. Affects carry flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] * parameter.HHLL();
@@ -525,7 +525,7 @@ public class CPU {
             }
         };
         instructions[MUL_RY] = new DefaultInstruction() {
-
+            //MUL RX, RY		Multiply value of register Y with value of register X. Result is stored in register X. Affects carry flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] * registers[parameter.Y()];
@@ -543,7 +543,7 @@ public class CPU {
             }
         };
         instructions[MUL_RZ] = new DefaultInstruction() {
-
+            //MUL RX, RY, RZ		Multiply value of register Y with value of register X. Result is stored in register Z. Affects carry flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] * registers[parameter.Y()];
@@ -561,7 +561,7 @@ public class CPU {
             }
         };
         instructions[DIVI] = new DefaultInstruction() {
-
+            //DIVI RX			Divide immediate value with register X. Result is stored in register X. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final boolean thereIsMod = registers[parameter.X()] % parameter.HHLL() > 1;
@@ -580,7 +580,7 @@ public class CPU {
             }
         };
         instructions[DIV_RY] = new DefaultInstruction() {
-
+            //DIV RX, RY		Divide value of register Y with value of register X. Result is stored in register X. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final boolean thereIsMod = registers[parameter.X()] % registers[parameter.Y()] > 1;
@@ -598,7 +598,7 @@ public class CPU {
             }
         };
         instructions[DIV_RZ] = new DefaultInstruction() {
-
+            //DIV RX, RY, RZ		Divide value of register Y with value of register X. Result is stored in register Z. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final boolean thereIsMod = registers[parameter.X()] % registers[parameter.Y()] > 1;
@@ -616,7 +616,7 @@ public class CPU {
             }
         };
         instructions[SHL] = new DefaultInstruction() {
-
+            //SHL RX, N		Shift value in register X left N times. Affects borrow flag and zero flag.
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] << parameter.N_Z();
@@ -635,7 +635,7 @@ public class CPU {
             }
         };
         instructions[SHR] = new DefaultInstruction() {
-
+            //SHR RX, N		Shift value in register X right N times. Affects carry flag and zero flag.*/
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] >> parameter.N_Z();
