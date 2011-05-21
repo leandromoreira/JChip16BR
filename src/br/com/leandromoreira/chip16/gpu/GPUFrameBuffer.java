@@ -7,8 +7,8 @@ import br.com.leandromoreira.chip16.cpu.Memory;
  */
 public class GPUFrameBuffer implements GPU {
 
-    private Color[][] screen = new Color[WIDTH][HEIGHT];
-    private Color backgroundColor;
+    private short[][] screen = new short[WIDTH][HEIGHT];
+    private short backgroundColor;
     private Sprite currentSprite;
     private final Memory memory;
     private int initAddressSprite;
@@ -19,17 +19,12 @@ public class GPUFrameBuffer implements GPU {
 
     @Override
     public void clear() {
-        screen = new Color[WIDTH][HEIGHT];
-        for (int x = 0; x < HEIGHT; x++) {
-            for (int y = 0; y < WIDTH; y++) {
-                screen[y][x] = Colors.getColor(0);
-            }
-        }
+        screen = new short[WIDTH][HEIGHT];
     }
 
     @Override
     public void setBackgroundColor(short colorIndex) {
-        backgroundColor = Colors.getColor(colorIndex);
+        backgroundColor = colorIndex;
     }
 
     @Override
@@ -47,14 +42,11 @@ public class GPUFrameBuffer implements GPU {
         boolean flipFlop = true;
         for (int x = 0; x < currentSprite.getWidth(); x++) {
             for (int y = 0; y < currentSprite.getHeight(); y++) {
-                int colorIndex = (flipFlop) ? (memory.readFrom(spriteAddress) >> 4) : (memory.readFrom(spriteAddress) & 0xF);
-                final Color pixColor = (colorIndex == 0) ? backgroundColor : Colors.getColor(colorIndex);
-                if (screen[x + currentSprite.getX()][y + currentSprite.getY()] != null) {
-                    if (screen[x + currentSprite.getX()][y + currentSprite.getY()].getIndex() != 0) {
-                        spriteOverlapsOther = true;
-                    }
+                final short colorIndex = (short) ((flipFlop) ? (memory.readFrom(spriteAddress) >> 4) : (memory.readFrom(spriteAddress) & 0xF));                
+                if (screen[x + currentSprite.getX()][y + currentSprite.getY()] != 0) {
+                     spriteOverlapsOther = true;
                 }
-                screen[x + currentSprite.getX()][y + currentSprite.getY()] = pixColor;
+                screen[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
                 if (!flipFlop) {
                     spriteAddress++;
                 }
@@ -65,12 +57,12 @@ public class GPUFrameBuffer implements GPU {
     }
 
     @Override
-    public Color getBackgroundColor() {
+    public short getBackgroundColor() {
         return backgroundColor;
     }
 
     @Override
-    public Color[][] getScreen() {
+    public short[][] getScreen() {
         return screen;
     }
 

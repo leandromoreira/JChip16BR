@@ -5,6 +5,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
 import br.com.leandromoreira.chip16.gpu.Color;
+import br.com.leandromoreira.chip16.gpu.Colors;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.gpu.GPUFrameBuffer;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
@@ -124,7 +125,7 @@ public class Chip16Machine {
             this.gpu = gpu;
         }
         public String getBGColor(){
-            return (gpu.getBackgroundColor()==null)?"":gpu.getBackgroundColor().getDescription();
+            return (gpu.getBackgroundColor()==0)?"":Colors.getColor(0).getDescription();
         }
         public String getCurrentSprite(){
             return (gpu.getCurrentSprite()==null)?"":gpu.getCurrentSprite().toString();
@@ -161,10 +162,10 @@ public class Chip16Machine {
     
     public void drawFrame(Graphics graphics) {
         graphics = graphics.create();
-        Color[][] screen = gpu.getScreen();
+        short[][] screen = gpu.getScreen();
         for (int x = 0 ; x < GPUFrameBuffer.WIDTH ; x++){
             for (int y = 0; y < GPUFrameBuffer.HEIGHT ; y++){
-                if (screen[y][x]!=null){
+                if (screen[y][x]!=0){
                     graphics.setColor(wrapColor(screen[y][x]));
                     graphics.drawLine(x, y, x, y);
                 }else{
@@ -175,7 +176,8 @@ public class Chip16Machine {
         }
     }
 
-    private java.awt.Color wrapColor(final Color color) {
+    private java.awt.Color wrapColor(final short colorIndex) {
+        final Color color = Colors.getColor(colorIndex);
         if (color==null) return java.awt.Color.BLACK;
         return new  java.awt.Color(color.getR(), color.getG(), color.getB());
     }
