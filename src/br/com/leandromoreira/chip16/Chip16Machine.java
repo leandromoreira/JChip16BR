@@ -162,11 +162,11 @@ public class Chip16Machine {
     
     public void drawFrame(Graphics graphics) {
         graphics = graphics.create();
-        short[][] screen = gpu.getScreen();
+        short[][] screen = gpu.getFramebuffer();
         for (int x = 0 ; x < GPUFrameBuffer.WIDTH ; x++){
             for (int y = 0; y < GPUFrameBuffer.HEIGHT ; y++){
-                if (screen[y][x]!=0){
-                    graphics.setColor(wrapColor(screen[y][x]));
+                if (screen[x][y]!=0){
+                    graphics.setColor(wrapColor(screen[x][y]));
                     graphics.drawLine(x, y, x, y);
                 }else{
                     graphics.setColor(wrapColor(gpu.getBackgroundColor()));

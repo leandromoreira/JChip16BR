@@ -822,6 +822,7 @@ public class Main extends javax.swing.JFrame {
     private void keyRelesead(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyRelesead
         handleShortCuts(evt);
     }//GEN-LAST:event_keyRelesead
+    private boolean showAssemblerOnConsole = false;
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
         try {
@@ -852,7 +853,9 @@ public class Main extends javax.swing.JFrame {
             if (findRowCursor) {
                 jTblAssembler.setRowSelectionInterval(row, row);
                 scrollToCenter(jTblAssembler, row, 2);
-                System.out.println(jTblAssembler.getValueAt(row, 2));
+                if (showAssemblerOnConsole) {
+                    System.out.println(jTblAssembler.getValueAt(row, 2));
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. ["
                         + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");

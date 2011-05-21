@@ -38,12 +38,11 @@ public class GPUFrameBuffer implements GPU {
         initAddressSprite = spriteAddress;
         currentSprite.setX(xPosition);
         currentSprite.setY(yPosition);
-
         boolean flipFlop = true;
-        for (int x = 0; x < currentSprite.getWidth(); x++) {
-            for (int y = 0; y < currentSprite.getHeight(); y++) {
+        for (int y = 0; y < currentSprite.getHeight(); y++) {
+            for (int x = 0; x < currentSprite.getWidth(); x++) {
                 final short colorIndex = (short) ((flipFlop) ? (memory.readFrom(spriteAddress) >> 4) : (memory.readFrom(spriteAddress) & 0xF));                
-                if (screen[x + currentSprite.getX()][y + currentSprite.getY()] != 0) {
+                if (thereIsAnotherSprite(x, y)) {
                      spriteOverlapsOther = true;
                 }
                 screen[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
@@ -56,13 +55,17 @@ public class GPUFrameBuffer implements GPU {
         return spriteOverlapsOther;
     }
 
+    private boolean thereIsAnotherSprite(final int x,final int y) {
+        return screen[x + currentSprite.getX()][y + currentSprite.getY()] != 0;
+    }
+
     @Override
     public short getBackgroundColor() {
         return backgroundColor;
     }
 
     @Override
-    public short[][] getScreen() {
+    public short[][] getFramebuffer() {
         return screen;
     }
 
