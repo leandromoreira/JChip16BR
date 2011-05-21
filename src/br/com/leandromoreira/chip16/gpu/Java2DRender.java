@@ -18,7 +18,7 @@ public class Java2DRender implements Render {
     }
 
     @Override
-    public void drawPixel(int x, int y) {
+    public void drawAt(int x, int y) {
         graphics.drawLine(x, y, x, y);
     }
     

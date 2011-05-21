@@ -162,18 +162,7 @@ public class Chip16Machine {
     
     
     public void drawFrame(final Render render) {
-        final short[][] screen = gpu.getFramebuffer();
-        for (int y = 0; y < GPU.HEIGHT ; y++){
-            for (int x = 0 ; x < GPU.WIDTH ; x++){
-                if (screen[x][y]!=0){
-                    render.setColor(Colors.getColor(screen[x][y]));
-                    render.drawPixel(x, y);
-                }else{
-                    render.setColor(Colors.getColor(gpu.getBackgroundColor()));
-                    render.drawPixel(x, y);
-                }
-            }
-        }
+        gpu.drawFrame(render);
     }
 
     

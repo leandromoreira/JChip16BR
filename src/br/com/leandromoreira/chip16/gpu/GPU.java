@@ -8,6 +8,7 @@ public interface GPU {
     int HEIGHT = 240;    
     void clear();
     boolean drawSprite(final int spriteAddress,final int xPosition,final int yPosition);
+    void drawFrame(final Render render);
     short getBackgroundColor();
     Sprite getCurrentSprite();
     short[][] getFramebuffer();

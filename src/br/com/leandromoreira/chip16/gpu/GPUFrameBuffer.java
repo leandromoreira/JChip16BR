@@ -78,4 +78,19 @@ public class GPUFrameBuffer implements GPU {
     public int getSpriteAddress() {
         return initAddressSprite;
     }
+
+    @Override
+    public void drawFrame(final Render render) {
+        for (int y = 0; y < GPU.HEIGHT ; y++){
+            for (int x = 0 ; x < GPU.WIDTH ; x++){
+                if (screen[x][y]!=0){
+                    render.setColor(Colors.getColor(screen[x][y]));
+                    render.drawAt(x, y);
+                }else{
+                    render.setColor(Colors.getColor(getBackgroundColor()));
+                    render.drawAt(x, y);
+                }
+            }
+        }
+    }
 }
