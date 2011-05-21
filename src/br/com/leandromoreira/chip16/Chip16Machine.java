@@ -5,6 +5,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
 import br.com.leandromoreira.chip16.gpu.Color;
+import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.gpu.GPUFrameBuffer;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
@@ -118,8 +119,8 @@ public class Chip16Machine {
         }
     }
     public static class GPUInfo{
-        private final GPUFrameBuffer gpu;
-        public GPUInfo(GPUFrameBuffer gpu) {
+        private final GPU gpu;
+        public GPUInfo(GPU gpu) {
             this.gpu = gpu;
         }
         public String getBGColor(){
@@ -133,7 +134,7 @@ public class Chip16Machine {
         }
     }
     private final CPU cpu;
-    private final GPUFrameBuffer gpu;
+    private final GPU gpu;
     private final SPU spu;
     private final Memory memory;
     private final Chip16ROM rom;
@@ -203,7 +204,7 @@ public class Chip16Machine {
         return cpu;
     }
 
-    public GPUFrameBuffer getGpu() {
+    public GPU getGpu() {
         return gpu;
     }
 

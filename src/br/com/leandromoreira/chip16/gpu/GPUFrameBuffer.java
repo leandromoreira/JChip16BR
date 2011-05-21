@@ -7,7 +7,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
  */
 public class GPUFrameBuffer implements GPU {
 
-    private Color[][] screen = new Color[HEIGHT][WIDTH];
+    private Color[][] screen = new Color[WIDTH][HEIGHT];
     private Color backgroundColor;
     private Sprite currentSprite;
     private final Memory memory;
@@ -19,9 +19,9 @@ public class GPUFrameBuffer implements GPU {
 
     @Override
     public void clear() {
-        screen = new Color[HEIGHT][WIDTH];
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        screen = new Color[WIDTH][HEIGHT];
+        for (int x = 0; x < HEIGHT; x++) {
+            for (int y = 0; y < WIDTH; y++) {
                 screen[y][x] = Colors.getColor(0);
             }
         }
@@ -44,28 +44,17 @@ public class GPUFrameBuffer implements GPU {
         currentSprite.setX(xPosition);
         currentSprite.setY(yPosition);
 
-        /*int startAdddress = spriteAddress;
-        int endAddress = startAdddress + (currentSprite.size()/2);
-        
-        while (startAdddress<endAddress){
-        int colorOne = memory.readFrom(startAdddress)>>4;
-        int colorTwo = memory.readFrom(startAdddress)&0xF;
-        System.out.print(Integer.toHexString(colorOne));
-        System.out.print(Integer.toHexString(colorTwo));
-        startAdddress++;
-        }*/
-
         boolean flipFlop = true;
         for (int x = 0; x < currentSprite.getWidth(); x++) {
             for (int y = 0; y < currentSprite.getHeight(); y++) {
                 int colorIndex = (flipFlop) ? (memory.readFrom(spriteAddress) >> 4) : (memory.readFrom(spriteAddress) & 0xF);
                 final Color pixColor = (colorIndex == 0) ? backgroundColor : Colors.getColor(colorIndex);
-                if (screen[y + currentSprite.getY()][x + currentSprite.getX()] != null) {
-                    if (screen[y + currentSprite.getY()][x + currentSprite.getX()].getIndex() != 0) {
+                if (screen[x + currentSprite.getX()][y + currentSprite.getY()] != null) {
+                    if (screen[x + currentSprite.getX()][y + currentSprite.getY()].getIndex() != 0) {
                         spriteOverlapsOther = true;
                     }
                 }
-                screen[y + currentSprite.getY()][x + currentSprite.getX()] = pixColor;
+                screen[x + currentSprite.getX()][y + currentSprite.getY()] = pixColor;
                 if (!flipFlop) {
                     spriteAddress++;
                 }
