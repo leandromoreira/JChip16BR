@@ -3,6 +3,7 @@ package br.com.leandromoreira.chip16.ui;
 import br.com.leandromoreira.chip16.Chip16Machine;
 import br.com.leandromoreira.chip16.debug.Breakpoint;
 import br.com.leandromoreira.chip16.debug.Debugger;
+import br.com.leandromoreira.chip16.gpu.Java2DRender;
 import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
@@ -781,7 +782,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Demos/Anim.c16"), jPnScreen.getGraphics());
+            machine = new Chip16Machine(new File("rom/ROMs/Games/MusicMaker.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -826,7 +827,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jBtnStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStepActionPerformed
         try {
-            machine.debugStep(jPnScreen.getGraphics().create());
+            machine.debugStep(new Java2DRender(jPnScreen.getGraphics().create()));
             moveCursor(Integer.valueOf(machine.getCPUInfo().getPC(), 16));
             fillRegisters();
             fillStack();
@@ -935,7 +936,7 @@ public class Main extends javax.swing.JFrame {
                 int desiredFPS = 1000 / 60;
                 while (true) {
                     machine.cpuStep();
-                    machine.drawFrame(jPnScreen.getGraphics());
+                    machine.drawFrame(new Java2DRender(jPnScreen.getGraphics()));
                     sleep(desiredFPS);
                 }
             }

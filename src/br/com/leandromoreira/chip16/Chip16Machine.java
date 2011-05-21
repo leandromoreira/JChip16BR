@@ -5,16 +5,15 @@ import br.com.leandromoreira.chip16.cpu.Chip16CPU;
 import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
-import br.com.leandromoreira.chip16.gpu.Color;
 import br.com.leandromoreira.chip16.gpu.Colors;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.gpu.GPUFrameBuffer;
+import br.com.leandromoreira.chip16.gpu.Render;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.rom.ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
 import br.com.leandromoreira.chip16.spu.SPUJavaSound;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
-import java.awt.Graphics;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -144,7 +143,7 @@ public class Chip16Machine {
     private final CPUInfo CPUInfo;
     private final GPUInfo GPUInfo;
 
-    public Chip16Machine(final File romFile,final Graphics graphics) {
+    public Chip16Machine(final File romFile) {
         memory = new Memory();
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPUFrameBuffer(memory);
@@ -154,34 +153,27 @@ public class Chip16Machine {
         GPUInfo = new GPUInfo(gpu);
     }
     
-    public void debugStep(Graphics graphics) {
+    public void debugStep(final Render render) {
         resetVBlank();
         cpuStep();
-        drawFrame(graphics);
+        drawFrame(render);
         raiseVBlank();
     }
     
     
-    public void drawFrame(Graphics graphics) {
-        graphics = graphics.create();
+    public void drawFrame(final Render render) {
         final short[][] screen = gpu.getFramebuffer();
         for (int y = 0; y < GPU.HEIGHT ; y++){
             for (int x = 0 ; x < GPU.WIDTH ; x++){
                 if (screen[x][y]!=0){
-                    graphics.setColor(wrapColor(screen[x][y]));
-                    graphics.drawLine(x, y, x, y);
+                    render.setColor(Colors.getColor(screen[x][y]));
+                    render.drawPixel(x, y);
                 }else{
-                    graphics.setColor(wrapColor(gpu.getBackgroundColor()));
-                    graphics.drawLine(x, y, x, y);
+                    render.setColor(Colors.getColor(gpu.getBackgroundColor()));
+                    render.drawPixel(x, y);
                 }
             }
         }
-    }
-
-    private java.awt.Color wrapColor(final short colorIndex) {
-        final Color color = Colors.getColor(colorIndex);
-        if (color==null) return java.awt.Color.BLACK;
-        return new  java.awt.Color(color.getR(), color.getG(), color.getB());
     }
 
     
