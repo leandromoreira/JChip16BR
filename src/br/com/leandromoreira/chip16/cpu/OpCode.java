@@ -56,7 +56,7 @@ public class OpCode {
     public static final int SHL = 0xB0;
     public static final int SHR = 0xB1;
 
-    public static String assembler(int opCode,short firstByte, short secondByte, short thirdByte) {
+    public static String assembler(final int opCode,final short firstByte, short secondByte,final short thirdByte) {
         final OpCodeParameter parameter = new OpCodeParameter(firstByte, secondByte, thirdByte);
         switch(opCode){
             case 0:

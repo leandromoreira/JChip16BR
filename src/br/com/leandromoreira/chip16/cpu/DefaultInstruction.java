@@ -7,7 +7,7 @@ public abstract class DefaultInstruction implements Instruction{
     private int sumToPC = 4;
 
     @Override
-    public void setSumToPC(int sumToPC) {
+    public void setSumToPC(final int sumToPC) {
         this.sumToPC = sumToPC;
     }
 

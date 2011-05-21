@@ -6,7 +6,7 @@ package br.com.leandromoreira.chip16.debug;
 public class Breakpoint {
     private final int programCounter;
 
-    public Breakpoint(int programCounter) {
+    public Breakpoint(final int programCounter) {
         this.programCounter = programCounter;
     }
     public int getProgramCounter() {
@@ -14,7 +14,7 @@ public class Breakpoint {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }

@@ -20,18 +20,18 @@ public class SyntheticSoundGenerator {
     private byte byteBuffer[];
     private Clip lineClip;
 
-    public SyntheticSoundGenerator(double freq) {
+    public SyntheticSoundGenerator(final double freq) {
         this.frequency = freq;
     }
 
-    private void createLineClip(double secs) {
+    private void createLineClip(final double secs) {
         sampleRate = 44100.0;
         amplitude = 1;
         seconds = secs;
         twoPiF = 2 * Math.PI * frequency;
 
-        boolean bigEndian = false;
-        boolean signed = true;
+        final boolean bigEndian = false;
+        final boolean signed = true;
         format = new AudioFormat((int) sampleRate, 16, 1, signed,
                 bigEndian);
 
@@ -43,8 +43,7 @@ public class SyntheticSoundGenerator {
             buffer[sample] = (float) (amplitude * Math.sin(twoPiF * time));
         }
 
-        DataLine.Info info = new DataLine.Info(Clip.class,
-                format);
+        final DataLine.Info info = new DataLine.Info(Clip.class,format);
         if (!AudioSystem.isLineSupported(info)) {
         }
         /*Obtain and open the line.*/
@@ -71,7 +70,7 @@ public class SyntheticSoundGenerator {
         }
     }
 
-    public void playFor(int milliseconds) {
+    public void playFor(final int milliseconds) {
         createLineClip(milliseconds / 1000);
         lineClip.start();
     }

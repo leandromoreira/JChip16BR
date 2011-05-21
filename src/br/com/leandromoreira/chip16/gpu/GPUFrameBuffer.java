@@ -13,7 +13,7 @@ public class GPUFrameBuffer implements GPU {
     private final Memory memory;
     private int initAddressSprite;
 
-    public GPUFrameBuffer(Memory memory) {
+    public GPUFrameBuffer(final Memory memory) {
         this.memory = memory;
     }
 
@@ -23,17 +23,17 @@ public class GPUFrameBuffer implements GPU {
     }
 
     @Override
-    public void setBackgroundColor(short colorIndex) {
+    public void setBackgroundColor(final short colorIndex) {
         backgroundColor = colorIndex;
     }
 
     @Override
-    public void setSprite(short width, short height) {
+    public void setSprite(final short width,final short height) {
         currentSprite = new Sprite(width, height);
     }
 
     @Override
-    public boolean drawSprite(int spriteAddress, int xPosition, int yPosition) {
+    public boolean drawSprite(int spriteAddress,final int xPosition,final int yPosition) {
         boolean spriteOverlapsOther = false;
         initAddressSprite = spriteAddress;
         currentSprite.setX(xPosition);

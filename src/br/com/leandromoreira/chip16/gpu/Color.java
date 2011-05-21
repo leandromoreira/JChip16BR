@@ -9,7 +9,7 @@ public class Color {
     private final String description;
     private final int index;
 
-    Color(String colorDescription, String colorRGB,int index) {
+    Color(final String colorDescription, final String colorRGB,final int index) {
         this.description = colorDescription;
         this.r = getR(colorRGB);
         this.g = getG(colorRGB);
@@ -17,15 +17,15 @@ public class Color {
         this.index = index;
     }
 
-    private int getR(String rgb) {
+    private int getR(final String rgb) {
         return Integer.valueOf(rgb.substring(rgb.length()-6, rgb.length()-4),16);
     }
 
-    private int getG(String rgb) {
+    private int getG(final String rgb) {
         return Integer.valueOf(rgb.substring(rgb.length()-4, rgb.length()-2),16);
     }
 
-    private int getB(String rgb) {
+    private int getB(final String rgb) {
         return Integer.valueOf(rgb.substring(rgb.length()-2, rgb.length()),16);
     }
 

@@ -8,7 +8,7 @@ public class Sprite {
     private final short height;
     private int x,y;
 
-    public Sprite(short width, short height) {
+    public Sprite(final short width,final short height) {
         this.width = (short) (width * 2);
         this.height = height;
     }

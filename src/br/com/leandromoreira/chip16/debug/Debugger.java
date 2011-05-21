@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Debugger {
     public static final String DEBUGGER_CHR = "♦";
-    private List<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
+    private final List<Breakpoint> breakpoints = new ArrayList<Breakpoint>();
     public void add(final Breakpoint breakpoint){
         breakpoints.add(breakpoint);
     }

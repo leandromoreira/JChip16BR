@@ -11,7 +11,7 @@ public class OpCodeParameter {
     private final short x;
     private final short nOrZ;
 
-    public OpCodeParameter(short firstByte, short secondByte, short thirdByte) {
+    public OpCodeParameter(final short firstByte,final short secondByte,final short thirdByte) {
         this.ll = secondByte;
         this.hh = thirdByte;
         y = (short) (firstByte >> 4);

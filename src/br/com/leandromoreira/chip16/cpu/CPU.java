@@ -43,15 +43,15 @@ public class CPU {
         initInstructionTable();
     }
 
-    public int getRegister(int number) {
+    public int getRegister(final int number) {
         return registers[number];
     }
 
-    public void setVBlank(boolean value) {
+    public void setVBlank(final boolean value) {
         flags[FLAG.VBLANK.ordinal()] = value;
     }
 
-    public boolean getFlag(int number) {
+    public boolean getFlag(final int number) {
         return flags[number];
     }
 

@@ -26,6 +26,7 @@ public final class Colors {
                 colors.put(index, new Color(colorDescription, colorRGB,index));
             }
         } catch (Exception e) {
+            //todo: offer default colors
         }
     }
 

@@ -16,16 +16,16 @@ public class JavaEmuUtil {
         return (short) (readbuffer.get() & 0xff);
     }
 
-    public static String getHexadecimal2Formatted(short value) {
+    public static String getHexadecimal2Formatted(final short value) {
         return formatHexadecimalWith(2, value);
     }
 
-    public static String getHexadecimal4Formatted(int value) {
+    public static String getHexadecimal4Formatted(final int value) {
         return formatHexadecimalWith(4, value);
     }
 
-    private static String formatHexadecimalWith(int size, int value) {
-        int hexaSize = Integer.toHexString(value).toUpperCase().length();
+    private static String formatHexadecimalWith(final int size,final  int value) {
+        final int hexaSize = Integer.toHexString(value).toUpperCase().length();
         String address = "0x";
         for (int i = 0; i < (size - hexaSize); i++) {
             address += "0";

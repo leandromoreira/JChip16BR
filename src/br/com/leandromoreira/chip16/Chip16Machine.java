@@ -9,6 +9,7 @@ import br.com.leandromoreira.chip16.gpu.Colors;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.gpu.GPUFrameBuffer;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
+import br.com.leandromoreira.chip16.rom.ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
 import br.com.leandromoreira.chip16.spu.SPUJavaSound;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
@@ -115,13 +116,13 @@ public class Chip16Machine {
             return getRegister(15);
         }
 
-        private String getRegister(int number) {
+        private String getRegister(final int number) {
             return JavaEmuUtil.getHexadecimal4Formatted(cpu.getRegister(number));
         }
     }
     public static class GPUInfo{
         private final GPU gpu;
-        public GPUInfo(GPU gpu) {
+        public GPUInfo(final GPU gpu) {
             this.gpu = gpu;
         }
         public String getBGColor(){
@@ -138,7 +139,7 @@ public class Chip16Machine {
     private final GPU gpu;
     private final SPU spu;
     private final Memory memory;
-    private final Chip16ROM rom;
+    private final ROM rom;
     private final CPUInfo CPUInfo;
     private final GPUInfo GPUInfo;
 
@@ -163,8 +164,8 @@ public class Chip16Machine {
     public void drawFrame(Graphics graphics) {
         graphics = graphics.create();
         short[][] screen = gpu.getFramebuffer();
-        for (int y = 0; y < GPUFrameBuffer.HEIGHT ; y++){
-            for (int x = 0 ; x < GPUFrameBuffer.WIDTH ; x++){
+        for (int y = 0; y < GPU.HEIGHT ; y++){
+            for (int x = 0 ; x < GPU.WIDTH ; x++){
                 if (screen[x][y]!=0){
                     graphics.setColor(wrapColor(screen[x][y]));
                     graphics.drawLine(x, y, x, y);
@@ -214,7 +215,7 @@ public class Chip16Machine {
         return memory;
     }
 
-    public Chip16ROM getRom() {
+    public ROM getRom() {
         return rom;
     }
     public String getFormattedStack(){
@@ -240,7 +241,7 @@ public class Chip16Machine {
     public static class Assembler{
         private final String line;
         private final int pc;
-        public Assembler(String line, int pc) {
+        public Assembler(final String line,final  int pc) {
             this.line = line;
             this.pc = pc;
         }
@@ -254,11 +255,11 @@ public class Chip16Machine {
     public List<Assembler> getAssembler(){
         final List<Assembler> values = new LinkedList<Assembler>();
         for (int i = 0; i < rom.getLength();) {
-            short opCodeAddress = (short) i;
-            short opCode = getMemory().readFrom(i++);
-            short firstByte = getMemory().readFrom(i++);
-            short secondByte = getMemory().readFrom(i++);
-            short thirdByte = getMemory().readFrom(i++);
+            final short opCodeAddress = (short) i;
+            final short opCode = getMemory().readFrom(i++);
+            final short firstByte = getMemory().readFrom(i++);
+            final short secondByte = getMemory().readFrom(i++);
+            final short thirdByte = getMemory().readFrom(i++);
             values.add(new Assembler(OpCode.assembler(opCode,firstByte,secondByte,thirdByte), opCodeAddress) );
         }
         return values;

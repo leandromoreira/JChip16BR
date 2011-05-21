@@ -8,17 +8,17 @@ public class SPUJavaSound implements SPU{
     private static SyntheticSoundGenerator generator1000 = new SyntheticSoundGenerator(1000);
     private static SyntheticSoundGenerator generator1500 = new SyntheticSoundGenerator(1500);
     @Override
-    public void play500Mhz(int ms) {
+    public void play500Mhz(final int ms) {
         generator500.playFor(ms);
     }
 
     @Override
-    public void play1000Mhz(int ms) {
+    public void play1000Mhz(final int ms) {
         generator1000.playFor(ms);
     }
 
     @Override
-    public void play1500Mhz(int ms) {
+    public void play1500Mhz(final int ms) {
         generator1500.playFor(ms);
     }
 
@@ -29,7 +29,7 @@ public class SPUJavaSound implements SPU{
         stop(generator1500);
     }
 
-    private void stop(SyntheticSoundGenerator generator) {
+    private void stop(final SyntheticSoundGenerator generator) {
         generator.stop();
     }
     

@@ -9,14 +9,14 @@ import static br.com.leandromoreira.chip16.cpu.MemoryMap.*;
 /**
  * @author leandro-rm
  */
-public class Chip16ROM {
+public class Chip16ROM implements ROM {
 
     private final String titleName;
     private final ByteBuffer rom;
     private final Memory memory;
     private final long length;
 
-    public Chip16ROM(String title, File file, Memory memory) {
+    public Chip16ROM(final String title,final File file,final Memory memory) {
         this.titleName = title;
         this.rom = Loader.load(file);
         length = file.length();
@@ -24,7 +24,7 @@ public class Chip16ROM {
         fillMemory();
     }
 
-    public Chip16ROM(File file, Memory memory) {
+    public Chip16ROM(final File file,final Memory memory) {
         this.titleName = "NO NAME";
         this.rom = Loader.load(file).asReadOnlyBuffer();
         length = file.length();
@@ -42,14 +42,17 @@ public class Chip16ROM {
         }
     }
 
+    @Override
     public ByteBuffer getRom() {
         return rom;
     }
 
+    @Override
     public String getTitleName() {
         return titleName;
     }
 
+    @Override
     public long getLength() {
         return length;
     }
