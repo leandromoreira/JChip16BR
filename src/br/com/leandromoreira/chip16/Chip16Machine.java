@@ -1,6 +1,7 @@
 package br.com.leandromoreira.chip16;
 
 import br.com.leandromoreira.chip16.cpu.CPU;
+import br.com.leandromoreira.chip16.cpu.Chip16CPU;
 import br.com.leandromoreira.chip16.cpu.Memory;
 import br.com.leandromoreira.chip16.cpu.MemoryMap;
 import br.com.leandromoreira.chip16.cpu.OpCode;
@@ -148,7 +149,7 @@ public class Chip16Machine {
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPUFrameBuffer(memory);
         spu = new SPUJavaSound();
-        cpu = new CPU(memory, gpu,spu);
+        cpu = new Chip16CPU(memory, gpu,spu);
         CPUInfo = new CPUInfo(cpu);
         GPUInfo = new GPUInfo(gpu);
     }
@@ -163,7 +164,7 @@ public class Chip16Machine {
     
     public void drawFrame(Graphics graphics) {
         graphics = graphics.create();
-        short[][] screen = gpu.getFramebuffer();
+        final short[][] screen = gpu.getFramebuffer();
         for (int y = 0; y < GPU.HEIGHT ; y++){
             for (int x = 0 ; x < GPU.WIDTH ; x++){
                 if (screen[x][y]!=0){
@@ -185,10 +186,11 @@ public class Chip16Machine {
 
     
     public void raiseVBlank() {
-        cpu.setVBlank(true);
+        cpu.setFlag(Chip16CPU.FLAG.VBLANK.ordinal(), true);
     }
+    
     private void resetVBlank() {
-        cpu.setVBlank(false);
+        cpu.setFlag(Chip16CPU.FLAG.VBLANK.ordinal(), false);
     }
 
     public void cpuStep() {
