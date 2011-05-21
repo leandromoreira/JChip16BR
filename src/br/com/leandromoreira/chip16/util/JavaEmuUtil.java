@@ -19,7 +19,10 @@ public class JavaEmuUtil {
     public static String getHexadecimal2Formatted(final short value) {
         return formatHexadecimalWith(2, value);
     }
-
+    
+    public static String getHexadecimal2Formatted(final int value) {
+        return formatHexadecimalWith(2, value);
+    }
     public static String getHexadecimal4Formatted(final int value) {
         return formatHexadecimalWith(4, value);
     }

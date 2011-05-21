@@ -59,106 +59,106 @@ public class OpCode {
     public static String assembler(final int opCode,final short firstByte, short secondByte,final short thirdByte) {
         final OpCodeParameter parameter = new OpCodeParameter(firstByte, secondByte, thirdByte);
         switch(opCode){
-            case 0:
+            case NOP:
                 return "NOP";
-            case 1:
+            case CLS:
                 return "CLS";
-            case 2:
+            case VBLNK:
                 return "VBLNK";
-            case 3:
+            case BGC:
                 return "BGC "+(parameter.N_Z()); 
-            case 4:
+            case SPR:
                 return "SPR #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
-            case 5:
+            case DRW_HHL:
                 return "DRW R"+hexa(parameter.X())+", R"+hexa(parameter.Y())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
-            case 6:
+            case DRW_RZ:
                 return "DRW R"+hexa(parameter.X())+", R"+hexa(parameter.Y())+", R"+hexa(parameter.N_Z());
-            case 7:
+            case RND:
                 return "RND R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
-            case 8:
+            case NOP_FUTURE:
                 return "NOP";
-            case 9:
+            case SND0:
                 return "SND0";              
-            case 0XA:
+            case SND1:
                 return "SND1 "+JavaEmuUtil.getLittleEndian(secondByte, thirdByte);                
-            case 0XB:
+            case SND2:
                 return "SND2 "+JavaEmuUtil.getLittleEndian(secondByte, thirdByte);                
-            case 0XC:
+            case SND3:
                 return "SND3 "+JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
-            case 0X10:
+            case JMP:
                 return "JMP #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X11:
+            case JMC:
                 return "JMC #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                                
-            case 0X12:
+            case JMZ:
                 return "JMZ #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                                
-            case 0X13:
+            case JME:
                 return "JME R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) +" , #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                                
-            case 0X14:
+            case CALL:
                 return "CALL #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                                
-            case 0X15:
+            case RET:
                 return "RET"; 
-            case 0X20:
+            case LDI_RX:
                 return "LDI R"+hexa(parameter.X())+", #"+ (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
-            case 0X21:
-                return "LDI SP, "+hexa(thirdByte)+hexa(secondByte);                
-            case 0X22:
+            case LDI_SP:
+                return "LDI SP, #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
+            case LDM_HHLL:
                 return "LDM R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X23:
+            case LDM_RY:
                 return "LDM R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X24:
+            case MOV:
                 return "MOV R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X30:
+            case STM_HHLL:
                 return "STM R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X31:
+            case STM_RY:
                 return "STM R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                                
-            case 0X40:
+            case ADDI:
                 return "ADDI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X41:
+            case ADD_RY:
                 return "ADD R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X42:
+            case ADD_RZ:
                 return "ADD R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                                
-            case 0X50:
+            case SUBI:
                 return "SUBI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X51:
+            case SUB_RY:
                 return "SUB R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X52:
+            case SUB_RZ:
                 return "SUB R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                
-            case 0X60:
+            case ANDI:
                 return "ANDI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X61:
+            case AND_RY:
                 return "AND R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X62:
+            case AND_RZ:
                 return "AND R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                
-            case 0X70:
+            case ORI:
                 return "ORI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X71:
+            case OR_RY:
                 return "OR R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X72:
+            case OR_RZ:
                 return "OR R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                
-            case 0X80:
+            case XORI:
                 return "XORI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X81:
+            case XOR_RY:
                 return "XOR R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X82:
+            case XOR_RZ:
                 return "XOR R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                
-            case 0X90:
+            case MULI:
                 return "MULI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0X91:
+            case MUL_RY:
                 return "MUL R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0X92:
+            case MUL_RZ:
                 return "MUL R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                
-            case 0XA0:
+            case DIVI:
                 return "DIVI R"+hexa(parameter.X())+", #"+(hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));                
-            case 0XA1:
+            case DIV_RY:
                 return "DIV R"+hexa(parameter.X())+", R"+hexa(parameter.Y());                
-            case 0XA2:
+            case DIV_RZ:
                 return "DIV R"+hexa(parameter.X())+", R"+hexa(parameter.Y()) + ", R"+hexa(parameter.N_Z());                
-            case 0XB0:
+            case SHL:
                 return "SHL R"+hexa(parameter.X())+", "+parameter.N_Z();                
-            case 0XB1:
+            case SHR:
                 return "SHR R"+hexa(parameter.X())+", "+parameter.N_Z();                                
             default:
-                return "ILLEGAL";
+                return "UNKNOWN - " + JavaEmuUtil.getHexadecimal2Formatted(opCode) + " " + JavaEmuUtil.getHexadecimal2Formatted(firstByte) + " "  + JavaEmuUtil.getHexadecimal2Formatted(secondByte) + " " + JavaEmuUtil.getHexadecimal2Formatted(thirdByte);
         }
     }
     private static String hexa(short value) {
