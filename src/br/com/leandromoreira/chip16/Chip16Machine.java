@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class Chip16Machine {
 
-
     public static class CPUInfo {
 
         private final CPU cpu;
@@ -120,19 +119,25 @@ public class Chip16Machine {
             return JavaEmuUtil.getHexadecimal4Formatted(cpu.getRegister(number));
         }
     }
-    public static class GPUInfo{
+
+    public static class GPUInfo {
+
         private final GPU gpu;
+
         public GPUInfo(final GPU gpu) {
             this.gpu = gpu;
         }
-        public String getBGColor(){
-            return (gpu.getBackgroundColor()==0)?"":Colors.getColor(0).getDescription();
+
+        public String getBGColor() {
+            return (gpu.getBackgroundColor() == 0) ? "" : Colors.getColor(0).getDescription();
         }
-        public String getCurrentSprite(){
-            return (gpu.getCurrentSprite()==null)?"":gpu.getCurrentSprite().toString();
+
+        public String getCurrentSprite() {
+            return (gpu.getCurrentSprite() == null) ? "" : gpu.getCurrentSprite().toString();
         }
-        public String getSpriteAddress(){
-            return (gpu.getSpriteAddress()==0)?"":" at "+JavaEmuUtil.getHexadecimal4Formatted(gpu.getSpriteAddress());
+
+        public String getSpriteAddress() {
+            return (gpu.getSpriteAddress() == 0) ? "" : " at " + JavaEmuUtil.getHexadecimal4Formatted(gpu.getSpriteAddress());
         }
     }
     private final CPU cpu;
@@ -148,28 +153,26 @@ public class Chip16Machine {
         rom = new Chip16ROM(romFile.getName(), romFile, memory);
         gpu = new GPUFrameBuffer(memory);
         spu = new SPUJavaSound();
-        cpu = new Chip16CPU(memory, gpu,spu);
+        cpu = new Chip16CPU(memory, gpu, spu);
         CPUInfo = new CPUInfo(cpu);
         GPUInfo = new GPUInfo(gpu);
     }
-    
+
     public void debugStep(final Render render) {
         resetVBlank();
         cpuStep();
         drawFrame(render);
         raiseVBlank();
     }
-    
-    
+
     public void drawFrame(final Render render) {
         gpu.drawFrame(render);
     }
 
-    
     public void raiseVBlank() {
         cpu.setFlag(Chip16CPU.FLAG.VBLANK.ordinal(), true);
     }
-    
+
     private void resetVBlank() {
         cpu.setFlag(Chip16CPU.FLAG.VBLANK.ordinal(), false);
     }
@@ -177,7 +180,7 @@ public class Chip16Machine {
     public void cpuStep() {
         cpu.step();
     }
-    
+
     public CPUInfo getCPUInfo() {
         return CPUInfo;
     }
@@ -201,17 +204,16 @@ public class Chip16Machine {
     public ROM getRom() {
         return rom;
     }
-    public String getFormattedStack(){
+
+    public String getFormattedStack() {
         final StringBuilder sb = new StringBuilder();
         final short[] memoryCopy = getMemory().getMemoryCopy();
         for (int i = 1; i <= 32; i++) {
-            sb.append((i<=9?"0"+i:i))
-                    .append(": ")
-                    .append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[MemoryMap.STACK_START+i-1]))
-                    .append("\n");
+            sb.append((i <= 9 ? "0" + i : i)).append(": ").append(JavaEmuUtil.getHexadecimal2Formatted(memoryCopy[MemoryMap.STACK_START + i - 1])).append("\n");
         }
         return sb.toString();
     }
+
     public String getFormattedMemory() {
         final StringBuilder sb = new StringBuilder();
         final short[] memoryCopy = getMemory().getMemoryCopy();
@@ -221,29 +223,40 @@ public class Chip16Machine {
         }
         return sb.toString();
     }
-    public static class Assembler{
+
+    public static class Assembler {
+
         private final String line;
         private final int pc;
-        public Assembler(final String line,final  int pc) {
+
+        public Assembler(final String line, final int pc) {
             this.line = line;
             this.pc = pc;
         }
+
         public String getLine() {
             return line;
         }
+
         public int getPc() {
             return pc;
         }
     }
-    public List<Assembler> getAssembler(){
+
+    public List<Assembler> getAssembler(final int start) {
         final List<Assembler> values = new LinkedList<Assembler>();
-        for (int i = 0; i < rom.getLength();) {
+        for (int i = start; i < rom.getLength();) {
             final short opCodeAddress = (short) i;
             final short opCode = getMemory().readFrom(i++);
             final short firstByte = getMemory().readFrom(i++);
             final short secondByte = getMemory().readFrom(i++);
             final short thirdByte = getMemory().readFrom(i++);
-            values.add(new Assembler(OpCode.assembler(opCode,firstByte,secondByte,thirdByte), opCodeAddress) );
+            try {
+                values.add(new Assembler(OpCode.assembler(opCode, firstByte, secondByte, thirdByte), opCodeAddress));
+            } catch (IllegalArgumentException e) {
+                values.add(new Assembler(JavaEmuUtil.getHexadecimal2Formatted(opCodeAddress),opCodeAddress));
+                i = opCodeAddress + 1;
+            }
         }
         return values;
     }

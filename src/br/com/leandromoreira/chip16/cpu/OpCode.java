@@ -157,8 +157,8 @@ public class OpCode {
                 return "SHL R"+hexa(parameter.X())+", "+parameter.N_Z();                
             case SHR:
                 return "SHR R"+hexa(parameter.X())+", "+parameter.N_Z();                                
-            default:
-                return "UNKNOWN - " + JavaEmuUtil.getHexadecimal2Formatted(opCode) + " " + JavaEmuUtil.getHexadecimal2Formatted(firstByte) + " "  + JavaEmuUtil.getHexadecimal2Formatted(secondByte) + " " + JavaEmuUtil.getHexadecimal2Formatted(thirdByte);
+            default:                
+                throw new IllegalArgumentException("Unkwown opcode!");
         }
     }
     private static String hexa(short value) {

@@ -33,10 +33,10 @@ public class Main extends javax.swing.JFrame {
         initComponents();
     }
 
-    private void fillAssembler() {
+    private void fillAssembler(final int start) {
         setupJTable();
         int row = 0, addressColunm = 1, codeColunm = 2;
-        List<Chip16Machine.Assembler> machineCode = machine.getAssembler();
+        List<Chip16Machine.Assembler> machineCode = machine.getAssembler(start);
         for (Chip16Machine.Assembler assembler : machineCode) {
             jTblAssembler.setValueAt(JavaEmuUtil.getHexadecimal4Formatted(assembler.getPc()).substring(2), row, addressColunm);
             jTblAssembler.setValueAt(assembler.getLine(), row, codeColunm);
@@ -789,7 +789,7 @@ public class Main extends javax.swing.JFrame {
             fillFlags();
             fillMemory();
             fillStack();
-            fillAssembler();
+            fillAssembler(0);
             fillMemoryWatch();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -839,6 +839,7 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro while debugging --> " + e.toString());
         }
     }//GEN-LAST:event_jBtnStepActionPerformed
+    private int tries = 0;
 
     private void moveCursor(int row) {
         try {
@@ -854,16 +855,28 @@ public class Main extends javax.swing.JFrame {
             if (findRowCursor) {
                 jTblAssembler.setRowSelectionInterval(row, row);
                 scrollToCenter(jTblAssembler, row, 2);
+                tries = 0;
                 if (showAssemblerOnConsole) {
                     System.out.println(jTblAssembler.getValueAt(row, 2));
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. ["
-                        + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
+                if (tries >= 3) {
+                    JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. [" + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
+                } else {
+                    fillAssembler(row);
+                    moveCursor(row);
+                    tries++;
+                }
             }
         } catch (java.lang.NullPointerException ex) {
-            JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. ["
-                    + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
+                if (tries >= 3) {
+                    JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. [" + JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
+                } else {
+                    fillAssembler(row);
+                    moveCursor(row);
+                    tries++;
+                }
+            //JOptionPane.showMessageDialog(this, "Debugger system wasn't capable to find the actual line. ["+ JavaEmuUtil.getHexadecimal4Formatted(row) + "]");
         }
     }
 
