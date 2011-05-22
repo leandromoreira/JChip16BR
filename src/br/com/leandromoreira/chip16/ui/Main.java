@@ -1,6 +1,8 @@
 package br.com.leandromoreira.chip16.ui;
 
 import br.com.leandromoreira.chip16.Chip16Machine;
+import br.com.leandromoreira.chip16.Emulator;
+import br.com.leandromoreira.chip16.GameLoopPontoV;
 import br.com.leandromoreira.chip16.debug.Breakpoint;
 import br.com.leandromoreira.chip16.debug.Debugger;
 import br.com.leandromoreira.chip16.gpu.Java2DRender;
@@ -140,6 +142,7 @@ public class Main extends javax.swing.JFrame {
         jBtnRemoveBreak = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTxtGPU = new javax.swing.JTextArea();
+        jBtnLoad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -415,6 +418,7 @@ public class Main extends javax.swing.JFrame {
         jTxtStackList.setRows(5);
         jScrollPane2.setViewportView(jTxtStackList);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/run-project-btn.png"))); // NOI18N
         jButton1.setText("Run");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -422,6 +426,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/debug-project-btn.png"))); // NOI18N
         jButton2.setText("Debug");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,6 +445,11 @@ public class Main extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTblAssembler.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                breakpoint(evt);
+            }
+        });
         jTblAssembler.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTblAssemblerKeyReleased(evt);
@@ -447,13 +457,15 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTblAssembler);
 
-        jBtnSetBreakpoint.setText("Set breakpoint");
+        jBtnSetBreakpoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/breakpoint-badge.png"))); // NOI18N
+        jBtnSetBreakpoint.setText("Set Break.");
         jBtnSetBreakpoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnSetBreakpointActionPerformed(evt);
             }
         });
 
+        jBtnStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/step-over-btn.png"))); // NOI18N
         jBtnStep.setText("Step");
         jBtnStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -494,6 +506,19 @@ public class Main extends javax.swing.JFrame {
         jTxtGPU.setForeground(new java.awt.Color(31, 243, 74));
         jTxtGPU.setRows(5);
         jScrollPane4.setViewportView(jTxtGPU);
+
+        jBtnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
+        jBtnLoad.setText("Load");
+        jBtnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnLoadActionPerformed(evt);
+            }
+        });
+        jBtnLoad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jBtnLoadKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -643,6 +668,8 @@ public class Main extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jBtnLoad)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton2)
@@ -740,7 +767,8 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jButton2)
                             .addComponent(jBtnSetBreakpoint)
                             .addComponent(jBtnStep)
-                            .addComponent(jBtnRemoveBreak))
+                            .addComponent(jBtnRemoveBreak)
+                            .addComponent(jBtnLoad))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -770,7 +798,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -936,6 +964,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnStepKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        new Thread(new GameLoopPontoV(machine, new Java2DRender(jPnScreen.getGraphics()))).start();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
     private int x = 0, y = 0;
 
@@ -965,6 +996,18 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void breakpoint(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_breakpoint
+        
+    }//GEN-LAST:event_breakpoint
+
+    private void jBtnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnLoadActionPerformed
+
+    private void jBtnLoadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnLoadKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnLoadKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -978,6 +1021,7 @@ public class Main extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnLoad;
     private javax.swing.JButton jBtnRemoveBreak;
     private javax.swing.JButton jBtnSetBreakpoint;
     private javax.swing.JButton jBtnStep;
