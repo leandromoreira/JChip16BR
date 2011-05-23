@@ -246,7 +246,7 @@ public class Chip16Machine {
     public List<Assembler> getAssembler(final int start) {
         final List<Assembler> values = new LinkedList<Assembler>();
         for (int i = start; i < rom.getLength();) {
-            final short opCodeAddress = (short) i;
+            final int opCodeAddress = i;
             final short opCode = getMemory().readFrom(i++);
             final short firstByte = getMemory().readFrom(i++);
             final short secondByte = getMemory().readFrom(i++);

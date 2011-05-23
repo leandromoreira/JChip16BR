@@ -8,7 +8,21 @@ import br.com.leandromoreira.chip16.gpu.Render;
  * @author leandro-rm
  */
 public class GameLoopPontoV implements Runnable {
-    public static final int DEFAULT_UPS = 80;
+    
+    
+    public static class Mensure{
+        private String msg;
+        private long start;
+        public void init(String msg){
+            this.msg = msg;
+            start = System.currentTimeMillis();
+        }
+        public void end(){
+            System.out.println(""+msg+" took "+(System.currentTimeMillis()-start)+" ms.");
+        }
+    }
+    
+    public static final int DEFAULT_UPS = 1000;
     public static final int DEFAULT_NO_DELAYS_PER_YIELD = 16;
     public static final int DEFAULT_MAX_FRAME_SKIPS = 5;
     private long desiredUpdateTime;
@@ -67,13 +81,18 @@ public class GameLoopPontoV implements Runnable {
         return desiredUpdateTime - (afterTime - beforeTime) - overSleepTime;
     }
  
+    @Override
     public void run() {
         running = true;
         try {
             while (running) {
                 beforeTime = System.nanoTime();
                 skipFramesInExcessTime();
-                machine.cpuStep();
+                //int times = 0;
+                //while (times < 261){
+                    machine.cpuStep();
+                  //  times++;
+                //}
                 machine.drawFrame(render);
                 afterTime = System.nanoTime();
                 long sleepTime = calculateSleepTime();
