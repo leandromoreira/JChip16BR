@@ -84,10 +84,10 @@ public class GPUFrameBuffer implements GPU {
         for (int y = 0; y < GPU.HEIGHT ; y++){
             for (int x = 0 ; x < GPU.WIDTH ; x++){
                 if (screen[x][y]!=0){
-                    render.setColor(Colors.getColor(screen[x][y]));
+                    render.setColor(screen[x][y]);
                     render.drawAt(x, y);
                 }else{
-                    render.setColor(Colors.getColor(getBackgroundColor()));
+                    render.setColor(getBackgroundColor());
                     render.drawAt(x, y);
                 }
             }

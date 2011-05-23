@@ -129,7 +129,7 @@ public class Chip16Machine {
         }
 
         public String getBGColor() {
-            return (gpu.getBackgroundColor() == 0) ? "" : Colors.getColor(0).getDescription();
+            return (gpu.getBackgroundColor() == 0) ? "" : Colors.getColor(0).toString();
         }
 
         public String getCurrentSprite() {

@@ -13,8 +13,8 @@ public class Java2DRender implements Render {
     }
     
     @Override
-    public void setColor(final Color color) {
-        graphics.setColor(new java.awt.Color(color.getR(), color.getG(), color.getB()));
+    public void setColor(final int index) {
+        graphics.setColor(Colors.getColor(index));
     }
 
     @Override

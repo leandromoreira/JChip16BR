@@ -1,7 +1,6 @@
 package br.com.leandromoreira.chip16.ui;
 
 import br.com.leandromoreira.chip16.Chip16Machine;
-import br.com.leandromoreira.chip16.Emulator;
 import br.com.leandromoreira.chip16.GameLoopPontoV;
 import br.com.leandromoreira.chip16.debug.Breakpoint;
 import br.com.leandromoreira.chip16.debug.Debugger;
@@ -10,13 +9,10 @@ import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -810,7 +806,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Games/Reflection.c16"));
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/ASCII.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -971,28 +967,6 @@ public class Main extends javax.swing.JFrame {
     private int x = 0, y = 0;
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:        
-        Graphics g = jPnScreen.getGraphics().create();
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                int desiredFPS = 1000 / 60;
-                while (true) {
-                    machine.cpuStep();
-                    machine.drawFrame(new Java2DRender(jPnScreen.getGraphics()));
-                    sleep(desiredFPS);
-                }
-            }
-
-            private void sleep(long sleepFor) {
-                try {
-                    Thread.sleep(sleepFor);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }).start();
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

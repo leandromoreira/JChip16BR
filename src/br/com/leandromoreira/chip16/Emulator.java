@@ -11,7 +11,7 @@ public class Emulator implements Runnable {
     private Chip16Machine machine;
     private Render render;
     private boolean running = true;
-    private final long desiredFPS = 40;
+    private final long desiredFPS = 60;
     private final long skipMaxFrames = 16;
 
     public Emulator(Chip16Machine machine, Render render) {
