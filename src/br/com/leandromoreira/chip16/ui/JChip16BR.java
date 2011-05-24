@@ -10,8 +10,9 @@
  */
 package br.com.leandromoreira.chip16.ui;
 
+import br.com.leandromoreira.chip16.util.ConfigManager;
+
 /**
- *
  * @author leandro-rm
  */
 public class JChip16BR extends javax.swing.JFrame {
@@ -20,6 +21,9 @@ public class JChip16BR extends javax.swing.JFrame {
     public JChip16BR() {
         initComponents();
         setLocationRelativeTo(null);  
+        createBufferStrategy(2);
+        setIgnoreRepaint(true);
+        setTitle(ConfigManager.getConfig().getTitle());
     }
 
     /** This method is called from within the constructor to
@@ -31,128 +35,106 @@ public class JChip16BR extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        jMnuBarMain = new javax.swing.JMenuBar();
+        jMnuFile = new javax.swing.JMenu();
+        jMnuLoad = new javax.swing.JMenuItem();
+        jMnuEmulation = new javax.swing.JMenu();
+        jMnuRun = new javax.swing.JMenuItem();
+        jMnuPause = new javax.swing.JMenuItem();
+        jMnuSetup = new javax.swing.JMenu();
+        jMnuVideo = new javax.swing.JMenuItem();
+        jMnuAudio = new javax.swing.JMenuItem();
+        jMnuJoystick = new javax.swing.JMenuItem();
+        jMnuAbout = new javax.swing.JMenu();
+        jMnuJChip16BR = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 formKeyTyped(evt);
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(18, 18, 18));
-        jPanel1.setMinimumSize(new java.awt.Dimension(320, 240));
-        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jPanel1KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jPanel1KeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jPanel1KeyTyped(evt);
-            }
-        });
+        jMnuFile.setText("File");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
-        );
+        jMnuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
+        jMnuLoad.setText("Load");
+        jMnuFile.add(jMnuLoad);
 
-        jMenu1.setText("File");
+        jMnuBarMain.add(jMnuFile);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
-        jMenuItem2.setText("Load");
-        jMenu1.add(jMenuItem2);
+        jMnuEmulation.setText("Emulation");
 
-        jMenuBar1.add(jMenu1);
+        jMnuRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/run-project-btn.png"))); // NOI18N
+        jMnuRun.setText("Run");
+        jMnuEmulation.add(jMnuRun);
 
-        jMenu2.setText("Emulation");
+        jMnuPause.setText("Pause");
+        jMnuEmulation.add(jMnuPause);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/run-project-btn.png"))); // NOI18N
-        jMenuItem1.setText("Run");
-        jMenu2.add(jMenuItem1);
+        jMnuBarMain.add(jMnuEmulation);
 
-        jMenuItem3.setText("Pause");
-        jMenu2.add(jMenuItem3);
+        jMnuSetup.setText("Setup");
 
-        jMenuBar1.add(jMenu2);
+        jMnuVideo.setText("Video");
+        jMnuSetup.add(jMnuVideo);
 
-        jMenu3.setText("Setup");
+        jMnuAudio.setText("Audio");
+        jMnuSetup.add(jMnuAudio);
 
-        jMenuItem4.setText("Video");
-        jMenu3.add(jMenuItem4);
+        jMnuJoystick.setText("Joystick");
+        jMnuSetup.add(jMnuJoystick);
 
-        jMenuItem5.setText("Audio");
-        jMenu3.add(jMenuItem5);
+        jMnuBarMain.add(jMnuSetup);
 
-        jMenuItem6.setText("Joystick");
-        jMenu3.add(jMenuItem6);
+        jMnuAbout.setText("About");
 
-        jMenuBar1.add(jMenu3);
+        jMnuJChip16BR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/step-over-btn.png"))); // NOI18N
+        jMnuJChip16BR.setText("JChip16BR");
+        jMnuAbout.add(jMnuJChip16BR);
 
-        jMenu4.setText("About");
+        jMnuBarMain.add(jMnuAbout);
 
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/step-over-btn.png"))); // NOI18N
-        jMenuItem7.setText("JChip16BR");
-        jMenu4.add(jMenuItem7);
-
-        jMenuBar1.add(jMenu4);
-
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(jMnuBarMain);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 320, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 240, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyPressed
-        // TODO add your handling code here:
-        System.out.println(evt);
-    }//GEN-LAST:event_jPanel1KeyPressed
-
-    private void jPanel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyReleased
-        // TODO add your handling code here:
-        System.out.println(evt);
-    }//GEN-LAST:event_jPanel1KeyReleased
-
-    private void jPanel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyTyped
-        // TODO add your handling code here:
-        System.out.println(evt);
-    }//GEN-LAST:event_jPanel1KeyTyped
-
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-        // TODO add your handling code here:
-        System.out.println(evt);
+        
+        System.out.println("typed: "+evt.getKeyChar());
+        
     }//GEN-LAST:event_formKeyTyped
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+
+        System.out.println("pressed: "+evt.getKeyChar());
+        
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+
+        System.out.println("released: "+evt.getKeyChar());
+        
+    }//GEN-LAST:event_formKeyReleased
 
     /**
      * @param args the command line arguments
@@ -166,18 +148,17 @@ public class JChip16BR extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jMnuAbout;
+    private javax.swing.JMenuItem jMnuAudio;
+    private javax.swing.JMenuBar jMnuBarMain;
+    private javax.swing.JMenu jMnuEmulation;
+    private javax.swing.JMenu jMnuFile;
+    private javax.swing.JMenuItem jMnuJChip16BR;
+    private javax.swing.JMenuItem jMnuJoystick;
+    private javax.swing.JMenuItem jMnuLoad;
+    private javax.swing.JMenuItem jMnuPause;
+    private javax.swing.JMenuItem jMnuRun;
+    private javax.swing.JMenu jMnuSetup;
+    private javax.swing.JMenuItem jMnuVideo;
     // End of variables declaration//GEN-END:variables
 }

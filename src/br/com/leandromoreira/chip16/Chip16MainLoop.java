@@ -26,16 +26,21 @@ public class Chip16MainLoop implements Runnable {
             //320 x 240 Screen
             //16666.666666667/320 ~= 52 CPU cyles [emulation must refresh a scanline each ]
             int cycles = 0;
-            while (cycles < 26666) {
+            while (cycles < 3) {
                 machine.cpuStep();
                 cycles++;
             }
             machine.drawFrame(render);
-            try {
-                Thread.sleep(16);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Chip16MainLoop.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            long time = 1000/60;
+            sleep(time);
+        }
+    }
+
+    private void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException ex) {
+            System.exit(0);
         }
     }
 }
