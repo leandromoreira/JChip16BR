@@ -1,6 +1,7 @@
 package br.com.leandromoreira.chip16.ui;
 
 import br.com.leandromoreira.chip16.Chip16Machine;
+import br.com.leandromoreira.chip16.Chip16MainLoop;
 import br.com.leandromoreira.chip16.GameLoopPontoV;
 import br.com.leandromoreira.chip16.debug.Breakpoint;
 import br.com.leandromoreira.chip16.debug.Debugger;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -477,6 +479,11 @@ public class Main extends javax.swing.JFrame {
         jPnScreen.setBackground(new java.awt.Color(1, 1, 1));
         jPnScreen.setPreferredSize(new java.awt.Dimension(320, 240));
         jPnScreen.setRequestFocusEnabled(false);
+        jPnScreen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPnScreenLayout = new javax.swing.GroupLayout(jPnScreen);
         jPnScreen.setLayout(jPnScreenLayout);
@@ -493,6 +500,11 @@ public class Main extends javax.swing.JFrame {
         jBtnRemoveBreak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnRemoveBreakActionPerformed(evt);
+            }
+        });
+        jBtnRemoveBreak.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                joypadPressing(evt);
             }
         });
 
@@ -806,7 +818,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Demos/Anim.c16"));
+            machine = new Chip16Machine(new File("rom/ROMs/Games/MusicMaker.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -815,6 +827,7 @@ public class Main extends javax.swing.JFrame {
             fillStack();
             fillAssembler(0);
             fillMemoryWatch();
+            jPnScreen.setDoubleBuffered(true);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.toString());
@@ -951,6 +964,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnRemoveBreakActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        System.out.println(evt);
     }//GEN-LAST:event_formKeyPressed
 
     private void jTblAssemblerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTblAssemblerKeyReleased
@@ -961,8 +975,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnStepKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        new Thread(new GameLoopPontoV(machine, new Java2DRender(jPnScreen.getGraphics()))).start();
+         new Thread(new Chip16MainLoop(machine, new Java2DRender(jPnScreen.getGraphics().create()))).start();
         
     }//GEN-LAST:event_jButton1ActionPerformed
     private int x = 0, y = 0;
@@ -982,6 +995,16 @@ public class Main extends javax.swing.JFrame {
     private void jBtnLoadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnLoadKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnLoadKeyReleased
+
+    private void pressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pressed
+        // TODO add your handling code here:
+        System.out.println(evt);
+    }//GEN-LAST:event_pressed
+
+    private void joypadPressing(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_joypadPressing
+        // TODO add your handling code here:
+        System.out.println(evt);
+    }//GEN-LAST:event_joypadPressing
 
     /**
      * @param args the command line arguments

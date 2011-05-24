@@ -22,9 +22,9 @@ public class GameLoopPontoV implements Runnable {
         }
     }
     
-    public static final int DEFAULT_UPS = 1000;
+    public static final int DEFAULT_UPS = 60;
     public static final int DEFAULT_NO_DELAYS_PER_YIELD = 16;
-    public static final int DEFAULT_MAX_FRAME_SKIPS = 5;
+    public static final int DEFAULT_MAX_FRAME_SKIPS = 30;
     private long desiredUpdateTime;
     private boolean running;
     private long afterTime;
@@ -88,11 +88,7 @@ public class GameLoopPontoV implements Runnable {
             while (running) {
                 beforeTime = System.nanoTime();
                 skipFramesInExcessTime();
-                //int times = 0;
-                //while (times < 261){
-                    machine.cpuStep();
-                  //  times++;
-                //}
+                machine.cpuStep();
                 machine.drawFrame(render);
                 afterTime = System.nanoTime();
                 long sleepTime = calculateSleepTime();
