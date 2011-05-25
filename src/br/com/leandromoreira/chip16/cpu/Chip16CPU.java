@@ -261,14 +261,14 @@ public class Chip16CPU implements CPU {
             //LDM RX, HHLL		Load register X with the 16bit value at the specified address.
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.X()] = memory.readFrom(parameter.HHLL());
+                registers[parameter.X()] = JavaEmuUtil.getLittleEndian(memory.readFrom(parameter.HHLL()),memory.readFrom(parameter.HHLL()+1) ) ;                
             }
         };
         instructions[LDM_RY] = new DefaultInstruction() {
             //LDM RX, RY		Load register X with the 16bit value at the specified address pointed by register Y.
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.X()] = memory.readFrom(registers[parameter.Y()]);
+                registers[parameter.X()] = JavaEmuUtil.getLittleEndian(memory.readFrom(registers[parameter.Y()]),memory.readFrom(registers[parameter.Y()]+1));
             }
         };
         instructions[MOV] = new DefaultInstruction() {
