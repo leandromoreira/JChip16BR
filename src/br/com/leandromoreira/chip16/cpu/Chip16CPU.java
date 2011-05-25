@@ -116,10 +116,7 @@ public class Chip16CPU implements CPU {
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.X()];
                 final int y = registers[parameter.Y()];
-                boolean spriteOverlap = gpu.drawSprite(parameter.HHLL(), x, y);
-                if (spriteOverlap) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }
+                flags[FLAG.CARRY_BORROW.ordinal()] = gpu.drawSprite(parameter.HHLL(), x, y);
             }
         };
         instructions[DRW_RZ] = new DefaultInstruction() {
@@ -129,10 +126,7 @@ public class Chip16CPU implements CPU {
                 final int x = registers[parameter.X()];
                 final int y = registers[parameter.Y()];
                 final int address = registers[parameter.N_Z()];
-                boolean spriteOverlap = gpu.drawSprite(address, x, y);
-                if (spriteOverlap) {
-                    flags[FLAG.CARRY_BORROW.ordinal()] = true;
-                }
+                flags[FLAG.CARRY_BORROW.ordinal()] = gpu.drawSprite(address, x, y);
             }
         };
 

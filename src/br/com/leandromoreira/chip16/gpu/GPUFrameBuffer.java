@@ -20,6 +20,7 @@ public class GPUFrameBuffer implements GPU {
     @Override
     public void clear() {
         screen = new short[WIDTH][HEIGHT];
+        backgroundColor = 0;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class GPUFrameBuffer implements GPU {
     }
 
     private boolean thereIsAnotherSpriteAt(final int x,final int y) {
-        return screen[x + currentSprite.getX()][y + currentSprite.getY()] != 0;
+        return screen[x + currentSprite.getX()][y + currentSprite.getY()] != backgroundColor;
     }
 
     @Override
