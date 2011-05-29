@@ -17,8 +17,6 @@ import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author leandro-rm
