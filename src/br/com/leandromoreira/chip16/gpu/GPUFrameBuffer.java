@@ -98,6 +98,6 @@ public class GPUFrameBuffer implements GPU {
     }
 
     private boolean isOutOfScreen(final int x, final int y) {
-        return (x + currentSprite.getX()) >= 320 | (y + currentSprite.getY()) >= 240;
+        return (x + currentSprite.getX()) >= WIDTH | (y + currentSprite.getY()) >= HEIGHT;
     }
 }
