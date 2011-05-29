@@ -10,8 +10,8 @@ import br.com.leandromoreira.chip16.gpu.Render;
  */
 public class Chip16MainLoop implements Runnable {
 
-    private Chip16Machine machine;
-    private Render render;
+    private final Chip16Machine machine;
+    private final Render render;
     private final static int FPS = 60;
     private final static int CPU_SPEED = 1000000;
     private final static long INSTRUCTIONS_PER_VBLANK = CPU_SPEED / FPS;
@@ -22,7 +22,7 @@ public class Chip16MainLoop implements Runnable {
     private long currentTime;
     private long diffirence;
 
-    public Chip16MainLoop(Chip16Machine machine, Render render) {
+    public Chip16MainLoop(final Chip16Machine machine,final Render render) {
         this.machine = machine;
         this.render = render;
     }
@@ -61,5 +61,8 @@ public class Chip16MainLoop implements Runnable {
         } catch (InterruptedException ex) {
             System.exit(0);
         }
+    }
+    public void stop(){
+        isRunning = false;
     }
 }
