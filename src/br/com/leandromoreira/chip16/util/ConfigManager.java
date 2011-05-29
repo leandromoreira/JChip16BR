@@ -19,12 +19,12 @@ public final class ConfigManager {
     }
 
     public void refreshProperties() throws IllegalStateException {
-        File file = new File("config/config.properties");
+        File file = new File("config/metainfo.properties");
         properties = new Properties();
         try {
             properties.load(new FileInputStream(file));
         } catch (IOException ex) {
-            throw new IllegalStateException("The config/config.properties raise a io or wasn't found!",ex);
+            throw new IllegalStateException("The config/metainfo.properties raise a io or wasn't found!",ex);
         }
     }
 
