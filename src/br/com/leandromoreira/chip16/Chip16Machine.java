@@ -173,7 +173,7 @@ public class Chip16Machine {
         cpu.setFlag(Chip16CPU.FLAG.VBLANK.ordinal(), true);
     }
 
-    private void resetVBlank() {
+    public void resetVBlank() {
         cpu.setFlag(Chip16CPU.FLAG.VBLANK.ordinal(), false);
     }
 

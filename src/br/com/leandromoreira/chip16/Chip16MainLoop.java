@@ -32,10 +32,10 @@ public class Chip16MainLoop implements Runnable {
                 instruction -= INSTRUCTIONS_PER_VBLANK;
                 machine.drawFrame(render);
                 limitSpeed();
-                machine.getCpu().setFlag(0, true);
+                machine.raiseVBlank();
                 machine.cpuStep();
+                machine.resetVBlank(); 
                 instruction++;
-                machine.getCpu().setFlag(0, false);
             }
         }
     }
