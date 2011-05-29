@@ -2,7 +2,6 @@ package br.com.leandromoreira.chip16.ui;
 
 import br.com.leandromoreira.chip16.Chip16Machine;
 import br.com.leandromoreira.chip16.Chip16MainLoop;
-import br.com.leandromoreira.chip16.GameLoopPontoV;
 import br.com.leandromoreira.chip16.debug.Breakpoint;
 import br.com.leandromoreira.chip16.debug.Debugger;
 import br.com.leandromoreira.chip16.gpu.Java2DRender;
@@ -18,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -818,7 +816,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Games/MusicMaker.c16"));
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/GB.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -976,6 +974,29 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          new Thread(new Chip16MainLoop(machine, new Java2DRender(jPnScreen.getGraphics().create()))).start();
+        /*new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while(true){
+                    machine.cpuStep();
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Render r = new Java2DRender(jPnScreen.getGraphics().create());
+                while(true){
+                    machine.drawFrame(r);
+                    try {
+                        Thread.sleep(1000/60);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }).start();*/
         
     }//GEN-LAST:event_jButton1ActionPerformed
     private int x = 0, y = 0;

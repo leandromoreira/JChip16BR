@@ -57,6 +57,9 @@ public class GPUFrameBuffer implements GPU {
     }
 
     private boolean thereIsAnotherSpriteAt(final int x,final int y) {
+        if (x>320 | y>240){
+            return false;
+        }
         return screen[x + currentSprite.getX()][y + currentSprite.getY()] != backgroundColor;
     }
 

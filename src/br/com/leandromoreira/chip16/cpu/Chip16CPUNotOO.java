@@ -10,7 +10,7 @@ import static br.com.leandromoreira.chip16.cpu.OpCode.*;
 /**
  * @author leandro-rm
  */
-public class Chip16CPU implements CPU {
+public class Chip16CPUNotOO implements CPU {
 
     public enum REGISTER {
 
@@ -34,7 +34,7 @@ public class Chip16CPU implements CPU {
     private final SPU spu;
     private final Random rnd = new Random();
 
-    public Chip16CPU(final Memory memory, final GPU gpu, final SPU spu) {
+    public Chip16CPUNotOO(final Memory memory, final GPU gpu, final SPU spu) {
         this.memory = memory;
         this.gpu = gpu;
         this.spu = spu;
@@ -52,9 +52,9 @@ public class Chip16CPU implements CPU {
     public boolean getFlag(final int number) {
         return flags[number];
     }
-    
+
     @Override
-    public void setFlag(final int number,final boolean value) {
+    public void setFlag(final int number, final boolean value) {
         flags[number] = value;
     }
 
@@ -68,22 +68,134 @@ public class Chip16CPU implements CPU {
         return programCounter;
     }
 
+    private short opCode,ll,hh,y,x,nOrZ;
+    private int hhll;
     @Override
     public void step() {
-        final short opCode = memory.readFrom(programCounter);
-        instructions[opCode].execute(new OpCodeParameter(memory.readFrom(programCounter + 1), memory.readFrom(programCounter + 2), memory.readFrom(programCounter + 3)));
-        programCounter += instructions[opCode].addToPC();
+        opCode = memory.readFrom(programCounter);
+        ll = memory.readFrom(programCounter + 2);
+        hh = memory.readFrom(programCounter + 3);
+        y = (short) (memory.readFrom(programCounter + 1) >> 4);
+        x = (short) (memory.readFrom(programCounter + 1) & 0xF);
+        nOrZ = (short) (ll & 0xF);
+        hhll = ((hh << 8) | ll);
+        switch (opCode) {
+            case NOP:
+                break;
+            case CLS:
+                gpu.clear();
+                break;
+            case VBLNK:
+                break;
+            case BGC:
+                gpu.setBackgroundColor(nOrZ);
+                break;
+            /*case SPR:
+                return "SPR #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case DRW_HHL:
+                return "DRW R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case DRW_RZ:
+                return "DRW R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case RND:
+                return "RND R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case NOP_FUTURE:
+                return "NOP";
+            case SND0:
+                return "SND0";
+            case SND1:
+                return "SND1 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
+            case SND2:
+                return "SND2 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
+            case SND3:
+                return "SND3 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
+            case JMP:
+                return "JMP #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case JMC:
+                return "JMC #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case JMZ:
+                return "JMZ #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case JME:
+                return "JME R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + " , #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case CALL:
+                return "CALL #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case RET:
+                return "RET";
+            case LDI_RX:
+                return "LDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case LDI_SP:
+                return "LDI SP, #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case LDM_HHLL:
+                return "LDM R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case LDM_RY:
+                return "LDM R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case MOV:
+                return "MOV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case STM_HHLL:
+                return "STM R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case STM_RY:
+                return "STM R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case ADDI:
+                return "ADDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case ADD_RY:
+                return "ADD R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case ADD_RZ:
+                return "ADD R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case SUBI:
+                return "SUBI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case SUB_RY:
+                return "SUB R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case SUB_RZ:
+                return "SUB R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case ANDI:
+                return "ANDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case AND_RY:
+                return "AND R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case AND_RZ:
+                return "AND R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case ORI:
+                return "ORI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case OR_RY:
+                return "OR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case OR_RZ:
+                return "OR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case XORI:
+                return "XORI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case XOR_RY:
+                return "XOR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case XOR_RZ:
+                return "XOR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case MULI:
+                return "MULI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case MUL_RY:
+                return "MUL R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case MUL_RZ:
+                return "MUL R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case DIVI:
+                return "DIVI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case DIV_RY:
+                return "DIV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            case DIV_RZ:
+                return "DIV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            case SHL:
+                return "SHL R" + hexa(parameter.X()) + ", " + parameter.N_Z();
+            case SHR:
+                return "SHR R" + hexa(parameter.X()) + ", " + parameter.N_Z();*/
+            default:
+                throw new IllegalArgumentException("Unkwown opcode!");
+        }
     }
 
     private void initInstructionTable() {
         instructions[NOP] = new DefaultInstruction() {
             //NOP			Not operation. Wastes a cycle.
+
             @Override
             public void execute(OpCodeParameter parameter) {
             }
         };
         instructions[CLS] = new DefaultInstruction() {
             //CLS			Clear screen (Foreground layer is erased, background is set to index 0).
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.clear();
@@ -91,17 +203,15 @@ public class Chip16CPU implements CPU {
         };
         instructions[VBLNK] = new DefaultInstruction() {
             //VBLNK			Wait VBlank. Set VBlank flag to 0 and wait untill it becomes 1.
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                if (flags[FLAG.VBLANK.ordinal()]){
-                    setSumToPC(4);
-                }else{
-                    setSumToPC(0);
-                }
+                flags[FLAG.VBLANK.ordinal()] = false;
             }
         };
         instructions[BGC] = new DefaultInstruction() {
             //BGC N			Set background color to index N. If the index was set to 0 the color is black.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setBackgroundColor(parameter.N_Z());
@@ -109,6 +219,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SPR] = new DefaultInstruction() {
             //SPR HHLL		Set sprite width (LL) and height (HH).
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 gpu.setSprite(parameter.LL(), parameter.HH());
@@ -116,6 +227,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[DRW_HHL] = new DefaultInstruction() {
             //DRW RX, RY, HHLL	Draw sprite from address HHLL at coordinates stored in register X and Y. Affects carry flag (explained in GPU info).
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.X()];
@@ -125,6 +237,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[DRW_RZ] = new DefaultInstruction() {
             //DRW RX, RY, RZ		Draw sprite from address pointed by register Z at coordinates stored in register X and Y.  Affects carry flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int x = registers[parameter.X()];
@@ -136,6 +249,7 @@ public class Chip16CPU implements CPU {
 
         instructions[RND] = new DefaultInstruction() {
             //RND RX, HHLL		Generate a random number and store it in register X. Maximum value is HHLL.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = rnd.nextInt(parameter.HHLL() + 1);
@@ -143,12 +257,14 @@ public class Chip16CPU implements CPU {
         };
         instructions[NOP_FUTURE] = new DefaultInstruction() {
             //NOP			Reserved for future updates.
+
             @Override
             public void execute(OpCodeParameter parameter) {
             }
         };
         instructions[SND0] = new DefaultInstruction() {
             //SND0			Stop playing sounds.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.stop();
@@ -156,6 +272,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SND1] = new DefaultInstruction() {
             //SND1 HHLL		Play 500Hz tone for HHLL miliseconds.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play500Mhz(parameter.HHLL());
@@ -163,6 +280,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SND2] = new DefaultInstruction() {
             //SND2 HHLL		Play 1000Hz tone for HHLL miliseconds.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play1000Mhz(parameter.HHLL());
@@ -170,6 +288,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SND3] = new DefaultInstruction() {
             //SND3 HHLL		Play 1500Hz tone for HHLL miliseconds.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 spu.play1500Mhz(parameter.HHLL());
@@ -177,6 +296,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[JMP] = new DefaultInstruction() {
             //JMP HHLL		Jump to the specified address.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 programCounter = parameter.HHLL();
@@ -186,6 +306,7 @@ public class Chip16CPU implements CPU {
 
         instructions[JMC] = new DefaultInstruction() {
             //JMC HHLL		Jump to the specified address if carry flag is raised.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.CARRY_BORROW.ordinal()]) {
@@ -198,6 +319,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[JMZ] = new DefaultInstruction() {
             //JMZ HHLL		Jump to the specified address if zero flag is raised.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (flags[FLAG.ZERO.ordinal()]) {
@@ -210,6 +332,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[JME] = new DefaultInstruction() {
             //JME RX, RY, HHLL	Jump to the specified address if value in register X is equal to value in register Y.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 if (registers[parameter.X()] == registers[parameter.Y()]) {
@@ -222,6 +345,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[CALL] = new DefaultInstruction() {
             //CALL HHLL		Call subroutine at the specified address. Store PC to stack beforehand. Increase SP by 2.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 programCounter += 4;
@@ -234,6 +358,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[RET] = new DefaultInstruction() {
             //RET			Return from a subroutine. Get PC from stack. Decrease SP by 2.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer -= 2;
@@ -243,6 +368,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[LDI_RX] = new DefaultInstruction() {
             //LDI RX, HHLL		Load immediate value to register X.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = parameter.HHLL();
@@ -250,6 +376,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[LDI_SP] = new DefaultInstruction() {
             //LDI SP, HHLL		Point SP to the specified address. Does not move existing values in memory to new location.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 stackPointer = parameter.HHLL();
@@ -257,20 +384,23 @@ public class Chip16CPU implements CPU {
         };
         instructions[LDM_HHLL] = new DefaultInstruction() {
             //LDM RX, HHLL		Load register X with the 16bit value at the specified address.
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.X()] = JavaEmuUtil.getLittleEndian(memory.readFrom(parameter.HHLL()),memory.readFrom(parameter.HHLL()+1) ) ;                
+                registers[parameter.X()] = JavaEmuUtil.getLittleEndian(memory.readFrom(parameter.HHLL()), memory.readFrom(parameter.HHLL() + 1));
             }
         };
         instructions[LDM_RY] = new DefaultInstruction() {
             //LDM RX, RY		Load register X with the 16bit value at the specified address pointed by register Y.
+
             @Override
             public void execute(OpCodeParameter parameter) {
-                registers[parameter.X()] = JavaEmuUtil.getLittleEndian(memory.readFrom(registers[parameter.Y()]),memory.readFrom(registers[parameter.Y()]+1));
+                registers[parameter.X()] = JavaEmuUtil.getLittleEndian(memory.readFrom(registers[parameter.Y()]), memory.readFrom(registers[parameter.Y()] + 1));
             }
         };
         instructions[MOV] = new DefaultInstruction() {
             //MOV RX, RY		Copy data from register Y to register X.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] = registers[parameter.Y()];
@@ -278,6 +408,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[STM_HHLL] = new DefaultInstruction() {
             //STM RX, HHLL		Store value of register X at the specified address.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 memory.writeAt(parameter.HHLL(), (short) (registers[parameter.X()] & 0xFF));
@@ -286,6 +417,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[STM_RY] = new DefaultInstruction() {
             //STM RX, RY		Store value of register X at the specified address pointed by register Y.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 memory.writeAt(registers[parameter.Y()], (short) (registers[parameter.X()] & 0xFF));
@@ -294,6 +426,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[ADDI] = new DefaultInstruction() {
             //ADDI RX			Add immediate value to register X. Affects carry flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] + parameter.HHLL();
@@ -312,6 +445,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[ADD_RY] = new DefaultInstruction() {
             //ADD RX, RY		Add value of register Y to register X. Result is stored in register X. Affects carry flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] + registers[parameter.Y()];
@@ -330,6 +464,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[ADD_RZ] = new DefaultInstruction() {
             //ADD RX, RY, RZ		Add value of register Y to register X. Result is stored in register Z. Affects carry flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] + registers[parameter.Y()];
@@ -348,6 +483,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SUBI] = new DefaultInstruction() {
             //SUBI RX			Subtract immediate value from register X. Result is stored in register X. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] - parameter.HHLL();
@@ -367,6 +503,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SUB_RY] = new DefaultInstruction() {
             //SUB RX, RY		Substract value of register Y from register X. Result is stored in register X. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] - registers[parameter.Y()];
@@ -385,6 +522,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SUB_RZ] = new DefaultInstruction() {
             //SUB RX, RY, RZ		Substract value of register Y from register X. Result is stored in register Z. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] - registers[parameter.Y()];
@@ -403,6 +541,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[ANDI] = new DefaultInstruction() {
             //ANDI RX			AND immediate value with register X. Result is stored in register X. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] &= parameter.HHLL();
@@ -415,6 +554,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[AND_RY] = new DefaultInstruction() {
             //AND RX, RY		AND value of register Y with value of register X. Result is stored in register X. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] &= registers[parameter.Y()];
@@ -427,6 +567,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[AND_RZ] = new DefaultInstruction() {
             //AND RX, RY, RZ		AND value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.N_Z()] = registers[parameter.X()] & registers[parameter.Y()];
@@ -439,6 +580,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[ORI] = new DefaultInstruction() {
             //ORI RX			OR immediate value with register X. Result is stored in register X. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] |= parameter.HHLL();
@@ -451,6 +593,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[OR_RY] = new DefaultInstruction() {
             //OR RX, RY		OR value of register Y with value of register X. Result is stored in register X. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] |= registers[parameter.Y()];
@@ -463,6 +606,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[OR_RZ] = new DefaultInstruction() {
             //OR RX, RY, RZ		OR value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.N_Z()] = registers[parameter.X()] | registers[parameter.Y()];
@@ -475,6 +619,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[XORI] = new DefaultInstruction() {
             //XORI RX			XOR immediate value with register X. Result is stored in register X. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] ^= parameter.HHLL();
@@ -487,6 +632,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[XOR_RY] = new DefaultInstruction() {
             //XOR RX, RY		XOR value of register Y with value of register X. Result is stored in register X. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.X()] ^= registers[parameter.Y()];
@@ -499,6 +645,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[XOR_RZ] = new DefaultInstruction() {
             //XOR RX, RY, RZ		XOR value of register Y with value of register X. Result is stored in register Z. Affects zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 registers[parameter.N_Z()] = registers[parameter.X()] ^ registers[parameter.Y()];
@@ -511,6 +658,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[MULI] = new DefaultInstruction() {
             //MULI RX			Multiply immediate value with register X. Result is stored in register X. Affects carry flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] * parameter.HHLL();
@@ -530,6 +678,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[MUL_RY] = new DefaultInstruction() {
             //MUL RX, RY		Multiply value of register Y with value of register X. Result is stored in register X. Affects carry flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] * registers[parameter.Y()];
@@ -548,6 +697,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[MUL_RZ] = new DefaultInstruction() {
             //MUL RX, RY, RZ		Multiply value of register Y with value of register X. Result is stored in register Z. Affects carry flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] * registers[parameter.Y()];
@@ -566,6 +716,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[DIVI] = new DefaultInstruction() {
             //DIVI RX			Divide immediate value with register X. Result is stored in register X. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final boolean thereIsMod = registers[parameter.X()] % parameter.HHLL() > 1;
@@ -585,6 +736,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[DIV_RY] = new DefaultInstruction() {
             //DIV RX, RY		Divide value of register Y with value of register X. Result is stored in register X. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final boolean thereIsMod = registers[parameter.X()] % registers[parameter.Y()] > 1;
@@ -603,6 +755,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[DIV_RZ] = new DefaultInstruction() {
             //DIV RX, RY, RZ		Divide value of register Y with value of register X. Result is stored in register Z. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final boolean thereIsMod = registers[parameter.X()] % registers[parameter.Y()] > 1;
@@ -621,6 +774,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SHL] = new DefaultInstruction() {
             //SHL RX, N		Shift value in register X left N times. Affects borrow flag and zero flag.
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] << parameter.N_Z();
@@ -640,6 +794,7 @@ public class Chip16CPU implements CPU {
         };
         instructions[SHR] = new DefaultInstruction() {
             //SHR RX, N		Shift value in register X right N times. Affects carry flag and zero flag.*/
+
             @Override
             public void execute(OpCodeParameter parameter) {
                 final int result = registers[parameter.X()] >> parameter.N_Z();

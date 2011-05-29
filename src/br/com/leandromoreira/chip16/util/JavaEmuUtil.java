@@ -6,9 +6,9 @@ import java.nio.ByteBuffer;
  * steal from JChip8Br & JNesBR
  * @author leandro-rm
  */
-public class JavaEmuUtil {
+public final class JavaEmuUtil {
 
-    public static int getLittleEndian(final short param1, final short param2) {
+    public final static int getLittleEndian(final short param1, final short param2) {
         return ((param2 << 8) | param1);
     }
 

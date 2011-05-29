@@ -17,23 +17,43 @@ public class Chip16MainLoop implements Runnable {
         this.render = render;
     }
 
+    //1000000/60 = 16666.666666667 CPU cycles for each vblank
+    // each vblank should occour each 16ms
+    // scanline each 16666.666666667 / 320 = 52.083333333
+    //vblank interrupt (320-240)*16666.666666667/320 = 4166.666666667 cycles
     @Override
     public void run() {
-        while (true) {
-            //cpu speed 1.0MHZ
-            //60HZ
-            //1000000/60 = 16666.666666667 CPU [cycles VBlank will occour each]
-            //320 x 240 Screen
-            //16666.666666667/320 ~= 52 CPU cyles [emulation must refresh a scanline each ]
-            int cycles = 0;
-            while (cycles < 3) {
+        boolean cpu_running = true;
+        final double num_instructions = 1000000.0 / 60.0; // 1 mhz
+        for (double x = 0.0; cpu_running; x++) {
+            machine.cpuStep();
+            if (x > num_instructions) {
+                x -= num_instructions;
+                machine.drawFrame(render);
+                limitSpeed();
+                machine.getCpu().setFlag(0, true);
                 machine.cpuStep();
-                cycles++;
+                x++;
+                machine.getCpu().setFlag(0, false);
             }
-            machine.drawFrame(render);
-            long time = 1000/60;
-            sleep(time);
         }
+    }
+
+    void limitSpeed() {
+        long startTime = System.nanoTime();
+        final long nSecond = 1000000000;
+        final long timeLimit = nSecond / 60;
+        long curTime = System.nanoTime();
+        long diff = curTime - startTime;
+        while (diff < timeLimit) {
+            try {
+                sleep(0);
+            } catch (Exception e) {
+            }
+            curTime = System.nanoTime();
+            diff = curTime - startTime;
+        }
+        startTime = curTime;
     }
 
     private void sleep(long time) {
