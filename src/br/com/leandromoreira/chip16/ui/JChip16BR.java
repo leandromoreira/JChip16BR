@@ -166,6 +166,7 @@ public class JChip16BR extends javax.swing.JFrame {
             machine.stop();
         }
         machine = new Chip16Machine(romFile);
+        setTitle(ConfigManager.getConfig().getTitle()+" "+machine.getRom().getTitleName());
         machine.start(new Java2DRender(jPnScreen.getGraphics().create()));
     }
 
