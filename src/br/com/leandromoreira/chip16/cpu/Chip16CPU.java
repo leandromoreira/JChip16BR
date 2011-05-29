@@ -12,13 +12,7 @@ import static br.com.leandromoreira.chip16.cpu.OpCode.*;
  */
 public class Chip16CPU implements CPU {
 
-    public enum REGISTER {
-
-        R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, RA, RB, RC, RD, RE, RF
-    };
-
     public enum FLAG {
-
         VBLANK, CARRY_BORROW, ZERO
     };
     private static final int NUMBER_OF_REGISTERS = 16;

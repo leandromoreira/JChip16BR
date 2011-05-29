@@ -4,6 +4,9 @@ import br.com.leandromoreira.chip16.gpu.Render;
 
 /**
  * @author leandro-rm
+ * All the code from http://forums.ngemu.com/web-development-programming/138170-codename-chip16-prev-chip9-20.html#post1970906
+ * Thanks for cottonvibes http://forums.ngemu.com/members/100638.html
+ * and Bill_gates http://forums.ngemu.com/members/30482.html
  */
 public class Chip16MainLoop implements Runnable {
 
@@ -11,9 +14,9 @@ public class Chip16MainLoop implements Runnable {
     private Render render;
     private final static int FPS = 60;
     private final static int CPU_SPEED = 1000000;
-    private final static double INSTRUCTIONS_PER_VBLANK = CPU_SPEED / FPS;
-    private final long NANO_SECONDS = 1000000000;
-    private final long TIME_LIMIT = NANO_SECONDS / FPS;
+    private final static long INSTRUCTIONS_PER_VBLANK = CPU_SPEED / FPS;
+    private final static long NANO_SECONDS = 1000000000;
+    private final static long TIME_LIMIT = NANO_SECONDS / FPS;
     private boolean isRunning = true;
     private long startTime;
     private long currentTime;
@@ -26,16 +29,16 @@ public class Chip16MainLoop implements Runnable {
 
     @Override
     public void run() {
-        for (double instruction = 0.0; isRunning; instruction++) {
+        for (long instructionCounter = 0; isRunning; instructionCounter++) {
             machine.cpuStep();
-            if (instruction > INSTRUCTIONS_PER_VBLANK) {
-                instruction -= INSTRUCTIONS_PER_VBLANK;
+            if (instructionCounter > INSTRUCTIONS_PER_VBLANK) {
+                instructionCounter -= INSTRUCTIONS_PER_VBLANK;
                 machine.drawFrame(render);
                 limitSpeed();
                 machine.raiseVBlank();
                 machine.cpuStep();
                 machine.resetVBlank(); 
-                instruction++;
+                instructionCounter++;
             }
         }
     }
