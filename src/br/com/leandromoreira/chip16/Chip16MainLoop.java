@@ -16,16 +16,15 @@ public class Chip16MainLoop implements Runnable {
         this.machine = machine;
         this.render = render;
     }
-
     //1000000/60 = 16666.666666667 CPU cycles for each vblank
     // each vblank should occour each 16ms
     // scanline each 16666.666666667 / 320 = 52.083333333
     //vblank interrupt (320-240)*16666.666666667/320 = 4166.666666667 cycles
     private final static int FPS = 60;
     private final static int CPU_SPEED = 1000000;
-    private final static double INSTRUCTIONS_PER_VBLANK = CPU_SPEED/FPS;
+    private final static double INSTRUCTIONS_PER_VBLANK = CPU_SPEED / FPS;
     private boolean isRunning = true;
-    
+
     @Override
     public void run() {
         for (double instruction = 0.0; isRunning; instruction++) {
@@ -49,10 +48,7 @@ public class Chip16MainLoop implements Runnable {
         long currentTime = System.nanoTime();
         long diffirence = currentTime - startTime;
         while (diffirence < timeLimit) {
-            try {
-                sleep(0);
-            } catch (Exception e) {
-            }
+            sleep(0);
             currentTime = System.nanoTime();
             diffirence = currentTime - startTime;
         }
