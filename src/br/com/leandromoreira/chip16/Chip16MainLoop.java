@@ -23,7 +23,12 @@ public class Chip16MainLoop implements Runnable {
     private final static int FPS = 60;
     private final static int CPU_SPEED = 1000000;
     private final static double INSTRUCTIONS_PER_VBLANK = CPU_SPEED / FPS;
+    private final long NANO_SECONDS = 1000000000;
+    private final long TIME_LIMIT = NANO_SECONDS / FPS;
     private boolean isRunning = true;
+    private long startTime;
+    private long currentTime;
+    private long diffirence;
 
     @Override
     public void run() {
@@ -41,13 +46,11 @@ public class Chip16MainLoop implements Runnable {
         }
     }
 
-    void limitSpeed() {
-        long startTime = System.nanoTime();
-        final long nanoSeconds = 1000000000;
-        final long timeLimit = nanoSeconds / 60;
-        long currentTime = System.nanoTime();
-        long diffirence = currentTime - startTime;
-        while (diffirence < timeLimit) {
+    private void limitSpeed() {
+        startTime = System.nanoTime();
+        currentTime = System.nanoTime();
+        diffirence = currentTime - startTime;
+        while (diffirence < TIME_LIMIT) {
             sleep(0);
             currentTime = System.nanoTime();
             diffirence = currentTime - startTime;
