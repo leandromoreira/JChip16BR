@@ -29,12 +29,12 @@ public class GPUFrameBuffer implements GPU {
     }
 
     @Override
-    public void setSprite(final short width,final short height) {
+    public void setSprite(final short width, final short height) {
         currentSprite = new Sprite(width, height);
     }
 
     @Override
-    public boolean drawSprite(int spriteAddress,final int xPosition,final int yPosition) {
+    public boolean drawSprite(int spriteAddress, final int xPosition, final int yPosition) {
         boolean spriteOverlapsOther = false;
         initAddressSprite = spriteAddress;
         currentSprite.setX(xPosition);
@@ -42,24 +42,23 @@ public class GPUFrameBuffer implements GPU {
         boolean flipFlop = true;
         for (int y = 0; y < currentSprite.getHeight(); y++) {
             for (int x = 0; x < currentSprite.getWidth(); x++) {
-                final short colorIndex = (short) ((flipFlop) ? (memory.readFrom(spriteAddress) >> 4) : (memory.readFrom(spriteAddress) & 0xF));                
-                if (thereIsAnotherSpriteAt(x, y)) {
-                     spriteOverlapsOther = true;
+                if (!isOutOfScreen(x,y)) {
+                    final short colorIndex = (short) ((flipFlop) ? (memory.readFrom(spriteAddress) >> 4) : (memory.readFrom(spriteAddress) & 0xF));
+                    if (thereIsAnotherSpriteAt(x, y)) {
+                        spriteOverlapsOther = true;
+                    }
+                    screen[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
+                    if (!flipFlop) {
+                        spriteAddress++;
+                    }
+                    flipFlop = !flipFlop;
                 }
-                screen[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
-                if (!flipFlop) {
-                    spriteAddress++;
-                }
-                flipFlop = !flipFlop;
             }
         }
         return spriteOverlapsOther;
     }
 
-    private boolean thereIsAnotherSpriteAt(final int x,final int y) {
-        if (x>320 | y>240){
-            return false;
-        }
+    private boolean thereIsAnotherSpriteAt(final int x, final int y) {
         return screen[x + currentSprite.getX()][y + currentSprite.getY()] != backgroundColor;
     }
 
@@ -85,16 +84,20 @@ public class GPUFrameBuffer implements GPU {
 
     @Override
     public void drawFrame(final Render render) {
-        for (int y = 0; y < GPU.HEIGHT ; y++){
-            for (int x = 0 ; x < GPU.WIDTH ; x++){
-                if (screen[x][y]!=0){
+        for (int y = 0; y < GPU.HEIGHT; y++) {
+            for (int x = 0; x < GPU.WIDTH; x++) {
+                if (screen[x][y] != 0) {
                     render.setColor(screen[x][y]);
                     render.drawAt(x, y);
-                }else{
+                } else {
                     render.setColor(getBackgroundColor());
                     render.drawAt(x, y);
                 }
             }
         }
+    }
+
+    private boolean isOutOfScreen(final int x, final int y) {
+        return (x + currentSprite.getX()) >= 320 | (y + currentSprite.getY()) >= 240;
     }
 }
