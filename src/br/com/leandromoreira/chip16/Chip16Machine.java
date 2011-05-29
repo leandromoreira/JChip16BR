@@ -17,6 +17,8 @@ import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author leandro-rm
@@ -147,6 +149,8 @@ public class Chip16Machine {
     private final ROM rom;
     private final CPUInfo CPUInfo;
     private final GPUInfo GPUInfo;
+    private Thread currentMachineInstance;
+    private Chip16MainLoop currentLoop;
 
     public Chip16Machine(final File romFile) {
         memory = new Memory();
@@ -156,6 +160,24 @@ public class Chip16Machine {
         cpu = new Chip16CPU(memory, gpu, spu);
         CPUInfo = new CPUInfo(cpu);
         GPUInfo = new GPUInfo(gpu);
+    }
+
+    public void start(Render render) {
+        if (currentLoop != null) {
+            stop();
+        }
+        currentLoop = new Chip16MainLoop(this, render);
+        currentMachineInstance = new Thread(currentLoop);
+        currentMachineInstance.start();
+    }
+
+    public void stop() {
+        currentLoop.stop();
+        try {
+            Thread.sleep(26);
+        } catch (InterruptedException ex) {
+            System.exit(0);
+        }
     }
 
     public void debugStep(final Render render) {
@@ -254,7 +276,7 @@ public class Chip16Machine {
             try {
                 values.add(new Assembler(OpCode.assembler(opCode, firstByte, secondByte, thirdByte), opCodeAddress));
             } catch (IllegalArgumentException e) {
-                values.add(new Assembler(JavaEmuUtil.getHexadecimal2Formatted(opCodeAddress),opCodeAddress));
+                values.add(new Assembler(JavaEmuUtil.getHexadecimal2Formatted(opCodeAddress), opCodeAddress));
                 i = opCodeAddress + 1;
             }
         }

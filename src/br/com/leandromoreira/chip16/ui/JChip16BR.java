@@ -1,26 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * JChip16BR.java
- *
- * Created on May 23, 2011, 11:57:50 AM
- */
 package br.com.leandromoreira.chip16.ui;
 
+import br.com.leandromoreira.chip16.Chip16Machine;
+import br.com.leandromoreira.chip16.Chip16MainLoop;
+import br.com.leandromoreira.chip16.gpu.Java2DRender;
 import br.com.leandromoreira.chip16.util.ConfigManager;
+import java.io.File;
+import javax.swing.JFileChooser;
 
 /**
  * @author leandro-rm
  */
 public class JChip16BR extends javax.swing.JFrame {
 
-    /** Creates new form JChip16BR */
+    private Chip16Machine machine;
+    
+
     public JChip16BR() {
         initComponents();
-        setLocationRelativeTo(null);  
+        setLocationRelativeTo(null);
         createBufferStrategy(2);
         setIgnoreRepaint(true);
         setTitle(ConfigManager.getConfig().getTitle());
@@ -35,6 +32,7 @@ public class JChip16BR extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPnScreen = new javax.swing.JPanel();
         jMnuBarMain = new javax.swing.JMenuBar();
         jMnuFile = new javax.swing.JMenu();
         jMnuLoad = new javax.swing.JMenuItem();
@@ -45,6 +43,7 @@ public class JChip16BR extends javax.swing.JFrame {
         jMnuVideo = new javax.swing.JMenuItem();
         jMnuAudio = new javax.swing.JMenuItem();
         jMnuJoystick = new javax.swing.JMenuItem();
+        jMnuSetupEmulation = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
         jMnuJChip16BR = new javax.swing.JMenuItem();
 
@@ -62,10 +61,29 @@ public class JChip16BR extends javax.swing.JFrame {
             }
         });
 
+        jPnScreen.setBackground(new java.awt.Color(9, 5, 0));
+        jPnScreen.setPreferredSize(new java.awt.Dimension(320, 240));
+
+        javax.swing.GroupLayout jPnScreenLayout = new javax.swing.GroupLayout(jPnScreen);
+        jPnScreen.setLayout(jPnScreenLayout);
+        jPnScreenLayout.setHorizontalGroup(
+            jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 320, Short.MAX_VALUE)
+        );
+        jPnScreenLayout.setVerticalGroup(
+            jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 240, Short.MAX_VALUE)
+        );
+
         jMnuFile.setText("File");
 
         jMnuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
         jMnuLoad.setText("Load");
+        jMnuLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuLoadActionPerformed(evt);
+            }
+        });
         jMnuFile.add(jMnuLoad);
 
         jMnuBarMain.add(jMnuFile);
@@ -76,6 +94,7 @@ public class JChip16BR extends javax.swing.JFrame {
         jMnuRun.setText("Run");
         jMnuEmulation.add(jMnuRun);
 
+        jMnuPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/breakpoint-badge.png"))); // NOI18N
         jMnuPause.setText("Pause");
         jMnuEmulation.add(jMnuPause);
 
@@ -91,6 +110,9 @@ public class JChip16BR extends javax.swing.JFrame {
 
         jMnuJoystick.setText("Joystick");
         jMnuSetup.add(jMnuJoystick);
+
+        jMnuSetupEmulation.setText("Emulation");
+        jMnuSetup.add(jMnuSetupEmulation);
 
         jMnuBarMain.add(jMnuSetup);
 
@@ -108,33 +130,50 @@ public class JChip16BR extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-        
-        System.out.println("typed: "+evt.getKeyChar());
-        
+
+        System.out.println("typed: " + evt.getKeyChar());
+
     }//GEN-LAST:event_formKeyTyped
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
 
-        System.out.println("pressed: "+evt.getKeyChar());
-        
+        System.out.println("pressed: " + evt.getKeyChar());
+
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
 
-        System.out.println("released: "+evt.getKeyChar());
-        
+        System.out.println("released: " + evt.getKeyChar());
+
     }//GEN-LAST:event_formKeyReleased
+
+    private void jMnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuLoadActionPerformed
+        final JFileChooser chooseARom = new JFileChooser();
+        int whatUserDid = chooseARom.showOpenDialog(this);
+        if (whatUserDid == JFileChooser.APPROVE_OPTION) {
+            File romFile = chooseARom.getSelectedFile();
+            startMachine(romFile);
+        }
+    }//GEN-LAST:event_jMnuLoadActionPerformed
+
+    private void startMachine(final File romFile) {
+        if (machine!=null){
+            machine.stop();
+        }
+        machine = new Chip16Machine(romFile);
+        machine.start(new Java2DRender(jPnScreen.getGraphics().create()));
+    }
 
     /**
      * @param args the command line arguments
@@ -159,6 +198,8 @@ public class JChip16BR extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuPause;
     private javax.swing.JMenuItem jMnuRun;
     private javax.swing.JMenu jMnuSetup;
+    private javax.swing.JMenuItem jMnuSetupEmulation;
     private javax.swing.JMenuItem jMnuVideo;
+    private javax.swing.JPanel jPnScreen;
     // End of variables declaration//GEN-END:variables
 }
