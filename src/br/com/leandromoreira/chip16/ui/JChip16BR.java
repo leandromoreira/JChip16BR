@@ -153,7 +153,8 @@ public class JChip16BR extends javax.swing.JFrame {
     }//GEN-LAST:event_formKeyReleased
 
     private void jMnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuLoadActionPerformed
-        final JFileChooser chooseARom = new JFileChooser();
+        final JFileChooser chooseARom = new JFileChooser(new File("./rom/ROMs"));
+        
         int whatUserDid = chooseARom.showOpenDialog(this);
         if (whatUserDid == JFileChooser.APPROVE_OPTION) {
             File romFile = chooseARom.getSelectedFile();
