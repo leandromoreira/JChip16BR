@@ -44,19 +44,19 @@ public class Chip16MainLoop implements Runnable {
 
     void limitSpeed() {
         long startTime = System.nanoTime();
-        final long nSecond = 1000000000;
-        final long timeLimit = nSecond / 60;
-        long curTime = System.nanoTime();
-        long diff = curTime - startTime;
-        while (diff < timeLimit) {
+        final long nanoSeconds = 1000000000;
+        final long timeLimit = nanoSeconds / 60;
+        long currentTime = System.nanoTime();
+        long diffirence = currentTime - startTime;
+        while (diffirence < timeLimit) {
             try {
                 sleep(0);
             } catch (Exception e) {
             }
-            curTime = System.nanoTime();
-            diff = curTime - startTime;
+            currentTime = System.nanoTime();
+            diffirence = currentTime - startTime;
         }
-        startTime = curTime;
+        startTime = currentTime;
     }
 
     private void sleep(long time) {
