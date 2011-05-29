@@ -21,19 +21,22 @@ public class Chip16MainLoop implements Runnable {
     // each vblank should occour each 16ms
     // scanline each 16666.666666667 / 320 = 52.083333333
     //vblank interrupt (320-240)*16666.666666667/320 = 4166.666666667 cycles
+    private final static int FPS = 60;
+    private final static int CPU_SPEED = 1000000;
+    private final static double INSTRUCTIONS_PER_VBLANK = CPU_SPEED/FPS;
+    private boolean isRunning = true;
+    
     @Override
     public void run() {
-        boolean cpu_running = true;
-        final double num_instructions = 1000000.0 / 60.0; // 1 mhz
-        for (double x = 0.0; cpu_running; x++) {
+        for (double instruction = 0.0; isRunning; instruction++) {
             machine.cpuStep();
-            if (x > num_instructions) {
-                x -= num_instructions;
+            if (instruction > INSTRUCTIONS_PER_VBLANK) {
+                instruction -= INSTRUCTIONS_PER_VBLANK;
                 machine.drawFrame(render);
                 limitSpeed();
                 machine.getCpu().setFlag(0, true);
                 machine.cpuStep();
-                x++;
+                instruction++;
                 machine.getCpu().setFlag(0, false);
             }
         }
