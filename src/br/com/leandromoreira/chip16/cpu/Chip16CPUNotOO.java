@@ -12,13 +12,7 @@ import static br.com.leandromoreira.chip16.cpu.OpCode.*;
  */
 public class Chip16CPUNotOO implements CPU {
 
-    public enum REGISTER {
-
-        R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, RA, RB, RC, RD, RE, RF
-    };
-
     public enum FLAG {
-
         VBLANK, CARRY_BORROW, ZERO
     };
     private static final int NUMBER_OF_REGISTERS = 16;
@@ -67,9 +61,9 @@ public class Chip16CPUNotOO implements CPU {
     public int getProgramCounter() {
         return programCounter;
     }
-
-    private short opCode,ll,hh,y,x,nOrZ;
+    private short opCode, ll, hh, y, x, nOrZ;
     private int hhll;
+
     @Override
     public void step() {
         opCode = memory.readFrom(programCounter);
@@ -81,105 +75,119 @@ public class Chip16CPUNotOO implements CPU {
         hhll = ((hh << 8) | ll);
         switch (opCode) {
             case NOP:
+                programCounter += 4;
                 break;
             case CLS:
                 gpu.clear();
+                programCounter += 4;
                 break;
             case VBLNK:
+                if (flags[FLAG.VBLANK.ordinal()]) {
+                    programCounter += 4;
+                } else {
+                    programCounter = 0;
+                }
                 break;
             case BGC:
                 gpu.setBackgroundColor(nOrZ);
+                programCounter += 4;
                 break;
-            /*case SPR:
-                return "SPR #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            case SPR:
+                gpu.setSprite(ll, hh);
+                programCounter += 4;
+                break;
             case DRW_HHL:
-                return "DRW R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+                flags[FLAG.CARRY_BORROW.ordinal()] = gpu.drawSprite(hhll, x, y);
+                programCounter += 4;
+                break;
             case DRW_RZ:
-                return "DRW R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
-            case RND:
-                return "RND R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+                flags[FLAG.CARRY_BORROW.ordinal()] = gpu.drawSprite(nOrZ, x, y);
+                programCounter += 4;
+                break;
+            /*case RND:
+            return "RND R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case NOP_FUTURE:
-                return "NOP";
+            return "NOP";
             case SND0:
-                return "SND0";
+            return "SND0";
             case SND1:
-                return "SND1 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
+            return "SND1 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
             case SND2:
-                return "SND2 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
+            return "SND2 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
             case SND3:
-                return "SND3 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
+            return "SND3 " + JavaEmuUtil.getLittleEndian(secondByte, thirdByte);
             case JMP:
-                return "JMP #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "JMP #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case JMC:
-                return "JMC #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "JMC #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case JMZ:
-                return "JMZ #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "JMZ #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case JME:
-                return "JME R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + " , #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "JME R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + " , #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case CALL:
-                return "CALL #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "CALL #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case RET:
-                return "RET";
+            return "RET";
             case LDI_RX:
-                return "LDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "LDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case LDI_SP:
-                return "LDI SP, #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "LDI SP, #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case LDM_HHLL:
-                return "LDM R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "LDM R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case LDM_RY:
-                return "LDM R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "LDM R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case MOV:
-                return "MOV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "MOV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case STM_HHLL:
-                return "STM R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "STM R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case STM_RY:
-                return "STM R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "STM R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case ADDI:
-                return "ADDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "ADDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case ADD_RY:
-                return "ADD R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "ADD R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case ADD_RZ:
-                return "ADD R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "ADD R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case SUBI:
-                return "SUBI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "SUBI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case SUB_RY:
-                return "SUB R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "SUB R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case SUB_RZ:
-                return "SUB R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "SUB R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case ANDI:
-                return "ANDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "ANDI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case AND_RY:
-                return "AND R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "AND R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case AND_RZ:
-                return "AND R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "AND R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case ORI:
-                return "ORI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "ORI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case OR_RY:
-                return "OR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "OR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case OR_RZ:
-                return "OR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "OR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case XORI:
-                return "XORI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "XORI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case XOR_RY:
-                return "XOR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "XOR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case XOR_RZ:
-                return "XOR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "XOR R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case MULI:
-                return "MULI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "MULI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case MUL_RY:
-                return "MUL R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "MUL R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case MUL_RZ:
-                return "MUL R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "MUL R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case DIVI:
-                return "DIVI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
+            return "DIVI R" + hexa(parameter.X()) + ", #" + (hexa(JavaEmuUtil.getLittleEndian(secondByte, thirdByte)));
             case DIV_RY:
-                return "DIV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
+            return "DIV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y());
             case DIV_RZ:
-                return "DIV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
+            return "DIV R" + hexa(parameter.X()) + ", R" + hexa(parameter.Y()) + ", R" + hexa(parameter.N_Z());
             case SHL:
-                return "SHL R" + hexa(parameter.X()) + ", " + parameter.N_Z();
+            return "SHL R" + hexa(parameter.X()) + ", " + parameter.N_Z();
             case SHR:
-                return "SHR R" + hexa(parameter.X()) + ", " + parameter.N_Z();*/
+            return "SHR R" + hexa(parameter.X()) + ", " + parameter.N_Z();*/
             default:
                 throw new IllegalArgumentException("Unkwown opcode!");
         }
