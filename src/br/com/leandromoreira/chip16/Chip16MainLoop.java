@@ -1,6 +1,8 @@
 package br.com.leandromoreira.chip16;
 
 import br.com.leandromoreira.chip16.gpu.Render;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author leandro-rm
@@ -18,6 +20,7 @@ public class Chip16MainLoop implements Runnable {
     private final static long NANO_SECONDS = 1000000000;
     private final static long TIME_LIMIT = NANO_SECONDS / FPS;
     private boolean isRunning = true;
+    private boolean pause = false;
     private long startTime;
     private long currentTime;
     private long diffirence;
@@ -39,6 +42,15 @@ public class Chip16MainLoop implements Runnable {
                 machine.cpuStep();
                 machine.resetVBlank(); 
                 instructionCounter++;
+                if (pause){
+                    synchronized(this){
+                        try {
+                            wait();
+                        } catch (InterruptedException ex) {
+                            System.out.println("I'm back");
+                        }
+                    }
+                }
             }
         }
     }
@@ -64,5 +76,13 @@ public class Chip16MainLoop implements Runnable {
     }
     public void stop(){
         isRunning = false;
+    }
+
+    public void pause() {
+        pause = true;
+    }
+    
+     public void resume() {
+        pause = false;
     }
 }

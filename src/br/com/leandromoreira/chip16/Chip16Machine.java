@@ -160,6 +160,24 @@ public class Chip16Machine {
         GPUInfo = new GPUInfo(gpu);
     }
 
+    public void sendCommand(int keyCode) {
+    }
+
+    public void pause() {
+        if (currentLoop != null) {
+            currentLoop.pause();
+        }
+    }
+
+    public void resume() {
+        if (currentLoop != null) {
+            synchronized(currentLoop){
+                currentLoop.notify();
+            }
+            currentLoop.resume();
+        }
+    }
+
     public void start(Render render) {
         if (currentLoop != null) {
             stop();

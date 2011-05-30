@@ -18,20 +18,15 @@ public class Controller {
     private final static int BUTTON_A = 6;
     private final static int BUTTON_B = 7;
     private Map<Integer,Integer> mapping = new HashMap<Integer, Integer>();
-    private Memory memory;
-    private int controllerAddress;
-
-    public Controller(Memory memory, int controllerAddress) {
-        this.memory = memory;
-        this.controllerAddress = controllerAddress;
-    }
     
-    public void press(int keyCode){
-        int key = mapping.get(keyCode);
-        switch(key){
-            case BUTTON_UP:
-        }
-        memory.writeAt(this.controllerAddress,(short)keyCode);
+    public Controller(){
+        mapping.put(BUTTON_UP, 38);
+        mapping.put(BUTTON_DOWN, 40);
+        mapping.put(BUTTON_LEFT, 37);
+        mapping.put(BUTTON_RIGHT, 39);
+        mapping.put(BUTTON_START, 10);
+        mapping.put(BUTTON_SELECT, 32);
+        mapping.put(BUTTON_A, 90);
+        mapping.put(BUTTON_B, 88);
     }
-    
 }

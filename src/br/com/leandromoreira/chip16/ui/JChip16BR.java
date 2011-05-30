@@ -12,7 +12,6 @@ import javax.swing.JFileChooser;
 public class JChip16BR extends javax.swing.JFrame {
 
     private Chip16Machine machine;
-    
 
     public JChip16BR() {
         initComponents();
@@ -68,6 +67,17 @@ public class JChip16BR extends javax.swing.JFrame {
             jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 240, Short.MAX_VALUE)
         );
+
+        jMnuBarMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMnuBarMainMouseClicked(evt);
+            }
+        });
+        jMnuBarMain.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jMnuBarMainMouseMoved(evt);
+            }
+        });
 
         jMnuFile.setText("File");
 
@@ -136,25 +146,25 @@ public class JChip16BR extends javax.swing.JFrame {
 
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
 
-        System.out.println("typed: " + evt.getKeyChar());
+        System.out.println("typed: " + evt);
 
     }//GEN-LAST:event_formKeyTyped
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
 
-        System.out.println("pressed: " + evt.getKeyChar());
+        System.out.println("pressed: " + evt);
 
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
 
-        System.out.println("released: " + evt.getKeyChar());
+        System.out.println("released: " + evt);
 
     }//GEN-LAST:event_formKeyReleased
 
     private void jMnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuLoadActionPerformed
         final JFileChooser chooseARom = new JFileChooser(new File("./rom/ROMs"));
-        
+
         int whatUserDid = chooseARom.showOpenDialog(this);
         if (whatUserDid == JFileChooser.APPROVE_OPTION) {
             File romFile = chooseARom.getSelectedFile();
@@ -162,12 +172,24 @@ public class JChip16BR extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMnuLoadActionPerformed
 
+    private void jMnuBarMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMnuBarMainMouseClicked
+        if (machine != null) {
+            machine.pause();
+        }
+    }//GEN-LAST:event_jMnuBarMainMouseClicked
+
+    private void jMnuBarMainMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMnuBarMainMouseMoved
+        if (machine != null) {
+            machine.resume();
+        }
+    }//GEN-LAST:event_jMnuBarMainMouseMoved
+
     private void startMachine(final File romFile) {
-        if (machine!=null){
+        if (machine != null) {
             machine.stop();
         }
         machine = new Chip16Machine(romFile);
-        setTitle(ConfigManager.getConfig().getTitle()+" "+machine.getRom().getTitleName());
+        setTitle(ConfigManager.getConfig().getTitle() + " " + machine.getRom().getTitleName());
         machine.start(new Java2DRender(jPnScreen.getGraphics().create()));
     }
 
