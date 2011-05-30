@@ -55,17 +55,17 @@ public class JChip16BR extends javax.swing.JFrame {
         });
 
         jPnScreen.setBackground(new java.awt.Color(9, 5, 0));
-        jPnScreen.setPreferredSize(new java.awt.Dimension(320, 240));
+        jPnScreen.setPreferredSize(new java.awt.Dimension(640, 480));
 
         javax.swing.GroupLayout jPnScreenLayout = new javax.swing.GroupLayout(jPnScreen);
         jPnScreen.setLayout(jPnScreenLayout);
         jPnScreenLayout.setHorizontalGroup(
             jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addGap(0, 640, Short.MAX_VALUE)
         );
         jPnScreenLayout.setVerticalGroup(
             jPnScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
 
         jMnuBarMain.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -80,6 +80,16 @@ public class JChip16BR extends javax.swing.JFrame {
         });
 
         jMnuFile.setText("File");
+        jMnuFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMnuFileMouseClicked(evt);
+            }
+        });
+        jMnuFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuFileActionPerformed(evt);
+            }
+        });
 
         jMnuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
         jMnuLoad.setText("Load");
@@ -107,6 +117,16 @@ public class JChip16BR extends javax.swing.JFrame {
         jMnuSetup.setText("Setup");
 
         jMnuVideo.setText("Video");
+        jMnuVideo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMnuVideoMouseClicked(evt);
+            }
+        });
+        jMnuVideo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuVideoActionPerformed(evt);
+            }
+        });
         jMnuSetup.add(jMnuVideo);
 
         jMnuAudio.setText("Audio");
@@ -145,21 +165,18 @@ public class JChip16BR extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-
-        System.out.println("typed: " + evt);
-
     }//GEN-LAST:event_formKeyTyped
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-
-        System.out.println("pressed: " + evt);
-
+        if (machine != null) {
+            machine.sendCommand(evt.getKeyCode());
+        }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-
-        System.out.println("released: " + evt);
-
+        if (machine != null) {
+            machine.sendCommand(evt.getKeyCode());
+        }
     }//GEN-LAST:event_formKeyReleased
 
     private void jMnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuLoadActionPerformed
@@ -183,6 +200,23 @@ public class JChip16BR extends javax.swing.JFrame {
             machine.resume();
         }
     }//GEN-LAST:event_jMnuBarMainMouseMoved
+
+    private void jMnuFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuFileActionPerformed
+        jMnuBarMainMouseClicked(null);
+    }//GEN-LAST:event_jMnuFileActionPerformed
+
+    private void jMnuFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMnuFileMouseClicked
+        jMnuBarMainMouseClicked(evt);
+    }//GEN-LAST:event_jMnuFileMouseClicked
+
+    private void jMnuVideoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMnuVideoMouseClicked
+    }//GEN-LAST:event_jMnuVideoMouseClicked
+
+    private void jMnuVideoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVideoActionPerformed
+        setSize(getWidth() * 2, getHeight() * 2);
+        jPnScreen.setSize(jPnScreen.getWidth() * 2, jPnScreen.getHeight() * 2);
+        jPnScreen.repaint();
+    }//GEN-LAST:event_jMnuVideoActionPerformed
 
     private void startMachine(final File romFile) {
         if (machine != null) {

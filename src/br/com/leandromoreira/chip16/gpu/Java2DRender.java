@@ -19,7 +19,7 @@ public class Java2DRender implements Render {
 
     @Override
     public void drawAt(int x, int y) {
-        graphics.drawLine(x, y, x, y);
+        graphics.drawLine(x*2, y*2, x*2, y*2);
     }
     
 }

@@ -1,8 +1,6 @@
 package br.com.leandromoreira.chip16;
 
 import br.com.leandromoreira.chip16.gpu.Render;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author leandro-rm

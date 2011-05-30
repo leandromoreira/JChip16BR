@@ -32,8 +32,7 @@ public class SyntheticSoundGenerator {
 
         final boolean bigEndian = false;
         final boolean signed = true;
-        format = new AudioFormat((int) sampleRate, 16, 1, signed,
-                bigEndian);
+        format = new AudioFormat((int) sampleRate, 16, 1, signed,bigEndian);
 
         buffer = new float[(int) (seconds * sampleRate)];
         byteBuffer = new byte[buffer.length * 2];

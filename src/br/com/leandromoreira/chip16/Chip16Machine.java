@@ -161,6 +161,7 @@ public class Chip16Machine {
     }
 
     public void sendCommand(int keyCode) {
+        System.out.println(keyCode);
     }
 
     public void pause() {
