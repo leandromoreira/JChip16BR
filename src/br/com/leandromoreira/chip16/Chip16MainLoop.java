@@ -23,7 +23,7 @@ public class Chip16MainLoop implements Runnable {
     private long currentTime;
     private long diffirence;
 
-    public Chip16MainLoop(final Chip16Machine machine,final Render render) {
+    public Chip16MainLoop(final Chip16Machine machine, final Render render) {
         this.machine = machine;
         this.render = render;
     }
@@ -38,10 +38,10 @@ public class Chip16MainLoop implements Runnable {
                 limitSpeed();
                 machine.raiseVBlank();
                 machine.cpuStep();
-                machine.resetVBlank(); 
+                machine.resetVBlank();
                 instructionCounter++;
-                if (pause){
-                    synchronized(this){
+                if (pause) {
+                    synchronized (this) {
                         try {
                             wait();
                         } catch (InterruptedException ex) {
@@ -72,15 +72,20 @@ public class Chip16MainLoop implements Runnable {
             System.exit(0);
         }
     }
-    public void stop(){
+
+    public void stop() {
         isRunning = false;
     }
 
     public void pause() {
         pause = true;
     }
-    
-     public void resume() {
+
+    public boolean isPaused() {
+        return pause;
+    }
+
+    public void resume() {
         pause = false;
     }
 }

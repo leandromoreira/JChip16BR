@@ -145,8 +145,8 @@ public class Chip16Machine {
     private final SPU spu;
     private final Memory memory;
     private final ROM rom;
-    private final CPUInfo CPUInfo;
-    private final GPUInfo GPUInfo;
+    private final CPUInfo cpuInfo;
+    private final GPUInfo gpuInfo;
     private Thread currentMachineInstance;
     private Chip16MainLoop currentLoop;
 
@@ -156,8 +156,8 @@ public class Chip16Machine {
         gpu = new GPUFrameBuffer(memory);
         spu = new SPUJavaSound();
         cpu = new Chip16CPU(memory, gpu, spu);
-        CPUInfo = new CPUInfo(cpu);
-        GPUInfo = new GPUInfo(gpu);
+        cpuInfo = new CPUInfo(cpu);
+        gpuInfo = new GPUInfo(gpu);
     }
 
     public void sendCommand(int keyCode) {
@@ -169,7 +169,13 @@ public class Chip16Machine {
             currentLoop.pause();
         }
     }
-
+    public boolean isPaused(){
+        if (currentLoop != null) {
+            return currentLoop.isPaused();
+        }else{
+            return false;
+        }
+    }
     public void resume() {
         if (currentLoop != null) {
             synchronized(currentLoop){
@@ -221,11 +227,11 @@ public class Chip16Machine {
     }
 
     public CPUInfo getCPUInfo() {
-        return CPUInfo;
+        return cpuInfo;
     }
 
     public GPUInfo getGPUInfo() {
-        return GPUInfo;
+        return gpuInfo;
     }
 
     public CPU getCpu() {
