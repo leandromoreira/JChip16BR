@@ -27,9 +27,12 @@ public class JChip16BR extends javax.swing.JFrame {
     private void initComponents() {
 
         jPnScreen = new javax.swing.JPanel();
-        jToolBar1 = new javax.swing.JToolBar();
+        jTool = new javax.swing.JToolBar();
         jBtnLoad = new javax.swing.JButton();
         jBtnPause = new javax.swing.JButton();
+        jBtnStop = new javax.swing.JButton();
+        jBtnVideoSize = new javax.swing.JButton();
+        jBtnAbout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -59,7 +62,8 @@ public class JChip16BR extends javax.swing.JFrame {
             .addGap(0, 240, Short.MAX_VALUE)
         );
 
-        jToolBar1.setRollover(true);
+        jTool.setFloatable(false);
+        jTool.setBorderPainted(false);
 
         jBtnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
         jBtnLoad.setToolTipText("Load rom");
@@ -71,10 +75,10 @@ public class JChip16BR extends javax.swing.JFrame {
                 jBtnLoadActionPerformed(evt);
             }
         });
-        jToolBar1.add(jBtnLoad);
+        jTool.add(jBtnLoad);
 
         jBtnPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/pause-button.png"))); // NOI18N
-        jBtnPause.setToolTipText("Pause execution");
+        jBtnPause.setToolTipText("Pause and resume");
         jBtnPause.setFocusable(false);
         jBtnPause.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnPause.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -83,21 +87,56 @@ public class JChip16BR extends javax.swing.JFrame {
                 jBtnPauseActionPerformed(evt);
             }
         });
-        jToolBar1.add(jBtnPause);
+        jTool.add(jBtnPause);
+
+        jBtnStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/finish-session-btn.png"))); // NOI18N
+        jBtnStop.setToolTipText("Stop");
+        jBtnStop.setFocusable(false);
+        jBtnStop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnStop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnStopActionPerformed(evt);
+            }
+        });
+        jTool.add(jBtnStop);
+
+        jBtnVideoSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/2.gif"))); // NOI18N
+        jBtnVideoSize.setToolTipText("Video size");
+        jBtnVideoSize.setFocusable(false);
+        jBtnVideoSize.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnVideoSize.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnVideoSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnVideoSizeActionPerformed(evt);
+            }
+        });
+        jTool.add(jBtnVideoSize);
+
+        jBtnAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/about.png"))); // NOI18N
+        jBtnAbout.setToolTipText("About");
+        jBtnAbout.setFocusable(false);
+        jBtnAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnAbout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTool.add(jBtnAbout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(jTool, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTool, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -132,6 +171,20 @@ public class JChip16BR extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBtnPauseActionPerformed
 
+    private void jBtnVideoSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnVideoSizeActionPerformed
+
+        setSize(getWidth() * 2, getHeight() * 2);
+        jPnScreen.setSize(jPnScreen.getWidth() * 2, jPnScreen.getHeight() * 2);
+        //pac1k();
+
+    }//GEN-LAST:event_jBtnVideoSizeActionPerformed
+
+    private void jBtnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStopActionPerformed
+        if (machine != null) {
+            machine.stop();
+        }
+    }//GEN-LAST:event_jBtnStopActionPerformed
+
     public void loadFile() throws HeadlessException {
         final JFileChooser chooseARom = new JFileChooser(new File("./rom/ROMs"));
 
@@ -161,9 +214,12 @@ public class JChip16BR extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnAbout;
     private javax.swing.JButton jBtnLoad;
     private javax.swing.JButton jBtnPause;
+    private javax.swing.JButton jBtnStop;
+    private javax.swing.JButton jBtnVideoSize;
     private javax.swing.JPanel jPnScreen;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jTool;
     // End of variables declaration//GEN-END:variables
 }
