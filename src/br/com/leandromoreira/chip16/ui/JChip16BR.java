@@ -172,9 +172,13 @@ public class JChip16BR extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnPauseActionPerformed
 
     private void jBtnVideoSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnVideoSizeActionPerformed
-
-        setSize(getWidth() * 2, getHeight() * 2);
         jPnScreen.setSize(jPnScreen.getWidth() * 2, jPnScreen.getHeight() * 2);
+        jPnScreen.updateUI();
+        jPnScreen.validate();
+        jPnScreen.resize(jPnScreen.getWidth() * 2, jPnScreen.getHeight() * 2);
+        jPnScreen.repaint();
+        setSize(getWidth() * 2, getHeight() * 2);
+        
         //pac1k();
 
     }//GEN-LAST:event_jBtnVideoSizeActionPerformed

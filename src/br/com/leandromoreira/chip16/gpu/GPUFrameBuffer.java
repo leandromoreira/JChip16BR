@@ -7,7 +7,7 @@ import br.com.leandromoreira.chip16.cpu.Memory;
  */
 public class GPUFrameBuffer implements GPU {
 
-    private short[][] screen = new short[WIDTH][HEIGHT];
+    private short[][] vram = new short[WIDTH][HEIGHT];
     private short backgroundColor;
     private Sprite currentSprite;
     private final Memory memory;
@@ -19,7 +19,7 @@ public class GPUFrameBuffer implements GPU {
 
     @Override
     public void clear() {
-        screen = new short[WIDTH][HEIGHT];
+        vram = new short[WIDTH][HEIGHT];
         backgroundColor = 0;
     }
 
@@ -47,7 +47,7 @@ public class GPUFrameBuffer implements GPU {
                     if (thereIsAnotherSpriteAt(x, y)) {
                         spriteOverlapsOther = true;
                     }
-                    screen[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
+                    vram[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
                     if (!flipFlop) {
                         spriteAddress++;
                     }
@@ -59,7 +59,7 @@ public class GPUFrameBuffer implements GPU {
     }
 
     private boolean thereIsAnotherSpriteAt(final int x, final int y) {
-        return screen[x + currentSprite.getX()][y + currentSprite.getY()] != backgroundColor;
+        return vram[x + currentSprite.getX()][y + currentSprite.getY()] != backgroundColor;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GPUFrameBuffer implements GPU {
 
     @Override
     public short[][] getFramebuffer() {
-        return screen;
+        return vram;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class GPUFrameBuffer implements GPU {
     public void drawFrame(final Render render) {
         for (int y = 0; y < GPU.HEIGHT; y++) {
             for (int x = 0; x < GPU.WIDTH; x++) {
-                if (screen[x][y] != 0) {
-                    render.setColor(screen[x][y]);
+                if (vram[x][y] != 0) {
+                    render.setColor(vram[x][y]);
                     render.drawAt(x, y);
                 } else {
                     render.setColor(getBackgroundColor());
