@@ -9,12 +9,15 @@ import java.util.Properties;
  * @author leandro-rm
  */
 public final class ConfigManager {
+
     private static final ConfigManager config = new ConfigManager();
     private Properties properties;
+
     public static ConfigManager getConfig() {
         return config;
     }
-    private ConfigManager(){
+
+    private ConfigManager() {
         refreshProperties();
     }
 
@@ -24,7 +27,7 @@ public final class ConfigManager {
         try {
             properties.load(new FileInputStream(file));
         } catch (IOException ex) {
-            throw new IllegalStateException("The config/metainfo.properties raise a io or wasn't found!",ex);
+            throw new IllegalStateException("The config/metainfo.properties raise a io or wasn't found!", ex);
         }
     }
 
@@ -33,6 +36,17 @@ public final class ConfigManager {
     }
 
     public String getVMHeader() {
-        return "<html><FONT COLOR=RED><U>VM name:</U></FONT> "+properties.getProperty("vm.name")+ " <FONT COLOR=RED><U>VM version:</U></FONT> "+properties.getProperty("vhardware.version")+" <FONT COLOR=RED><U>Spec. cast:</U></FONT> "+properties.getProperty("cast.specs")+"</html>";
+        return "<html><FONT COLOR=RED><U>VM name:</U></FONT> " + properties.getProperty("vm.name") + " <FONT COLOR=RED><U>VM version:</U></FONT> " + properties.getProperty("vhardware.version") + " <FONT COLOR=RED><U>Spec. cast:</U></FONT> " + properties.getProperty("cast.specs") + "</html>";
+    }
+
+    public String getLAF() {
+        File file = new File("config/emulator.properties");
+        Properties p = new Properties();
+        try {
+            p.load(new FileInputStream(file));
+        } catch (IOException ex) {
+            throw new IllegalStateException("The config/metainfo.properties raise a io or wasn't found!", ex);
+        }
+        return p.getProperty("laf");
     }
 }
