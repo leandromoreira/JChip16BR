@@ -1,5 +1,6 @@
 package br.com.leandromoreira.chip16.gpu;
 
+import br.com.leandromoreira.chip16.util.ConfigManager;
 import java.awt.Graphics;
 
 /**
@@ -7,7 +8,7 @@ import java.awt.Graphics;
  */
 public class Java2DRender implements Render {
     private Graphics graphics;
-    private int size = 2;
+    private int size = ConfigManager.getConfig().getScreen();
 
     public Java2DRender(Graphics graphics) {
         this.graphics = graphics;

@@ -161,7 +161,10 @@ public class Chip16Machine {
     }
 
     public void sendCommand(int keyCode) {
-        System.out.println(keyCode);
+        int value = 0x8000;
+        memory.writeAt(MemoryMap.CONTROLLER_ONE, (short)(value>>8));
+        memory.writeAt(MemoryMap.CONTROLLER_ONE+1, (short)(value&0xFF));
+        System.out.println("it's updating");
     }
 
     public void pause() {

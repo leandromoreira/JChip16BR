@@ -49,4 +49,15 @@ public final class ConfigManager {
         }
         return p.getProperty("laf");
     }
+
+    public int getScreen() {
+        File file = new File("config/video.properties");
+        Properties p = new Properties();
+        try {
+            p.load(new FileInputStream(file));
+        } catch (IOException ex) {
+            throw new IllegalStateException("The config/metainfo.properties raise a io or wasn't found!", ex);
+        }
+        return Integer.parseInt(p.getProperty("size"));
+    }
 }
