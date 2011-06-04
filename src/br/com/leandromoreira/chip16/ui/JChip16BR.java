@@ -194,13 +194,13 @@ public class JChip16BR extends javax.swing.JFrame {
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if (machine != null) {
-            machine.sendCommand(evt.getKeyCode());
+            machine.addCommand(evt.getKeyCode());
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         if (machine != null) {
-            machine.sendCommand(evt.getKeyCode());
+            machine.removeCommand(evt.getKeyCode());
         }
     }//GEN-LAST:event_formKeyReleased
 

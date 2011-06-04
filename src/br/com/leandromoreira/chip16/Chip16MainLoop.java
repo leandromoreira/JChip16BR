@@ -1,6 +1,7 @@
 package br.com.leandromoreira.chip16;
 
 import br.com.leandromoreira.chip16.gpu.Render;
+import java.util.List;
 
 /**
  * @author leandro-rm
@@ -37,6 +38,7 @@ public class Chip16MainLoop implements Runnable {
                 machine.drawFrame(render);
                 limitSpeed();
                 machine.raiseVBlank();
+                machine.checkControllsUpdate();
                 machine.cpuStep();
                 machine.resetVBlank();
                 instructionCounter++;

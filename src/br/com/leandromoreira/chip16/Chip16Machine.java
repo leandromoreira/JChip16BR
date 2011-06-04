@@ -9,12 +9,15 @@ import br.com.leandromoreira.chip16.gpu.Colors;
 import br.com.leandromoreira.chip16.gpu.GPU;
 import br.com.leandromoreira.chip16.gpu.GPUFrameBuffer;
 import br.com.leandromoreira.chip16.gpu.Render;
+import br.com.leandromoreira.chip16.io.Controllers;
 import br.com.leandromoreira.chip16.rom.Chip16ROM;
 import br.com.leandromoreira.chip16.rom.ROM;
 import br.com.leandromoreira.chip16.spu.SPU;
 import br.com.leandromoreira.chip16.spu.SPUJavaSound;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +25,8 @@ import java.util.List;
  * @author leandro-rm
  */
 public class Chip16Machine {
+
+
 
     public static class CPUInfo {
 
@@ -145,10 +150,12 @@ public class Chip16Machine {
     private final SPU spu;
     private final Memory memory;
     private final ROM rom;
+    private final Controllers joypadsManager;
     private final CPUInfo cpuInfo;
     private final GPUInfo gpuInfo;
     private Thread currentMachineInstance;
     private Chip16MainLoop currentLoop;
+    private List<Integer> iobuffer;
 
     public Chip16Machine(final File romFile) {
         memory = new Memory();
@@ -156,17 +163,24 @@ public class Chip16Machine {
         gpu = new GPUFrameBuffer(memory);
         spu = new SPUJavaSound();
         cpu = new Chip16CPU(memory, gpu, spu);
+        joypadsManager = new Controllers(memory);
         cpuInfo = new CPUInfo(cpu);
         gpuInfo = new GPUInfo(gpu);
+        iobuffer = Collections.synchronizedList( new ArrayList<Integer>());
+    }
+    
+    public void checkControllsUpdate() {
+        joypadsManager.update();
+    }
+    
+    public void addCommand(final Integer keyCode) {
+        joypadsManager.addCommand(keyCode);
     }
 
-    public void sendCommand(int keyCode) {
-        int value = 0x8000;
-        memory.writeAt(MemoryMap.CONTROLLER_ONE, (short)(value>>8));
-        memory.writeAt(MemoryMap.CONTROLLER_ONE+1, (short)(value&0xFF));
-        System.out.println("it's updating");
+    public void removeCommand(final Integer keyCode) {
+        joypadsManager.removeCommand(keyCode);
     }
-
+    
     public void pause() {
         if (currentLoop != null) {
             currentLoop.pause();

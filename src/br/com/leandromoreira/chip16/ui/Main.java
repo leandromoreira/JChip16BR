@@ -973,7 +973,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnStepKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         new Thread(new Chip16MainLoop(machine, new Java2DRender(jPnScreen.getGraphics().create()))).start();
+         //new Thread(new Chip16MainLoop(machine, new Java2DRender(jPnScreen.getGraphics().create())),).start();
         /*new Thread(new Runnable() {
 
             @Override
