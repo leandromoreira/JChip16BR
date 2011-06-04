@@ -27,7 +27,7 @@ public class JChip16BR extends javax.swing.JFrame {
         setTitle(ConfigManager.getConfig().getTitle());
     }
 
-      private void initLookAndFeel(final String lookfeel) {
+    private void initLookAndFeel(final String lookfeel) {
         String lookAndFeel = null;
         if (lookfeel != null) {
             if (lookfeel.equals("Metal")) {
@@ -172,18 +172,18 @@ public class JChip16BR extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTool, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTool, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPnScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -217,17 +217,15 @@ public class JChip16BR extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jBtnPauseActionPerformed
+    private boolean flipFlop2X = true;
 
     private void jBtnVideoSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnVideoSizeActionPerformed
-        jPnScreen.setSize(jPnScreen.getWidth() * 2, jPnScreen.getHeight() * 2);
-        jPnScreen.updateUI();
-        jPnScreen.validate();
-        jPnScreen.resize(jPnScreen.getWidth() * 2, jPnScreen.getHeight() * 2);
-        jPnScreen.repaint();
-        setSize(getWidth() * 2, getHeight() * 2);
-        
-        //pac1k();
-
+        if (flipFlop2X) {
+            setSize(getWidth() * 2, getHeight() * 2);
+        } else {
+            setSize(getWidth() / 2, getHeight() / 2);
+        }
+        flipFlop2X = !flipFlop2X;
     }//GEN-LAST:event_jBtnVideoSizeActionPerformed
 
     private void jBtnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStopActionPerformed
