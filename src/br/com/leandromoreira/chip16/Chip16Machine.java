@@ -155,7 +155,6 @@ public class Chip16Machine {
     private final GPUInfo gpuInfo;
     private Thread currentMachineInstance;
     private Chip16MainLoop currentLoop;
-    private List<Integer> iobuffer;
 
     public Chip16Machine(final File romFile) {
         memory = new Memory();
@@ -166,7 +165,6 @@ public class Chip16Machine {
         joypadsManager = new Controllers(memory);
         cpuInfo = new CPUInfo(cpu);
         gpuInfo = new GPUInfo(gpu);
-        iobuffer = Collections.synchronizedList( new ArrayList<Integer>());
     }
     
     public void checkControllsUpdate() {
