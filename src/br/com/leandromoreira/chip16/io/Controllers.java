@@ -71,9 +71,7 @@ public class Controllers {
 
     private short composeValue(Map<Integer, Integer> mapping,final List<Integer> buffer) {
         short value = 0;        
-        for (final Integer pressedKey : iobuffer) {
-            System.out.println(pressedKey);
-            System.out.println(mapping.get(pressedKey));
+        for (final Integer pressedKey : buffer) {
             value = (short) BUTTON_MASK[mapping.get(pressedKey)];
         }
         return value;

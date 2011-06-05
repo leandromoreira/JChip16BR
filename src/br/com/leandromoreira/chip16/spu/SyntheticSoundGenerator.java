@@ -3,6 +3,8 @@
  */
 package br.com.leandromoreira.chip16.spu;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.*;
 
 /**
@@ -32,7 +34,7 @@ public class SyntheticSoundGenerator {
 
         final boolean bigEndian = false;
         final boolean signed = true;
-        format = new AudioFormat((int) sampleRate, 16, 1, signed,bigEndian);
+        format = new AudioFormat((int) sampleRate, 16, 1, signed, bigEndian);
 
         buffer = new float[(int) (seconds * sampleRate)];
         byteBuffer = new byte[buffer.length * 2];
@@ -42,7 +44,7 @@ public class SyntheticSoundGenerator {
             buffer[sample] = (float) (amplitude * Math.sin(twoPiF * time));
         }
 
-        final DataLine.Info info = new DataLine.Info(Clip.class,format);
+        final DataLine.Info info = new DataLine.Info(Clip.class, format);
         if (!AudioSystem.isLineSupported(info)) {
         }
         /*Obtain and open the line.*/
@@ -72,6 +74,10 @@ public class SyntheticSoundGenerator {
     public void playFor(final int milliseconds) {
         createLineClip(milliseconds / 1000);
         lineClip.start();
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new SyntheticSoundGenerator(500).playFor(2000);
     }
 
     public void stop() {
