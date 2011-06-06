@@ -47,6 +47,7 @@ public class GPUFrameBuffer implements GPU {
                     if (thereIsAnotherSpriteAt(x, y)) {
                         spriteOverlapsOther = true;
                     }
+                    if (colorIndex!=0)
                     vram[x + currentSprite.getX()][y + currentSprite.getY()] = colorIndex;
                     if (!flipFlop) {
                         spriteAddress++;
