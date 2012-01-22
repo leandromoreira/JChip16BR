@@ -1,3 +1,3 @@
 JChip16BR it's a Java implementation of Chip16 virtual machine (VM). Using Java2D as render and trying to code it more object oriented as possible.
 Specs 0.7 http://forums.ngemu.com/web-development-programming/138170-codename-chip16-prev-chip9.html
-You can found the source code at https://github.com/dreampeppers99/JChip16BR
+You can found the source code at https://github.com/leandromoreira/JChip16BR
