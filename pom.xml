@@ -29,7 +29,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>br.com.leandromoreira.chip16.ui.JChip16BR</mainClass>
+                                    <mainClass>br.com.leandromoreira.chip16.ui.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

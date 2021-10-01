@@ -9,6 +9,7 @@ import br.com.leandromoreira.chip16.util.ConfigManager;
 import br.com.leandromoreira.chip16.util.JavaEmuUtil;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.JFileChooser;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -816,7 +817,7 @@ public class Main extends javax.swing.JFrame {
     private void opening(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_opening
         try {
             debugger = new Debugger();
-            machine = new Chip16Machine(new File("rom/ROMs/Demos/Stopwatch.c16"));
+            machine = new Chip16Machine(new File("rom/ROMs/Demos/ASCII.c16"));
             setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
             jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
             fillRegisters();
@@ -1010,7 +1011,31 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_breakpoint
 
     private void jBtnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoadActionPerformed
-        // TODO add your handling code here:
+      final JFileChooser chooseARom = new JFileChooser(new File("./rom/ROMs"));
+
+      int whatUserDid = chooseARom.showOpenDialog(this);
+      if (whatUserDid == JFileChooser.APPROVE_OPTION) {
+        File romFile = chooseARom.getSelectedFile();
+        try {
+          debugger = new Debugger();
+          machine = new Chip16Machine(romFile);
+          setTitle(ConfigManager.getConfig().getTitle() + " --> " + machine.getRom().getTitleName());
+          jLblInfo.setText(ConfigManager.getConfig().getVMHeader());
+          fillRegisters();
+          fillFlags();
+          fillMemory();
+          fillStack();
+          fillAssembler(0);
+          fillMemoryWatch();
+          jPnScreen.setDoubleBuffered(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+          JOptionPane.showMessageDialog(this, e.toString());
+        }
+      }
+
+
+      // TODO add your handling code here:
     }//GEN-LAST:event_jBtnLoadActionPerformed
 
     private void jBtnLoadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnLoadKeyReleased
@@ -1152,7 +1177,7 @@ public class Main extends javax.swing.JFrame {
                 });
 
         jTblAssembler.setFocusable(false);
-        jTblAssembler.setSelectionBackground(new java.awt.Color(204, 255, 204));
+        jTblAssembler.setSelectionBackground(new java.awt.Color(0, 0, 204));
         jTblAssembler.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTblAssembler.setShowHorizontalLines(false);
         jTblAssembler.setShowVerticalLines(false);
