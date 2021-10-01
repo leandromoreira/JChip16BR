@@ -954,7 +954,7 @@
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/run-project-btn.png"/>
+          <Image iconType="3" name="run-project-btn.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Run"/>
       </Properties>
@@ -965,7 +965,7 @@
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/debug-project-btn.png"/>
+          <Image iconType="3" name="debug-project-btn.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Debug"/>
       </Properties>
@@ -1001,7 +1001,7 @@
     <Component class="javax.swing.JButton" name="jBtnSetBreakpoint">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/breakpoint-badge.png"/>
+          <Image iconType="3" name="breakpoint-badge.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Set Break."/>
       </Properties>
@@ -1012,7 +1012,7 @@
     <Component class="javax.swing.JButton" name="jBtnStep">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/step-over-btn.png"/>
+          <Image iconType="3" name="step-over-btn.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Step"/>
       </Properties>
@@ -1082,7 +1082,7 @@
     <Component class="javax.swing.JButton" name="jBtnLoad">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/open-project-btn.png"/>
+          <Image iconType="3" name="open-project-btn.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Load"/>
       </Properties>

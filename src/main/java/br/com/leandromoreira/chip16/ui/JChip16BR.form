@@ -82,7 +82,7 @@
         <Component class="javax.swing.JButton" name="jBtnLoad">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/open-project-btn.png"/>
+              <Image iconType="3" name="open-project-btn.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Load rom"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -96,7 +96,7 @@
         <Component class="javax.swing.JButton" name="jBtnPause">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/pause-button.png"/>
+              <Image iconType="3" name="pause-button.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Pause and resume"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -110,7 +110,7 @@
         <Component class="javax.swing.JButton" name="jBtnStop">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/finish-session-btn.png"/>
+              <Image iconType="3" name="finish-session-btn.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Stop"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -124,7 +124,7 @@
         <Component class="javax.swing.JButton" name="jBtnVideoSize">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/2.gif"/>
+              <Image iconType="3" name="2.gif"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Video size"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -138,7 +138,7 @@
         <Component class="javax.swing.JButton" name="jBtnAbout">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/br/com/leandromoreira/chip16/resource/about.png"/>
+              <Image iconType="3" name="about.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="About"/>
             <Property name="focusable" type="boolean" value="false"/>

@@ -141,7 +141,7 @@ public class Main extends javax.swing.JFrame {
         jBtnLoad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 opening(evt);
@@ -414,7 +414,7 @@ public class Main extends javax.swing.JFrame {
         jTxtStackList.setRows(5);
         jScrollPane2.setViewportView(jTxtStackList);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/run-project-btn.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("run-project-btn.png"))); // NOI18N
         jButton1.setText("Run");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -422,7 +422,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/debug-project-btn.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("debug-project-btn.png"))); // NOI18N
         jButton2.setText("Debug");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -453,7 +453,7 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTblAssembler);
 
-        jBtnSetBreakpoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/breakpoint-badge.png"))); // NOI18N
+        jBtnSetBreakpoint.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("breakpoint-badge.png"))); // NOI18N
         jBtnSetBreakpoint.setText("Set Break.");
         jBtnSetBreakpoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -461,7 +461,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jBtnStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/step-over-btn.png"))); // NOI18N
+        jBtnStep.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("step-over-btn.png"))); // NOI18N
         jBtnStep.setText("Step");
         jBtnStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -513,7 +513,7 @@ public class Main extends javax.swing.JFrame {
         jTxtGPU.setRows(5);
         jScrollPane4.setViewportView(jTxtGPU);
 
-        jBtnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
+        jBtnLoad.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("open-project-btn.png"))); // NOI18N
         jBtnLoad.setText("Load");
         jBtnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

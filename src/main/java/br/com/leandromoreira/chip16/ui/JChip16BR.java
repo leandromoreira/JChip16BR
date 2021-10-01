@@ -82,7 +82,7 @@ public class JChip16BR extends javax.swing.JFrame {
         jBtnAbout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -112,7 +112,7 @@ public class JChip16BR extends javax.swing.JFrame {
         jTool.setFloatable(false);
         jTool.setBorderPainted(false);
 
-        jBtnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/open-project-btn.png"))); // NOI18N
+        jBtnLoad.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("open-project-btn.png"))); // NOI18N
         jBtnLoad.setToolTipText("Load rom");
         jBtnLoad.setFocusable(false);
         jBtnLoad.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -124,7 +124,7 @@ public class JChip16BR extends javax.swing.JFrame {
         });
         jTool.add(jBtnLoad);
 
-        jBtnPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/pause-button.png"))); // NOI18N
+        jBtnPause.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("pause-button.png"))); // NOI18N
         jBtnPause.setToolTipText("Pause and resume");
         jBtnPause.setFocusable(false);
         jBtnPause.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -136,7 +136,7 @@ public class JChip16BR extends javax.swing.JFrame {
         });
         jTool.add(jBtnPause);
 
-        jBtnStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/finish-session-btn.png"))); // NOI18N
+        jBtnStop.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("finish-session-btn.png"))); // NOI18N
         jBtnStop.setToolTipText("Stop");
         jBtnStop.setFocusable(false);
         jBtnStop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -148,7 +148,7 @@ public class JChip16BR extends javax.swing.JFrame {
         });
         jTool.add(jBtnStop);
 
-        jBtnVideoSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/2.gif"))); // NOI18N
+        jBtnVideoSize.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("2.gif"))); // NOI18N
         jBtnVideoSize.setToolTipText("Video size");
         jBtnVideoSize.setFocusable(false);
         jBtnVideoSize.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -160,7 +160,7 @@ public class JChip16BR extends javax.swing.JFrame {
         });
         jTool.add(jBtnVideoSize);
 
-        jBtnAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/leandromoreira/chip16/resource/about.png"))); // NOI18N
+        jBtnAbout.setIcon(new javax.swing.ImageIcon(getClass().getClassLoader().getResource("about.png"))); // NOI18N
         jBtnAbout.setToolTipText("About");
         jBtnAbout.setFocusable(false);
         jBtnAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
